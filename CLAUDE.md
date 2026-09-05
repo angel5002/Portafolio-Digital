@@ -39,6 +39,7 @@ Extras heredados del blog: `/bitacora` (una entrada MDX por aprendizaje colabora
 - Nombre del docente.
 - AC4 (mapa crítico profesional), podcast, video-reacción, infografía.
 - Banda sonora de AC1 y AC3 (`music:` en el frontmatter).
+- Reemplazar las canciones de Siamés del reproductor fijo cuando el equipo decida las definitivas.
 
 ## Comandos
 
@@ -52,7 +53,9 @@ npm run dev      # http://localhost:4321
 npm run build    # genera dist/
 ```
 
-Despliegue: workflow de GitHub Pages en `.github/workflows/` (usa `SITE`/`BASE` del repositorio, igual que el blog RN).
+Despliegue: repositorio `https://github.com/angel5002/Portafolio-Digital` (rama `main`, raíz = esta carpeta). Cada push dispara el workflow de GitHub Pages en `.github/workflows/deploy.yml` (Pages configurado en modo *GitHub Actions*; `BASE=/Portafolio-Digital/`). Sitio publicado: **https://angel5002.github.io/Portafolio-Digital/**.
+
+Banda sonora del reproductor fijo: lista `SOUNDTRACK` en `src/lib/portfolio.ts` (hoy: Siamés — Mr. Fear, As You Get High). Para cambiar canciones basta editar esa lista con el ID de Spotify (`open.spotify.com/track/<ID>`).
 
 ## Convenciones
 
