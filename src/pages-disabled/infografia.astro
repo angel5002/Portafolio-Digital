@@ -1,0 +1,60 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Placeholder from '../components/Placeholder.astro';
+import { COURSE } from '../lib/portfolio';
+import { TEAM_NAME } from '../lib/team';
+---
+
+<BaseLayout
+  title={`Infografía de Integridad y Sostenibilidad · ${COURSE.portfolioName}`}
+  description="Una sola pieza visual con dos capas integradas: el cuidado del otro y la responsabilidad con las generaciones futuras."
+  crumbs={[{ label: 'Infografía' }]}
+>
+  <header class="page-header">
+    <p class="page-header__eyebrow">Módulo IV · Semanas 13–15</p>
+    <h1 class="page-header__title">Infografía de <span class="serif-em">Integridad y Sostenibilidad</span></h1>
+    <p class="page-header__lead">
+      Una sola pieza visual con dos capas integradas: el cuidado del otro y la
+      responsabilidad con las generaciones futuras.
+    </p>
+  </header>
+
+  <div class="infografia reveal">
+    <div class="infografia__head">
+      <div>
+        <p class="infografia__title">Infografía de Integridad y Sostenibilidad</p>
+        <p class="infografia__sub">{TEAM_NAME} · {COURSE.code} · {COURSE.cycle}</p>
+      </div>
+      <div class="capa-pills">
+        <span class="capa-pill capa-pill--1">Capa 1 · Cuidado</span>
+        <span class="capa-pill capa-pill--2">Capa 2 · Ambiente</span>
+      </div>
+    </div>
+
+    <div class="infografia__frame">
+      <div class="infografia__markers" aria-hidden="true">
+        <span class="capa-pill capa-pill--1">Capa 1</span>
+        <span class="capa-pill capa-pill--2">Capa 2</span>
+      </div>
+      <Placeholder
+        title="Infografía interactiva"
+        text="Aquí se insertará la pieza elaborada en Genially o Canva (embed) que integra ambas capas."
+        meta="AC10–AC11 · Semanas 13–14"
+        icon="map"
+      />
+    </div>
+
+    <div class="infografia__info">
+      <div class="infografia__col">
+        <p class="infografia__col-label infografia__col-label--1">✦ Capa 1 · Semana 13 · Ética del cuidado</p>
+        <p>Fotografía o pieza artística sobre la población vulnerable identificada y el compromiso ético de cuidado que asumimos como equipo en nuestro ejercicio profesional.</p>
+        <span class="compromiso compromiso--1">Compromiso: por redactar</span>
+      </div>
+      <div class="infografia__col">
+        <p class="infografia__col-label infografia__col-label--2">✦ Capa 2 · Semana 14 · Ecoética</p>
+        <p>Imagen generada con IA que une la población vulnerable con el conflicto ambiental, y nuestro compromiso de responsabilidad con las generaciones futuras.</p>
+        <span class="compromiso compromiso--2">Compromiso: por redactar</span>
+      </div>
+    </div>
+  </div>
+</BaseLayout>

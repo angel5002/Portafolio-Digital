@@ -1,0 +1,77 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Placeholder from '../components/Placeholder.astro';
+import { COURSE } from '../lib/portfolio';
+import { CAREER } from '../lib/team';
+
+// Cuando exista el episodio: pega aquí el ID de Spotify/YouTube o el embed
+// y sustituye el <Placeholder /> por <Music /> (src/components/Music.astro).
+const episode = {
+  title: null as string | null,
+  dilemma: null as string | null,
+  kant: null as string | null,
+  mill: null as string | null
+};
+---
+
+<BaseLayout
+  title={`Podcast de Dilema Moral · ${COURSE.portfolioName}`}
+  description="Un caso real del contexto peruano analizado desde dos marcos filosóficos contrapuestos: el deber kantiano y el utilitarismo de Mill."
+  crumbs={[{ label: 'Podcast' }]}
+>
+  <header class="page-header">
+    <p class="page-header__eyebrow">Módulo II · Semanas 6–7</p>
+    <h1 class="page-header__title">Podcast de <span class="serif-em">Dilema Moral</span></h1>
+    <p class="page-header__lead">
+      Un caso real del contexto peruano analizado desde dos marcos contrapuestos:
+      el deber kantiano y el utilitarismo de Mill.
+    </p>
+  </header>
+
+  <div class="podcast-layout reveal">
+    <div class="podcast-player">
+      <div class="podcast-cover">
+        <span class="podcast-cover__icon" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <div>
+          <p class="podcast-cover__ep">Episodio 01 · Dilema ético profesional</p>
+          <p class="podcast-cover__title">{episode.title ?? 'Título del episodio: el dilema en una frase'}</p>
+        </div>
+      </div>
+      <div class="podcast-controls">
+        <Placeholder
+          title="Reproductor de audio"
+          text="Aquí se insertará el episodio producido en las semanas 6–7 (Spotify, Anchor, Google Drive o archivo directo)."
+          meta="AC5–AC6 · Semanas 6–7"
+          icon="audio"
+        />
+        <div class="podcast-tags">
+          <span class="podcast-tag">Kant · Ética del deber</span>
+          <span class="podcast-tag">Mill · Utilitarismo</span>
+          <span class="podcast-tag">{CAREER}</span>
+          <span class="podcast-tag">Contexto peruano</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="podcast-info">
+      <div class="dilemma">
+        <p class="dilemma__label">El dilema analizado</p>
+        <p class="dilemma__text">
+          {episode.dilemma ?? '“Aquí enunciaremos el dilema ético real vinculado a nuestro campo profesional que se discute en el podcast.”'}
+        </p>
+      </div>
+
+      <p class="eyebrow eyebrow--plain">Contraste teórico</p>
+      <div class="theory-compare">
+        <article class="theory-card">
+          <h5><span>K</span> Perspectiva kantiana</h5>
+          <p>{episode.kant ?? '¿Qué haría el profesional si actuara por principio universal, no por conveniencia? Resumen pendiente.'}</p>
+        </article>
+        <article class="theory-card">
+          <h5><span>M</span> Perspectiva utilitarista</h5>
+          <p>{episode.mill ?? '¿Qué acción produce el mayor bien para el mayor número de personas afectadas? Resumen pendiente.'}</p>
+        </article>
+      </div>
+    </div>
+  </div>
+</BaseLayout>

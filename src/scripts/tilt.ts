@@ -1,0 +1,52 @@
+// Inclinación 3D suave y foco de luz que sigue al puntero en las tarjetas
+// marcadas con [data-tilt]. Solo con puntero fino (mouse) y sin
+// prefers-reduced-motion; en táctil las tarjetas se quedan planas.
+
+const MAX_TILT = 5; // grados
+
+export function initTilt(): void {
+  const fine = window.matchMedia('(pointer: fine)').matches;
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!fine || reduce) return;
+
+  const cards = document.querySelectorAll<HTMLElement>('[data-tilt]');
+  cards.forEach((card) => {
+    if (card.dataset.tiltBound) return;
+    card.dataset.tiltBound = '1';
+
+    let raf = 0;
+    let rect: DOMRect | null = null;
+
+    const update = (x: number, y: number) => {
+      if (!rect) rect = card.getBoundingClientRect();
+      const px = (x - rect.left) / rect.width;
+      const py = (y - rect.top) / rect.height;
+      const rx = (0.5 - py) * MAX_TILT * 2;
+      const ry = (px - 0.5) * MAX_TILT * 2;
+      card.style.setProperty('--tilt-x', `${rx.toFixed(2)}deg`);
+      card.style.setProperty('--tilt-y', `${ry.toFixed(2)}deg`);
+      card.style.setProperty('--mx', `${(px * 100).toFixed(1)}%`);
+      card.style.setProperty('--my', `${(py * 100).toFixed(1)}%`);
+    };
+
+    card.addEventListener('pointerenter', () => {
+      rect = card.getBoundingClientRect();
+      card.classList.add('is-tilting');
+    });
+
+    card.addEventListener('pointermove', (e) => {
+      if (raf) return;
+      raf = window.requestAnimationFrame(() => {
+        raf = 0;
+        update(e.clientX, e.clientY);
+      });
+    });
+
+    card.addEventListener('pointerleave', () => {
+      card.classList.remove('is-tilting');
+      card.style.setProperty('--tilt-x', '0deg');
+      card.style.setProperty('--tilt-y', '0deg');
+      rect = null;
+    });
+  });
+}

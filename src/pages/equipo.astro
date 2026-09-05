@@ -1,0 +1,80 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { COURSE } from '../lib/portfolio';
+import { team, TEAM_NAME, CAREER } from '../lib/team';
+
+---
+
+<BaseLayout
+  title={`Equipo · ${COURSE.portfolioName}`}
+  description={`Integrantes del equipo ${TEAM_NAME}, curso ${COURSE.name}.`}
+  crumbs={[{ label: 'Equipo' }]}
+>
+  <header class="page-header">
+    <p class="page-header__eyebrow">Nuestro equipo</p>
+    <h1 class="page-header__title">Quiénes <span class="serif-em">somos</span></h1>
+    <p class="page-header__lead">
+      Seis estudiantes de {CAREER}. Aquí están los datos, una reseña breve
+      y el LinkedIn de cada integrante.
+    </p>
+  </header>
+
+  <section class="team-banner reveal">
+    <div>
+      <p class="eyebrow eyebrow--plain">Nombre del equipo</p>
+      <p class="team-banner__name"><span>{TEAM_NAME}</span></p>
+      <p class="team-banner__text">
+        El nombre remite a la ética estoica: distinguir lo que depende de uno de lo que
+        no, y sostener los principios cuando la presión de plazos, costos y resultados
+        empuja en otra dirección.
+      </p>
+    </div>
+    <div class="opal-pills">
+      <span class="opal-pill">
+        <span class="opal-pill__value"><span data-count={team.length}>{team.length}</span></span>
+        <span class="opal-pill__label">Integrantes</span>
+      </span>
+      <span class="opal-pill">
+        <span class="opal-pill__value">1</span>
+        <span class="opal-pill__label">Carrera</span>
+      </span>
+    </div>
+  </section>
+
+  <section class="member-grid reveal-stagger" aria-label="Integrantes">
+    {team.map((m) => (
+      <article class="member-card" id={m.id} data-tilt>
+        <div class={`member-card__photo${m.hasPhoto ? '' : ' member-card__photo--placeholder'}`} style={m.photoPos ? `--photo-pos: ${m.photoPos}` : undefined}>
+          {m.hasPhoto ? (
+            <Image
+              src={m.photo}
+              alt={`Foto de ${m.fullName}`}
+              widths={[320, 480, 640]}
+              sizes="(min-width: 1200px) 260px, (min-width: 768px) 33vw, 92vw"
+              loading="lazy"
+              decoding="async"
+            />
+          ) : (
+            <Image src={m.photo} alt="" width={200} height={200} loading="lazy" />
+          )}
+        </div>
+        <div class="member-card__body">
+          <p class="member-card__name">{m.fullName}</p>
+          <p class="member-card__career">{m.career}</p>
+          {m.bio && <p class="member-card__bio">{m.bio}</p>}
+          <div class="member-card__foot">
+            <span class="member-card__code" title="Código de estudiante">{m.code}</span>
+            {m.linkedin && (
+              <a class="btn btn--linkedin" href={m.linkedin} target="_blank" rel="noreferrer">
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                LinkedIn
+              </a>
+            )}
+          </div>
+        </div>
+      </article>
+    ))}
+  </section>
+
+</BaseLayout>

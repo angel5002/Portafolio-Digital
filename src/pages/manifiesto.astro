@@ -1,0 +1,235 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Placeholder from '../components/Placeholder.astro';
+import { COURSE } from '../lib/portfolio';
+import { team, TEAM_NAME } from '../lib/team';
+import {
+  metaphor,
+  purpose,
+  concepts,
+  vulnerables,
+  commitment,
+  valuesRank,
+  schelerCategories,
+  schelerSheets,
+  tension,
+  axiologicalPosition
+} from '../lib/manifiesto';
+import babel from '../assets/images/manifiesto/torre-de-babel.jpg';
+import rostros from '../assets/images/manifiesto/mapa-rostros-vulnerables.jpg';
+import piramide from '../assets/images/manifiesto/jerarquia-de-valores.jpg';
+
+const byId = new Map(team.map((m) => [m.id, m]));
+const HAS_LABEL = { si: 'Sí', parcial: 'Parcial', no: 'No' } as const;
+---
+
+<BaseLayout
+  title={`Manifiesto de Identidad Ética · ${COURSE.portfolioName}`}
+  description="Manifiesto de Identidad Ética del equipo Los Estoicos: propósito profesional, poblaciones vulnerables y jerarquía de valores."
+  crumbs={[{ label: 'Manifiesto' }]}
+>
+  <div class="manifesto-layout">
+    <aside class="manifesto-side">
+      <p class="eyebrow">Módulo I · Semanas 1–5</p>
+      <h1 class="page-header__title" style="margin: 0 0 12px;">Manifiesto de<br /><span class="serif-em">Identidad Ética</span></h1>
+      <p class="page-header__lead" style="font-size: 14.5px;">
+        Qué nos proponemos como profesionales, a quiénes nos comprometemos a proteger
+        y qué valores priorizamos. Reúne los aprendizajes colaborativos AC1 a AC4.
+      </p>
+
+      <p class="eyebrow eyebrow--plain" style="margin-top: 26px;">Jerarquía de valores (Scheler)</p>
+      <ol class="values-rank">
+        {valuesRank.map((v) => (
+          <li>
+            <span class="values-rank__n">{v.n}</span>
+            <span>
+              <span class="values-rank__name">{v.name}</span>
+              <span class="values-rank__type">{v.type}</span>
+            </span>
+          </li>
+        ))}
+      </ol>
+
+    </aside>
+
+    <div class="manifesto-content">
+      <!-- ── AC1 · Metáfora ── -->
+      <article class="metaphor reveal" id="metafora">
+        <div class="metaphor__media">
+          <Image
+            src={babel}
+            alt={`${metaphor.title}, ${metaphor.author} (${metaphor.year})`}
+            widths={[720, 1080, 1440]}
+            sizes="(min-width: 1200px) 860px, 92vw"
+            loading="eager"
+            decoding="async"
+          />
+          <div class="metaphor__label">
+            <span class="metaphor__label-eyebrow">✦ Nuestra metáfora artística</span>
+            <p class="metaphor__label-title">{metaphor.title}</p>
+            <p class="metaphor__label-sub">{metaphor.author} · {metaphor.year} · {metaphor.museum}</p>
+          </div>
+        </div>
+        <div class="metaphor__body">
+          <blockquote class="metaphor__quote">“{metaphor.quote}”</blockquote>
+          <div>
+            <p class="metaphor__text">{metaphor.description}</p>
+            <p class="metaphor__ref" style="margin-top: 12px;">
+              {metaphor.reference} <a href={metaphor.url} target="_blank" rel="noreferrer">Ver en la colección ↗</a>
+            </p>
+          </div>
+        </div>
+      </article>
+
+      <!-- ── AC1 · Propósito ── -->
+      <section class="mblock reveal" id="proposito">
+        <h2 class="mblock__title">Propósito profesional <span class="mblock__week">AC1 · Semana 1</span></h2>
+        <p>{purpose.team}</p>
+        <div class="callout">
+          <p class="callout__label">Propósito de la carrera</p>
+          <p style="margin:0;">{purpose.career}</p>
+        </div>
+        <div class="concept-grid">
+          {concepts.map((c) => (
+            <article class="concept-card">
+              <p class="concept-card__greek">{c.greek}</p>
+              <p class="concept-card__name">{c.name}</p>
+              <p>{c.text}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <!-- ── AC2 · Poblaciones vulnerables ── -->
+      <section class="mblock reveal" id="poblaciones">
+        <h2 class="mblock__title">Poblaciones vulnerables que protegemos <span class="mblock__week">AC2 · Semana 2</span></h2>
+        <div class="vuln-tags">
+          {vulnerables.map((v) => (
+            <span class="vuln-tag">{v.short} <span>{v.principle}</span></span>
+          ))}
+        </div>
+        <p>
+          Sin reconocer a quiénes sirve concretamente nuestra carrera, cualquier declaración
+          de propósito queda en el vacío. Identificamos tres poblaciones que el ejercicio de la
+          Ingeniería Empresarial y de Sistemas en el Perú suele dejar fuera, y el principio de
+          bioética que se pone en juego en cada caso.
+        </p>
+        <div class="vuln-table">
+          {vulnerables.map((v) => (
+            <article class="vuln-row">
+              <div>
+                <p class="vuln-row__head">Población</p>
+                <p class="vuln-row__who">{v.who}</p>
+              </div>
+              <div>
+                <p class="vuln-row__head">¿Por qué es vulnerable?</p>
+                <p class="vuln-row__why">{v.why}</p>
+              </div>
+              <div>
+                <p class="vuln-row__head">Principio en juego</p>
+                <p class="vuln-row__principle">⚖ {v.principle}</p>
+                <p class="vuln-row__note">{v.note}</p>
+              </div>
+            </article>
+          ))}
+        </div>
+        <figure class="figure-card">
+          <Image
+            src={rostros}
+            alt="Mapa de rostros vulnerables en nuestro contexto profesional: zonas con poca conectividad, personas con discapacidad y microempresarios informales"
+            widths={[640, 900, 1200]}
+            sizes="(min-width: 1200px) 860px, 92vw"
+            loading="lazy"
+            decoding="async"
+          />
+          <figcaption>Mapa de rostros vulnerables en nuestro contexto profesional (AC2). Collage elaborado por el equipo.</figcaption>
+        </figure>
+        <div class="callout callout--serif">
+          <p class="callout__label">Compromiso ético del equipo</p>
+          <p>{commitment}</p>
+        </div>
+      </section>
+
+      <!-- ── AC3 · Jerarquía de valores ── -->
+      <section class="mblock reveal" id="valores">
+        <h2 class="mblock__title">Nuestra jerarquía de valores <span class="mblock__week">AC3 · Semana 3</span></h2>
+        <p>
+          El Manifiesto ya tenía un propósito y una responsabilidad hacia poblaciones vulnerables.
+          Con la tabla axiológica de Max Scheler examinamos desde qué sistema de valores opera el
+          equipo en la práctica profesional peruana, distinguiendo especialmente lo vital de lo
+          económico. Cada integrante evaluó con honestidad qué valores están presentes, ausentes o
+          en tensión en la carrera.
+        </p>
+        <figure class="figure-card">
+          <Image
+            src={piramide}
+            alt="Pirámide con la jerarquía de valores del equipo: espirituales, vitales, económicos, de lo agradable y de lo sagrado"
+            widths={[640, 900, 1200]}
+            sizes="(min-width: 1200px) 860px, 92vw"
+            loading="lazy"
+            decoding="async"
+          />
+          <figcaption>Jerarquía de valores que priorizaremos en nuestro ejercicio profesional (AC3). «La eficiencia económica debe estar al servicio de las personas».</figcaption>
+        </figure>
+
+        <div class="callout" style="margin-top: 22px;">
+          <p class="callout__label">Tensión axiológica principal</p>
+          <p style="margin:0;">{tension}</p>
+        </div>
+
+        <div class="callout callout--serif">
+          <p class="callout__label">Declaración de posición axiológica</p>
+          <p>{axiologicalPosition}</p>
+        </div>
+
+        <p class="eyebrow eyebrow--plain" style="margin-top: 28px;">Tabla de Scheler por integrante</p>
+        <div class="member-sheets">
+          {schelerSheets.map((sheet) => {
+            const m = byId.get(sheet.memberId);
+            if (!m) return null;
+            return (
+              <details class="member-sheet">
+                <summary>
+                  <span class="member-sheet__avatar" aria-hidden="true">
+                    {m.hasPhoto ? (
+                      <Image src={m.photo} alt="" width={60} height={60} loading="lazy" />
+                    ) : (
+                      m.initials
+                    )}
+                  </span>
+                  {m.fullName}
+                  <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                </summary>
+                <div class="member-sheet__body">
+                  {schelerCategories.map((cat, i) => {
+                    const row = sheet.rows[i];
+                    return (
+                      <div class="scheler-row">
+                        <div class="scheler-row__cat">{cat.name}<small>{cat.desc}</small></div>
+                        <span class={`scheler-row__has scheler-row__has--${row.has}`}>{HAS_LABEL[row.has]}</span>
+                        <p class="scheler-row__ex">{row.example}</p>
+                      </div>
+                    );
+                  })}
+                </div>
+              </details>
+            );
+          })}
+        </div>
+      </section>
+
+      <!-- ── AC4 · Mapa crítico (pendiente) ── -->
+      <section class="mblock reveal" id="mapa-critico">
+        <h2 class="mblock__title">Mapa crítico profesional <span class="mblock__week">AC4 · Semana 4</span></h2>
+        <Placeholder
+          title="En construcción"
+          text="Aquí irán las principales negligencias éticas identificadas en el ámbito laboral de la carrera y las propuestas de mejora del equipo, fundamentadas en el pensamiento crítico y la honestidad intelectual trabajados en clase."
+          meta="AC4 · Semana 4 · Manifiesto"
+          icon="compass"
+        />
+      </section>
+
+    </div>
+  </div>
+</BaseLayout>
