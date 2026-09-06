@@ -33,7 +33,7 @@ export const sections: Section[] = [
     label: 'Equipo',
     title: 'Quiénes somos',
     eyebrow: 'Los Estoicos · 6 integrantes',
-    desc: 'Los seis integrantes de Los Estoicos: quiénes son, qué los mueve y cómo contactarlos.',
+    desc: 'Somos estudiantes de Ingeniería Empresarial y de Sistemas, integrantes de Los Estoicos. Descubre quiénes somos y qué nos motiva.',
     status: 'done',
     icon: 'users'
   },
