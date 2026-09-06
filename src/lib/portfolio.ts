@@ -43,7 +43,7 @@ export const sections: Section[] = [
     label: 'Manifiesto',
     title: 'Manifiesto de Identidad Ética',
     eyebrow: 'Módulo I · Semanas 1–5',
-    desc: 'Metáfora artística, propósito profesional, poblaciones vulnerables que protegemos y nuestra jerarquía de valores según Scheler.',
+    desc: 'Nuestra metáfora, nuestro propósito profesional, las poblaciones que nos comprometemos a proteger y los valores desde los que decidimos.',
     status: 'wip',
     icon: 'compass'
   },
@@ -53,7 +53,7 @@ export const sections: Section[] = [
     label: 'Podcast',
     title: 'Podcast de Dilema Moral',
     eyebrow: 'Módulo II · Semanas 6–7',
-    desc: 'Un caso real del contexto peruano analizado desde dos marcos: el deber kantiano y el utilitarismo de Mill.',
+    desc: 'Un caso real del Perú que analizamos desde dos marcos contrapuestos: el deber kantiano y el utilitarismo de Mill.',
     status: 'todo',
     icon: 'mic'
   },
@@ -73,7 +73,7 @@ export const sections: Section[] = [
     label: 'Infografía',
     title: 'Infografía de Integridad y Sostenibilidad',
     eyebrow: 'Módulo IV · Semanas 13–15',
-    desc: 'Una pieza visual con dos capas: ética del cuidado hacia la población vulnerable y ecoética hacia las generaciones futuras.',
+    desc: 'Nuestra pieza visual con dos capas: el cuidado de la población vulnerable y nuestra responsabilidad con las generaciones futuras.',
     status: 'todo',
     icon: 'map'
   }

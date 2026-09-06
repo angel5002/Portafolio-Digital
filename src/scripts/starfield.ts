@@ -100,12 +100,13 @@ export function initStarfield(): void {
   function buildSprites(): void {
     const tones: Record<Theme, [string, string]> = {
       dark: ['238, 236, 246', '240, 213, 154'], // frío, cálido
-      light: ['38, 48, 84', '140, 106, 31'] // tinta índigo, bronce
+      light: ['47, 63, 122', '140, 106, 31'] // tinta índigo, bronce
     };
     (['dark', 'light'] as Theme[]).forEach((t) => {
+      const bump = t === 'light' ? 0.35 : 0;
       sprites[t] = SIZES.map((r, i) => [
-        makeSprite(r, tones[t][0], i === 2),
-        makeSprite(r, tones[t][1], i === 2)
+        makeSprite(r + bump, tones[t][0], i === 2),
+        makeSprite(r + bump, tones[t][1], i === 2)
       ]);
     });
   }
@@ -162,9 +163,9 @@ export function initStarfield(): void {
     const t = theme();
     const set = sprites[t];
     if (!set || set.length === 0) return;
-    const alphaScale = t === 'light' ? 0.42 : 1;
-    const lineRgb = t === 'light' ? '58, 72, 128' : '230, 192, 121';
-    const dotRgb = t === 'light' ? '58, 72, 128' : '246, 241, 230';
+    const alphaScale = t === 'light' ? 0.85 : 1;
+    const lineRgb = t === 'light' ? '47, 63, 122' : '230, 192, 121';
+    const dotRgb = t === 'light' ? '47, 63, 122' : '246, 241, 230';
 
     const time = now / 1000;
     const animated = !reduce();
@@ -197,7 +198,7 @@ export function initStarfield(): void {
       const n = Math.min(near.length, 14); // acota el coste O(n²)
       for (let i = 0; i < n; i++) {
         const [ax, ay, aa] = near[i];
-        ctx!.strokeStyle = `rgba(${lineRgb}, ${(0.22 * aa * alphaScale + 0.05).toFixed(3)})`;
+        ctx!.strokeStyle = `rgba(${lineRgb}, ${(0.26 * aa + 0.04).toFixed(3)})`;
         ctx!.beginPath();
         ctx!.moveTo(ax, ay);
         ctx!.lineTo(mouseX, mouseY);
@@ -207,7 +208,7 @@ export function initStarfield(): void {
           const dx = ax - bx;
           const dy = ay - by;
           if (dx * dx + dy * dy < 110 * 110) {
-            ctx!.strokeStyle = `rgba(${lineRgb}, ${(0.35 * Math.min(aa, ba)).toFixed(3)})`;
+            ctx!.strokeStyle = `rgba(${lineRgb}, ${(0.4 * Math.min(aa, ba)).toFixed(3)})`;
             ctx!.beginPath();
             ctx!.moveTo(ax, ay);
             ctx!.lineTo(bx, by);
@@ -221,7 +222,8 @@ export function initStarfield(): void {
       ctx!.fill();
     }
 
-    if (!animated || t === 'light') return;
+    if (!animated) return;
+    const meteorRgb = t === 'light' ? '47, 63, 122' : '246, 241, 230';
 
     for (const m of meteors) {
       const p = m.life / m.max;
@@ -229,8 +231,8 @@ export function initStarfield(): void {
       const tailX = m.x - m.vx * 9;
       const tailY = m.y - m.vy * 9;
       const g = ctx!.createLinearGradient(m.x, m.y, tailX, tailY);
-      g.addColorStop(0, `rgba(246, 241, 230, ${(0.9 * alpha).toFixed(3)})`);
-      g.addColorStop(1, 'rgba(246, 241, 230, 0)');
+      g.addColorStop(0, `rgba(${meteorRgb}, ${(0.85 * alpha).toFixed(3)})`);
+      g.addColorStop(1, `rgba(${meteorRgb}, 0)`);
       ctx!.strokeStyle = g;
       ctx!.lineWidth = 1.2;
       ctx!.beginPath();
@@ -264,7 +266,7 @@ export function initStarfield(): void {
         last = now;
         step(dt / 16.7);
         nextMeteor -= dt;
-        if (nextMeteor <= 0 && theme() === 'dark') {
+        if (nextMeteor <= 0) {
           spawnMeteor();
           nextMeteor = 9000 + Math.random() * 9000;
         }
