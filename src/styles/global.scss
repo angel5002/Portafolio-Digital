@@ -355,8 +355,8 @@ code {
   z-index: 20;
   height: var(--topbar-height);
   background: var(--topbar-bg);
-  backdrop-filter: saturate(150%) blur(12px);
-  -webkit-backdrop-filter: saturate(150%) blur(12px);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   border-bottom: 1px solid var(--border-color);
 }
 

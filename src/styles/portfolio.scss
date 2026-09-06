@@ -34,7 +34,6 @@
 .halo-layer span {
   position: absolute;
   border-radius: 50%;
-  filter: blur(60px);
   opacity: 0.9;
   will-change: transform;
   animation: halo-drift 26s ease-in-out infinite alternate;
@@ -43,13 +42,13 @@
 .halo-layer span:nth-child(1) {
   width: 52vw; height: 52vw;
   top: -22vw; left: 8vw;
-  background: radial-gradient(circle, var(--halo-1) 0%, transparent 62%);
+  background: radial-gradient(circle, var(--halo-1) 0%, transparent 68%);
 }
 
 .halo-layer span:nth-child(2) {
   width: 44vw; height: 44vw;
   top: 10vh; right: -14vw;
-  background: radial-gradient(circle, var(--halo-2) 0%, transparent 62%);
+  background: radial-gradient(circle, var(--halo-2) 0%, transparent 68%);
   animation-duration: 34s;
   animation-delay: -8s;
 }
@@ -57,7 +56,7 @@
 .halo-layer span:nth-child(3) {
   width: 40vw; height: 40vw;
   bottom: -18vw; left: 30vw;
-  background: radial-gradient(circle, var(--halo-3) 0%, transparent 62%);
+  background: radial-gradient(circle, var(--halo-3) 0%, transparent 68%);
   animation-duration: 30s;
   animation-delay: -16s;
 }
@@ -69,9 +68,7 @@
 
 // El sidebar y topbar reciben una ligera transparencia para dejar pasar el halo
 [data-theme='dark'] #sidebar {
-  background: linear-gradient(180deg, rgba(10, 13, 28, 0.94) 0%, rgba(8, 11, 22, 0.90) 100%);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
+  background: linear-gradient(180deg, rgba(10, 13, 28, 0.97) 0%, rgba(8, 11, 22, 0.95) 100%);
 }
 
 // ─── Utilidades tipográficas ───────────────────────────────────────────────
@@ -160,7 +157,6 @@
   background: var(--glass-bg);
   color: var(--heading-color);
   border-color: var(--border-color);
-  backdrop-filter: blur(8px);
 }
 
 .btn--ghost:hover {
@@ -240,8 +236,6 @@
   padding: 12px 18px 10px;
   border-radius: var(--radius-xl);
   background: var(--glass-bg);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
   text-decoration: none !important;
   color: var(--text-color);
   animation: opal-pill-in 700ms var(--ease-out-soft) both;
@@ -457,8 +451,6 @@
   border: 1px solid var(--glass-border);
   border-radius: var(--radius-lg);
   background: var(--glass-bg);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
   max-width: 640px;
 }
 
@@ -539,9 +531,9 @@
   position: absolute;
   inset: 8% 4% -4%;
   border-radius: 50%;
-  background: radial-gradient(circle at 50% 55%, var(--accent-glow-strong) 0%, var(--accent-glow) 32%, transparent 68%);
-  filter: blur(22px);
+  background: radial-gradient(circle at 50% 55%, var(--accent-glow-strong) 0%, var(--accent-glow) 30%, transparent 66%);
   animation: hero-glow 6s ease-in-out infinite;
+  will-change: transform, opacity;
   pointer-events: none;
 }
 
@@ -597,9 +589,7 @@
   gap: 10px;
   padding: 8px 12px;
   border-radius: var(--radius-md);
-  background: rgba(7, 10, 13, 0.62);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  background: rgba(7, 10, 13, 0.74);
   color: rgba(255, 255, 255, 0.9);
   font-size: 11px;
   letter-spacing: 0.14px;
@@ -620,8 +610,7 @@
   width: 46%;
   height: 10px;
   border-radius: 50%;
-  background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.55) 0%, transparent 70%);
-  filter: blur(4px);
+  background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.5) 0%, transparent 70%);
 }
 
 // ─── Encabezado de sección (compartido) ───────────────────────────────────
@@ -2361,23 +2350,20 @@ html[data-effects='off'] {
 
 // Entrada escalonada con leve escala y desenfoque
 .reveal-stagger > * {
-  filter: blur(6px);
   transform: translateY(16px) scale(0.985);
   transition:
     opacity var(--motion-slow) var(--ease-out-soft),
-    transform var(--motion-slow) var(--ease-out-soft),
-    filter var(--motion-slow) var(--ease-out-soft);
+    transform var(--motion-slow) var(--ease-out-soft);
 }
 
 .reveal-stagger.is-revealed > * {
-  filter: blur(0);
   transform: translateY(0) scale(1);
 }
 
 .reveal-stagger.is-revealed > *:nth-child(6) { transition-delay: 350ms; }
 
 html[data-effects='off'] {
-  .reveal-stagger > * { filter: none; transform: none; }
+  .reveal-stagger > * { transform: none; }
 }
 
 // ─── Reproductor fijo (Spotify) ────────────────────────────────────────────
@@ -2390,8 +2376,8 @@ html[data-effects='off'] {
   width: min(360px, calc(100vw - 32px));
   border-radius: 20px;
   background: var(--glass-bg);
-  backdrop-filter: blur(18px) saturate(140%);
-  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   border: 1px solid var(--glass-border);
   box-shadow:
     0 28px 60px -24px rgba(0, 0, 0, 0.65),
@@ -2429,9 +2415,9 @@ html[data-effects='off'] {
   width: 90%;
   aspect-ratio: 1;
   border-radius: 50%;
-  background: radial-gradient(circle, var(--halo-1) 0%, var(--halo-3) 45%, transparent 70%);
-  filter: blur(18px);
+  background: radial-gradient(circle, var(--halo-1) 0%, var(--halo-3) 40%, transparent 68%);
   animation: dock-glow 9s ease-in-out infinite;
+  will-change: transform, opacity;
   pointer-events: none;
   z-index: -1;
 }
@@ -2636,7 +2622,7 @@ html[data-effects='off'] {
   height: 520px;
   margin: -260px 0 0 -260px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(230, 192, 121, 0.10) 0%, rgba(230, 192, 121, 0.04) 35%, transparent 65%);
+  background: radial-gradient(circle, var(--lantern-1) 0%, var(--lantern-2) 35%, transparent 65%);
   pointer-events: none;
   z-index: 0;
   opacity: 0;
@@ -2644,7 +2630,7 @@ html[data-effects='off'] {
   will-change: transform;
 }
 
-[data-theme='dark'] .lantern.is-on { opacity: 1; }
+.lantern.is-on { opacity: 1; }
 
 // ─── Botones magnéticos ───────────────────────────────────────────────────
 

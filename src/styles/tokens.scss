@@ -5,13 +5,13 @@
 
 :root {
   // ─── Tokens crudos (tema claro, papel cálido) ───────────────────────────
-  --color-ink: #1a2238;
-  --color-body: #333a4d;
-  --color-muted: #5a6275;
-  --color-hairline: #e3ddd0;
-  --color-canvas: #fbf8f2;
-  --color-surface-soft: #f4efe5;
-  --color-surface-strong: #e8e1d3;
+  --color-ink: #151b2e;
+  --color-body: #343b50;
+  --color-muted: #5f6780;
+  --color-hairline: #e1e4ec;
+  --color-canvas: #f4f5f9;
+  --color-surface-soft: #eceef5;
+  --color-surface-strong: #dfe2ec;
   --color-surface-dark: #0f1428;
   --color-surface-dark-elevated: #161c34;
 
@@ -76,81 +76,83 @@
   --motion-base: 320ms;
   --motion-slow: 560ms;
 
-  // ─── TEMA CLARO ──────────────────────────────────────────────────────────
-  --main-bg: var(--color-canvas);
-  --text-color: var(--color-body);
-  --text-muted-color: var(--color-muted);
-  --heading-color: var(--color-ink);
-  --link-color: #8a6a1c;
-  --link-hover: #5f4810;
-  --border-color: var(--color-hairline);
+  // ─── TEMA CLARO: papel frío, tinta índigo, detalles en bronce ───────────
+  --main-bg: #f4f5f9;
+  --text-color: #343b50;
+  --text-muted-color: #5f6780;
+  --heading-color: #151b2e;
+  --link-color: #2f3f7a;
+  --link-hover: #1f2a52;
+  --border-color: #e1e4ec;
 
-  --accent: #b8892b;
-  --accent-strong: #8a6a1c;
-  --accent-soft: rgba(184, 137, 43, 0.12);
-  --accent-text: #8a6a1c;
-  --accent-glow: rgba(230, 192, 121, 0.30);
-  --accent-glow-strong: rgba(230, 192, 121, 0.50);
-  --gold: #a67c1e;
-  --gold-soft: rgba(201, 162, 74, 0.16);
-  --gradient-accent: linear-gradient(120deg, #b8892b 0%, #d9a94f 50%, #c96f4a 100%);
-  --gradient-stroke: linear-gradient(135deg, #e6c079 0%, #c9a24a 45%, #d98a7a 100%);
-  --gradient-text: linear-gradient(120deg, #6f5314 0%, #a67c1e 45%, #b4553a 100%);
-  --glass-bg: rgba(255, 253, 248, 0.78);
-  --glass-border: rgba(26, 34, 56, 0.09);
-  --halo-1: rgba(230, 192, 121, 0.22);
-  --halo-2: rgba(240, 163, 94, 0.14);
-  --halo-3: rgba(154, 163, 212, 0.14);
+  --accent: #3b4a8a;
+  --accent-strong: #1f2a52;
+  --accent-soft: rgba(59, 74, 138, 0.09);
+  --accent-text: #2f3f7a;
+  --accent-glow: rgba(59, 74, 138, 0.16);
+  --accent-glow-strong: rgba(59, 74, 138, 0.28);
+  --gold: #8c6a1f;
+  --gold-soft: rgba(201, 162, 74, 0.14);
+  --gradient-accent: linear-gradient(120deg, #1f2a52 0%, #3b4a8a 55%, #8c6a1f 100%);
+  --gradient-stroke: linear-gradient(135deg, #b8c0e8 0%, #7f8bc4 45%, #d9b76a 100%);
+  --gradient-text: linear-gradient(120deg, #1f2a52 0%, #3b4a8a 55%, #8c6a1f 100%);
+  --glass-bg: rgba(255, 255, 255, 0.82);
+  --glass-border: rgba(21, 27, 46, 0.08);
+  --halo-1: rgba(184, 192, 232, 0.35);
+  --halo-2: rgba(244, 217, 196, 0.32);
+  --halo-3: rgba(200, 224, 232, 0.30);
+  --lantern-1: rgba(59, 74, 138, 0.05);
+  --lantern-2: rgba(59, 74, 138, 0.02);
   --star-color: rgba(26, 34, 56, 0.0);
 
   --card-bg: #ffffff;
-  --card-border-color: var(--color-hairline);
-  --card-hover-bg: var(--color-surface-soft);
+  --card-border-color: #e6e8ef;
+  --card-hover-bg: #f7f8fc;
   --card-shadow:
-    0 1px 0 rgba(26, 34, 56, 0.04),
-    0 4px 12px rgba(26, 34, 56, 0.06),
-    0 0 0 1px rgba(26, 34, 56, 0.04);
+    0 1px 0 rgba(21, 27, 46, 0.03),
+    0 6px 16px rgba(21, 27, 46, 0.06),
+    0 0 0 1px rgba(21, 27, 46, 0.03);
   --card-shadow-hover:
-    0 1px 0 rgba(26, 34, 56, 0.06),
-    0 18px 38px -10px rgba(26, 34, 56, 0.18),
-    0 0 0 1px rgba(26, 34, 56, 0.06);
+    0 1px 0 rgba(21, 27, 46, 0.05),
+    0 20px 40px -12px rgba(21, 27, 46, 0.18),
+    0 0 0 1px rgba(59, 74, 138, 0.14);
 
   --theme-transition: 420ms cubic-bezier(0.22, 1, 0.36, 1);
 
-  --sidebar-bg: var(--color-surface-soft);
-  --sidebar-border-color: var(--color-surface-strong);
-  --sidebar-text-color: var(--color-muted);
-  --sidebar-muted-color: var(--color-muted);
-  --site-title-color: var(--color-ink);
-  --site-subtitle-color: var(--color-muted);
-  --sidebar-active-color: #8a6a1c;
+  --sidebar-bg: #eceef5;
+  --sidebar-border-color: #dfe2ec;
+  --sidebar-text-color: #4b536b;
+  --sidebar-muted-color: #6a7189;
+  --site-title-color: #151b2e;
+  --site-subtitle-color: #6a7189;
+  --sidebar-active-color: #2f3f7a;
   --sidebar-hover-bg: rgba(255, 255, 255, 0.9);
   --avatar-border-color: #ffffff;
   --avatar-bg: #ffffff;
   --sidebar-btn-bg: #ffffff;
-  --sidebar-btn-color: var(--color-muted);
+  --sidebar-btn-color: #4b536b;
 
-  --topbar-bg: rgba(251, 248, 242, 0.88);
-  --topbar-text-color: var(--color-ink);
+  --topbar-bg: rgba(244, 245, 249, 0.86);
+  --topbar-text-color: #151b2e;
 
   --tag-bg: #ffffff;
-  --tag-border: var(--color-hairline);
-  --tag-text: var(--color-body);
-  --tag-active-bg: #b8892b;
+  --tag-border: #e1e4ec;
+  --tag-text: #343b50;
+  --tag-active-bg: #3b4a8a;
   --tag-active-text: #ffffff;
 
-  --inline-code-bg: rgba(26, 34, 56, 0.06);
-  --code-color: var(--color-ink);
-  --blockquote-border: #b8892b;
-  --blockquote-bg: var(--color-surface-soft);
-  --blockquote-text: var(--color-ink);
+  --inline-code-bg: rgba(21, 27, 46, 0.06);
+  --code-color: #151b2e;
+  --blockquote-border: #3b4a8a;
+  --blockquote-bg: #f2f3f9;
+  --blockquote-text: #151b2e;
 
   --status-done-bg: rgba(46, 125, 90, 0.12);
   --status-done-text: #2e7d5a;
   --status-wip-bg: rgba(201, 162, 74, 0.18);
-  --status-wip-text: #8a6a1c;
-  --status-todo-bg: rgba(26, 34, 56, 0.06);
-  --status-todo-text: #5a6275;
+  --status-wip-text: #8c6a1f;
+  --status-todo-bg: rgba(21, 27, 46, 0.06);
+  --status-todo-text: #5f6780;
 
   color-scheme: light;
 }
@@ -183,6 +185,8 @@
   --halo-2: rgba(154, 163, 212, 0.16);
   --halo-3: rgba(240, 163, 94, 0.08);
   --star-color: rgba(246, 241, 230, 0.9);
+  --lantern-1: rgba(230, 192, 121, 0.10);
+  --lantern-2: rgba(230, 192, 121, 0.04);
 
   --card-bg: #0e1224;
   --card-border-color: rgba(238, 234, 224, 0.08);

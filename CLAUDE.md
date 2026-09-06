@@ -30,7 +30,9 @@ Extras heredados del blog: `/bitacora` (una entrada MDX por aprendizaje colabora
 - `src/scripts/starfield.ts` — estrellas con deriva, paralaje (puntero y scroll), constelación alrededor del cursor y estrellas fugaces. `src/scripts/interactions.ts` — barra de progreso de lectura, contadores (`data-count`), botones magnéticos (`data-magnetic`) y linterna que sigue al cursor. Todo respeta `prefers-reduced-motion`, pero el usuario puede forzarlo con el botón «Efectos» del sidebar (`src/scripts/motion.ts` guarda `effects=on|off` en localStorage y lo refleja en `<html data-effects>`; el CSS usa `html[data-effects='off']` en vez de la media query). En Windows, «Efectos de animación» desactivado en Accesibilidad hace que Edge/Chrome reporten reduce.
 - Animaciones de tarjetas: `src/scripts/tilt.ts` (inclinación 3D + foco de luz) sobre elementos con `data-tilt`.
 - Sin notas internas ni textos "pendiente" en la web: lo que falta simplemente no se muestra (bio, foto, LinkedIn, docente).
-- `src/styles/tokens.scss` (paleta y temas) y `src/styles/portfolio.scss` (componentes nuevos). `global.scss` es el heredado del blog RN.
+- `src/styles/tokens.scss` (paleta y temas) y `src/styles/portfolio.scss` (componentes nuevos). `global.scss` es el heredado del blog RN. Tema claro: papel frío (#f4f5f9), tinta índigo (#3b4a8a) y bronce (#8c6a1f); el canvas dibuja motas de tinta en claro y estrellas en oscuro.
+- Rendimiento: evitar `filter: blur()` animado y `backdrop-filter` en elementos grandes (causaban lag del cursor). El canvas usa sprites pre-renderizados, ~30 fps, máx. 170 estrellas y DPR ≤ 1.5.
+- Redacción: el Manifiesto abre con un ensayo reflexivo (`purposeEssay` en `manifiesto.ts`) y conserva el texto literal de la ficha AC1 como «Así lo escribimos en la primera sesión». Tono: reflexivo en Manifiesto, directo en Inicio.
 - LinkedIn solo aparece en las tarjetas de Equipo (no hay botones de compartir ni correo).
 
 ## Pendientes de contenido

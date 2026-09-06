@@ -7,6 +7,7 @@ import { team, TEAM_NAME } from '../lib/team';
 import {
   metaphor,
   purpose,
+  purposeEssay,
   concepts,
   vulnerables,
   commitment,
@@ -85,7 +86,11 @@ const HAS_LABEL = { si: 'Sí', parcial: 'Parcial', no: 'No' } as const;
       <!-- ── AC1 · Propósito ── -->
       <section class="mblock reveal" id="proposito">
         <h2 class="mblock__title">Propósito profesional <span class="mblock__week">AC1 · Semana 1</span></h2>
-        <p>{purpose.team}</p>
+        {purposeEssay.map((par) => <p>{par}</p>)}
+        <div class="callout callout--serif">
+          <p class="callout__label">Así lo escribimos en la primera sesión</p>
+          <p>{purpose.team}</p>
+        </div>
         <div class="callout">
           <p class="callout__label">Propósito de la carrera</p>
           <p style="margin:0;">{purpose.career}</p>
@@ -110,10 +115,11 @@ const HAS_LABEL = { si: 'Sí', parcial: 'Parcial', no: 'No' } as const;
           ))}
         </div>
         <p>
-          Sin reconocer a quiénes sirve concretamente nuestra carrera, cualquier declaración
-          de propósito queda en el vacío. Identificamos tres poblaciones que el ejercicio de la
-          Ingeniería Empresarial y de Sistemas en el Perú suele dejar fuera, y el principio de
-          bioética que se pone en juego en cada caso.
+          Un propósito que no nombra a nadie es una frase. Para que el nuestro tenga peso,
+          tuvimos que responder a quién le debemos responsabilidad: quiénes tienen menos poder,
+          menos recursos o menos voz frente a los sistemas que diseñamos. Identificamos tres
+          poblaciones que el ejercicio de la Ingeniería Empresarial y de Sistemas en el Perú
+          suele dejar fuera, y en cada caso el principio de bioética que se pone en juego.
         </p>
         <div class="vuln-table">
           {vulnerables.map((v) => (
@@ -155,11 +161,12 @@ const HAS_LABEL = { si: 'Sí', parcial: 'Parcial', no: 'No' } as const;
       <section class="mblock reveal" id="valores">
         <h2 class="mblock__title">Nuestra jerarquía de valores <span class="mblock__week">AC3 · Semana 3</span></h2>
         <p>
-          El Manifiesto ya tenía un propósito y una responsabilidad hacia poblaciones vulnerables.
-          Con la tabla axiológica de Max Scheler examinamos desde qué sistema de valores opera el
-          equipo en la práctica profesional peruana, distinguiendo especialmente lo vital de lo
-          económico. Cada integrante evaluó con honestidad qué valores están presentes, ausentes o
-          en tensión en la carrera.
+          Declarar un propósito y nombrar a quién protegemos no basta: falta decir desde qué
+          valores decidimos cuando esos compromisos chocan entre sí. Con la tabla axiológica de
+          Max Scheler examinamos cómo opera realmente nuestra carrera en el Perú, no cómo nos
+          gustaría que operara, distinguiendo en especial lo vital de lo económico. Cada
+          integrante respondió por su cuenta y con honestidad qué valores están presentes,
+          cuáles faltan y cuáles viven en tensión.
         </p>
         <figure class="figure-card">
           <Image

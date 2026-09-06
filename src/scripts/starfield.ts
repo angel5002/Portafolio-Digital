@@ -1,16 +1,19 @@
-// Cielo estrellado de fondo (canvas fijo).
-// - Estrellas en tres profundidades que titilan y derivan muy despacio.
-// - Paralaje con el puntero y con el scroll (las más cercanas se mueven más).
-// - Cerca del cursor, las estrellas se unen con líneas finas: una constelación
-//   que sigue a quien navega.
+// Cielo de fondo (canvas fijo), optimizado:
+// - Las estrellas se pre-renderizan como sprites (sin degradados por cuadro).
+// - ~30 cuadros por segundo, cantidad limitada de estrellas, DPR máx. 1.5.
+// - Tres profundidades: titilan, derivan y tienen paralaje con puntero/scroll.
+// - Constelación alrededor del cursor (líneas finas entre estrellas cercanas).
 // - Estrella fugaz ocasional.
-// Solo se dibuja en tema oscuro; respeta prefers-reduced-motion (estático).
+// Tema oscuro: puntos marfil/dorado. Tema claro: motas tinta/índigo suaves,
+// así el claro también tiene movimiento. Respeta la preferencia de efectos.
+
+import { motionAllowed, finePointer } from './motion';
 
 interface Star {
   x: number;
   y: number;
-  r: number;
   depth: number; // 0 lejos … 1 cerca
+  size: number; // índice de sprite
   base: number;
   phase: number;
   speed: number;
@@ -28,21 +31,25 @@ interface Meteor {
   max: number;
 }
 
-import { motionAllowed, finePointer } from './motion';
+const LINK_RADIUS = 140;
+const PARALLAX_MOUSE = 20;
+const PARALLAX_SCROLL = 0.05;
+const FRAME_MS = 33; // ~30 fps
+const MAX_STARS = 170;
 
-const LINK_RADIUS = 150;
-const PARALLAX_MOUSE = 22; // px máximos de desplazamiento por puntero
-const PARALLAX_SCROLL = 0.06; // fracción del scroll que se traslada
+type Theme = 'dark' | 'light';
 
 export function initStarfield(): void {
   const canvas = document.querySelector<HTMLCanvasElement>('[data-starfield]');
   if (!canvas || canvas.dataset.ready) return;
   canvas.dataset.ready = '1';
-  const ctx = canvas.getContext('2d');
+  const ctx = canvas.getContext('2d', { alpha: true });
   if (!ctx) return;
 
   const reduce = () => !motionAllowed();
   const fine = finePointer();
+  const theme = (): Theme =>
+    document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
 
   let stars: Star[] = [];
   let meteors: Meteor[] = [];
@@ -51,9 +58,8 @@ export function initStarfield(): void {
   let dpr = 1;
   let raf = 0;
   let last = 0;
-  let nextMeteor = 5000 + Math.random() * 6000;
+  let nextMeteor = 6000 + Math.random() * 6000;
 
-  // Puntero (normalizado -1…1) con suavizado
   let targetPx = 0;
   let targetPy = 0;
   let px = 0;
@@ -62,10 +68,50 @@ export function initStarfield(): void {
   let mouseY = -9999;
   let scrollY = window.scrollY;
 
-  const isDark = () => document.documentElement.getAttribute('data-theme') === 'dark';
+  // ── sprites: 3 tamaños × 2 tonos × 2 temas
+  const SIZES = [1.1, 1.8, 2.8];
+  const sprites: Record<Theme, HTMLCanvasElement[][]> = { dark: [], light: [] };
+
+  function makeSprite(r: number, rgb: string, glow: boolean): HTMLCanvasElement {
+    const pad = glow ? r * 6 : r * 2;
+    const c = document.createElement('canvas');
+    const size = Math.ceil(pad * 2);
+    c.width = size;
+    c.height = size;
+    const g = c.getContext('2d')!;
+    const cx = size / 2;
+    if (glow) {
+      const grad = g.createRadialGradient(cx, cx, 0, cx, cx, pad);
+      grad.addColorStop(0, `rgba(${rgb}, 0.45)`);
+      grad.addColorStop(0.35, `rgba(${rgb}, 0.12)`);
+      grad.addColorStop(1, `rgba(${rgb}, 0)`);
+      g.fillStyle = grad;
+      g.beginPath();
+      g.arc(cx, cx, pad, 0, Math.PI * 2);
+      g.fill();
+    }
+    g.fillStyle = `rgba(${rgb}, 1)`;
+    g.beginPath();
+    g.arc(cx, cx, r, 0, Math.PI * 2);
+    g.fill();
+    return c;
+  }
+
+  function buildSprites(): void {
+    const tones: Record<Theme, [string, string]> = {
+      dark: ['238, 236, 246', '240, 213, 154'], // frío, cálido
+      light: ['38, 48, 84', '140, 106, 31'] // tinta índigo, bronce
+    };
+    (['dark', 'light'] as Theme[]).forEach((t) => {
+      sprites[t] = SIZES.map((r, i) => [
+        makeSprite(r, tones[t][0], i === 2),
+        makeSprite(r, tones[t][1], i === 2)
+      ]);
+    });
+  }
 
   function resize(): void {
-    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    dpr = Math.min(window.devicePixelRatio || 1, 1.5);
     width = window.innerWidth;
     height = window.innerHeight;
     canvas.width = Math.floor(width * dpr);
@@ -78,16 +124,16 @@ export function initStarfield(): void {
   }
 
   function seed(): void {
-    const count = Math.round((width * height) / 8500);
+    const count = Math.min(MAX_STARS, Math.round((width * height) / 11000));
     stars = Array.from({ length: count }, () => {
-      const depth = Math.pow(Math.random(), 1.6); // mayoría lejanas
+      const depth = Math.pow(Math.random(), 1.6);
       const ang = Math.random() * Math.PI * 2;
-      const sp = 0.015 + depth * 0.05;
+      const sp = 0.012 + depth * 0.045;
       return {
         x: Math.random() * width,
         y: Math.random() * height,
-        r: 0.4 + depth * 1.3,
         depth,
+        size: depth > 0.8 ? 2 : depth > 0.4 ? 1 : 0,
         base: 0.22 + depth * 0.6,
         phase: Math.random() * Math.PI * 2,
         speed: 0.4 + Math.random() * 1.1,
@@ -111,73 +157,57 @@ export function initStarfield(): void {
     });
   }
 
-  // Posición en pantalla de una estrella con paralaje aplicado
-  function screenPos(s: Star): [number, number] {
-    const k = 0.25 + s.depth * 0.75;
-    const ox = px * PARALLAX_MOUSE * k;
-    const oy = py * PARALLAX_MOUSE * k - scrollY * PARALLAX_SCROLL * k;
-    let x = s.x + ox;
-    let y = s.y + oy;
-    // envolver para que el paralaje de scroll no deje huecos
-    y = ((y % height) + height) % height;
-    x = ((x % width) + width) % width;
-    return [x, y];
-  }
-
   function draw(now: number): void {
     ctx!.clearRect(0, 0, width, height);
-    if (!isDark()) return;
+    const t = theme();
+    const set = sprites[t];
+    if (!set || set.length === 0) return;
+    const alphaScale = t === 'light' ? 0.42 : 1;
+    const lineRgb = t === 'light' ? '58, 72, 128' : '230, 192, 121';
+    const dotRgb = t === 'light' ? '58, 72, 128' : '246, 241, 230';
 
-    const t = now / 1000;
-    const near: [number, number, number][] = []; // x, y, alpha (para constelación)
+    const time = now / 1000;
+    const animated = !reduce();
+    const near: [number, number, number][] = [];
+    const hasMouse = fine && animated && mouseX > -1000;
 
     for (const s of stars) {
-      const tw = reduce() ? 1 : 0.65 + 0.35 * Math.sin(t * s.speed + s.phase);
-      const a = s.base * tw;
-      const [x, y] = screenPos(s);
+      const tw = animated ? 0.65 + 0.35 * Math.sin(time * s.speed + s.phase) : 1;
+      const k = 0.25 + s.depth * 0.75;
+      let x = s.x + px * PARALLAX_MOUSE * k;
+      let y = s.y + py * PARALLAX_MOUSE * k - scrollY * PARALLAX_SCROLL * k;
+      x = ((x % width) + width) % width;
+      y = ((y % height) + height) % height;
 
-      ctx!.beginPath();
-      ctx!.arc(x, y, s.r, 0, Math.PI * 2);
-      ctx!.fillStyle = s.warm ? `rgba(240, 213, 154, ${a})` : `rgba(238, 236, 246, ${a})`;
-      ctx!.fill();
+      const sp = set[s.size][s.warm ? 1 : 0];
+      ctx!.globalAlpha = s.base * tw * alphaScale;
+      ctx!.drawImage(sp, x - sp.width / 2, y - sp.height / 2);
 
-      if (s.r > 1.3) {
-        const g = ctx!.createRadialGradient(x, y, 0, x, y, s.r * 6);
-        g.addColorStop(0, `rgba(240, 213, 154, ${a * 0.35})`);
-        g.addColorStop(1, 'rgba(240, 213, 154, 0)');
-        ctx!.fillStyle = g;
-        ctx!.beginPath();
-        ctx!.arc(x, y, s.r * 6, 0, Math.PI * 2);
-        ctx!.fill();
-      }
-
-      if (fine && !reduce()) {
+      if (hasMouse) {
         const dx = x - mouseX;
         const dy = y - mouseY;
         const d2 = dx * dx + dy * dy;
-        if (d2 < LINK_RADIUS * LINK_RADIUS) {
-          near.push([x, y, 1 - Math.sqrt(d2) / LINK_RADIUS]);
-        }
+        if (d2 < LINK_RADIUS * LINK_RADIUS) near.push([x, y, 1 - Math.sqrt(d2) / LINK_RADIUS]);
       }
     }
+    ctx!.globalAlpha = 1;
 
-    // Constelación alrededor del cursor: líneas entre estrellas cercanas
     if (near.length > 1) {
       ctx!.lineWidth = 0.7;
-      for (let i = 0; i < near.length; i++) {
+      const n = Math.min(near.length, 14); // acota el coste O(n²)
+      for (let i = 0; i < n; i++) {
         const [ax, ay, aa] = near[i];
-        // línea tenue hacia el cursor
-        ctx!.strokeStyle = `rgba(230, 192, 121, ${0.22 * aa})`;
+        ctx!.strokeStyle = `rgba(${lineRgb}, ${(0.22 * aa * alphaScale + 0.05).toFixed(3)})`;
         ctx!.beginPath();
         ctx!.moveTo(ax, ay);
         ctx!.lineTo(mouseX, mouseY);
         ctx!.stroke();
-        for (let j = i + 1; j < near.length; j++) {
+        for (let j = i + 1; j < n; j++) {
           const [bx, by, ba] = near[j];
           const dx = ax - bx;
           const dy = ay - by;
           if (dx * dx + dy * dy < 110 * 110) {
-            ctx!.strokeStyle = `rgba(240, 213, 154, ${0.35 * Math.min(aa, ba)})`;
+            ctx!.strokeStyle = `rgba(${lineRgb}, ${(0.35 * Math.min(aa, ba)).toFixed(3)})`;
             ctx!.beginPath();
             ctx!.moveTo(ax, ay);
             ctx!.lineTo(bx, by);
@@ -185,40 +215,36 @@ export function initStarfield(): void {
           }
         }
       }
-      // punto luminoso en el cursor
-      const g = ctx!.createRadialGradient(mouseX, mouseY, 0, mouseX, mouseY, 18);
-      g.addColorStop(0, 'rgba(246, 241, 230, 0.35)');
-      g.addColorStop(1, 'rgba(246, 241, 230, 0)');
-      ctx!.fillStyle = g;
+      ctx!.fillStyle = `rgba(${dotRgb}, 0.28)`;
       ctx!.beginPath();
-      ctx!.arc(mouseX, mouseY, 18, 0, Math.PI * 2);
+      ctx!.arc(mouseX, mouseY, 3, 0, Math.PI * 2);
       ctx!.fill();
     }
 
-    if (reduce()) return;
+    if (!animated || t === 'light') return;
 
     for (const m of meteors) {
       const p = m.life / m.max;
       const alpha = p < 0.2 ? p / 0.2 : 1 - (p - 0.2) / 0.8;
-      const len = 90;
-      const g = ctx!.createLinearGradient(m.x, m.y, m.x - m.vx * (len / 10), m.y - m.vy * (len / 10));
-      g.addColorStop(0, `rgba(246, 241, 230, ${0.9 * alpha})`);
+      const tailX = m.x - m.vx * 9;
+      const tailY = m.y - m.vy * 9;
+      const g = ctx!.createLinearGradient(m.x, m.y, tailX, tailY);
+      g.addColorStop(0, `rgba(246, 241, 230, ${(0.9 * alpha).toFixed(3)})`);
       g.addColorStop(1, 'rgba(246, 241, 230, 0)');
       ctx!.strokeStyle = g;
       ctx!.lineWidth = 1.2;
       ctx!.beginPath();
       ctx!.moveTo(m.x, m.y);
-      ctx!.lineTo(m.x - m.vx * (len / 10), m.y - m.vy * (len / 10));
+      ctx!.lineTo(tailX, tailY);
       ctx!.stroke();
       m.x += m.vx;
       m.y += m.vy;
       m.life += 1;
     }
-    meteors = meteors.filter((m) => m.life < m.max);
+    if (meteors.length) meteors = meteors.filter((m) => m.life < m.max);
   }
 
   function step(dt: number): void {
-    // deriva lenta de las estrellas
     for (const s of stars) {
       s.x += s.vx * dt;
       s.y += s.vy * dt;
@@ -227,21 +253,20 @@ export function initStarfield(): void {
       if (s.y < -4) s.y = height + 4;
       else if (s.y > height + 4) s.y = -4;
     }
-    // suavizado del paralaje
-    px += (targetPx - px) * 0.06;
-    py += (targetPy - py) * 0.06;
+    px += (targetPx - px) * 0.08;
+    py += (targetPy - py) * 0.08;
   }
 
   function loop(now: number): void {
     if (!reduce() && document.visibilityState === 'visible') {
       const dt = Math.min(now - last, 80);
-      if (dt > 30) {
+      if (dt >= FRAME_MS) {
         last = now;
         step(dt / 16.7);
         nextMeteor -= dt;
-        if (nextMeteor <= 0 && isDark()) {
+        if (nextMeteor <= 0 && theme() === 'dark') {
           spawnMeteor();
-          nextMeteor = 8000 + Math.random() * 9000;
+          nextMeteor = 9000 + Math.random() * 9000;
         }
         draw(now);
       }
@@ -249,6 +274,7 @@ export function initStarfield(): void {
     raf = window.requestAnimationFrame(loop);
   }
 
+  buildSprites();
   resize();
   window.addEventListener('resize', resize, { passive: true });
   window.addEventListener('scroll', () => { scrollY = window.scrollY; }, { passive: true });
@@ -260,14 +286,12 @@ export function initStarfield(): void {
       targetPx = (e.clientX / width) * 2 - 1;
       targetPy = (e.clientY / height) * 2 - 1;
     }, { passive: true });
-    window.addEventListener('pointerleave', () => { mouseX = -9999; mouseY = -9999; });
+    document.addEventListener('pointerleave', () => { mouseX = -9999; mouseY = -9999; });
   }
 
-  // Redibuja cuando cambia el tema
   const observer = new MutationObserver(() => draw(performance.now()));
-  observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+  observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme', 'data-effects'] });
 
   raf = window.requestAnimationFrame(loop);
-  document.addEventListener('effects:change', () => draw(performance.now()));
   window.addEventListener('beforeunload', () => window.cancelAnimationFrame(raf));
 }
