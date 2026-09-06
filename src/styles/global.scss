@@ -9,16 +9,33 @@
 // without interfering with snappier hover/click micro-animations.
 
 html.is-theme-transitioning,
-html.is-theme-transitioning *,
-html.is-theme-transitioning *::before,
-html.is-theme-transitioning *::after {
+html.is-theme-transitioning body,
+html.is-theme-transitioning #sidebar,
+html.is-theme-transitioning #topbar,
+html.is-theme-transitioning .main-area,
+html.is-theme-transitioning .site-footer {
   transition:
     background-color var(--theme-transition),
-    border-color var(--theme-transition),
-    color var(--theme-transition),
-    fill var(--theme-transition),
-    stroke var(--theme-transition),
-    box-shadow var(--theme-transition) !important;
+    color var(--theme-transition) !important;
+}
+
+// Cross-fade con View Transitions (una sola capa animada; sin coste por elemento)
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 380ms;
+  animation-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  mix-blend-mode: normal;
+}
+
+// Durante el cambio de tema se pausan las animaciones continuas para que el
+// navegador solo tenga que capturar y fundir dos fotogramas.
+html[data-theme-switching] .halo-layer span,
+html[data-theme-switching] .pedestal__frame,
+html[data-theme-switching] .pedestal__glow,
+html[data-theme-switching] .pedestal__compass,
+html[data-theme-switching] .music-dock__glow,
+html[data-theme-switching] .music-dock__eq i {
+  animation-play-state: paused;
 }
 
 // ─── Reset / Base ──────────────────────────────────────────────────────────

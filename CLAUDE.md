@@ -31,6 +31,7 @@ Extras heredados del blog: `/bitacora` (una entrada MDX por aprendizaje colabora
 - Animaciones de tarjetas: `src/scripts/tilt.ts` (inclinación 3D + foco de luz) sobre elementos con `data-tilt`.
 - Sin notas internas ni textos "pendiente" en la web: lo que falta simplemente no se muestra (bio, foto, LinkedIn, docente).
 - `src/styles/tokens.scss` (paleta y temas) y `src/styles/portfolio.scss` (componentes nuevos). `global.scss` es el heredado del blog RN. Tema claro: papel frío (#f4f5f9), tinta índigo (#3b4a8a) y bronce (#8c6a1f); el canvas dibuja motas de tinta en claro y estrellas en oscuro.
+- Cambio de tema: `theme-toggle.ts` usa `document.startViewTransition` (una sola animación compuesta) y pausa las animaciones continuas mientras dura (`html[data-theme-switching]`); el fundido CSS de respaldo solo toca superficies grandes.
 - Rendimiento: evitar `filter: blur()` animado y `backdrop-filter` en elementos grandes (causaban lag del cursor). El canvas usa sprites pre-renderizados, ~30 fps, máx. 170 estrellas y DPR ≤ 1.5.
 - Redacción: el Manifiesto abre con un ensayo reflexivo (`purposeEssay` en `manifiesto.ts`) y conserva el texto literal de la ficha AC1 como «Así lo escribimos en la primera sesión». Tono: reflexivo en Manifiesto, directo en Inicio.
 - LinkedIn solo aparece en las tarjetas de Equipo (no hay botones de compartir ni correo).
@@ -41,7 +42,7 @@ Extras heredados del blog: `/bitacora` (una entrada MDX por aprendizaje colabora
 - Nombre del docente.
 - AC4 (mapa crítico profesional), podcast, video-reacción, infografía.
 - Banda sonora de AC1 y AC3 (`music:` en el frontmatter).
-- Reemplazar las canciones de Siamés del reproductor fijo cuando el equipo decida las definitivas.
+- Canción de cada integrante (campo `song` en `team.ts`); solo Angel la tiene.
 
 ## Comandos
 
@@ -57,7 +58,7 @@ npm run build    # genera dist/
 
 Despliegue: repositorio `https://github.com/angel5002/Portafolio-Digital` (rama `main`, raíz = esta carpeta). Cada push dispara el workflow de GitHub Pages en `.github/workflows/deploy.yml` (Pages configurado en modo *GitHub Actions*; `BASE=/Portafolio-Digital/`). Sitio publicado: **https://angel5002.github.io/Portafolio-Digital/**.
 
-Banda sonora del reproductor fijo: lista `SOUNDTRACK` en `src/lib/portfolio.ts` (hoy: Siamés — Mr. Fear, As You Get High). Para cambiar canciones basta editar esa lista con el ID de Spotify (`open.spotify.com/track/<ID>`).
+Banda sonora del reproductor fijo: cada integrante tiene un campo `song` en `src/lib/team.ts` (`{ spotify, title, artist }`, ID tomado de `open.spotify.com/track/<ID>`). `SOUNDTRACK` en `portfolio.ts` se deriva de ahí; el dock muestra «La canción de <nombre>» y una pestaña por integrante; en Equipo, el chip «Su canción» de cada tarjeta selecciona la pista en el dock. Hoy solo Angel Vargas (Seal — Crazy).
 
 ## Convenciones
 

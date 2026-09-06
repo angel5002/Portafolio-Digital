@@ -16,7 +16,8 @@ import { team, TEAM_NAME, CAREER } from '../lib/team';
     <h1 class="page-header__title">Quiénes <span class="serif-em">somos</span></h1>
     <p class="page-header__lead">
       Somos seis estudiantes de {CAREER} que decidimos llamarnos Los Estoicos.
-      Esta página nos presenta a cada uno de nosotros: quiénes somos y qué buscamos lograr.
+      Esta página nos presenta a cada uno de nosotros: quiénes somos, qué buscamos lograr
+      y la canción que cada uno eligió para representarse.
     </p>
   </header>
 
@@ -64,6 +65,24 @@ import { team, TEAM_NAME, CAREER } from '../lib/team';
           <p class="member-card__name">{m.fullName}</p>
           <p class="member-card__career">{m.career}</p>
           {m.bio && <p class="member-card__bio">{m.bio}</p>}
+          {m.song && (
+            <a
+              class="member-card__song"
+              href={`https://open.spotify.com/track/${m.song.spotify}`}
+              target="_blank"
+              rel="noreferrer"
+              data-play-track={m.song.spotify}
+              title="Escuchar en el reproductor del portafolio"
+            >
+              <span class="member-card__song-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
+              </span>
+              <span class="member-card__song-text">
+                <span class="member-card__song-label">Su canción</span>
+                <span class="member-card__song-title">{m.song.title} · {m.song.artist}</span>
+              </span>
+            </a>
+          )}
           <div class="member-card__foot">
             <span class="member-card__code" title="Código de estudiante">{m.code}</span>
             {m.linkedin && (

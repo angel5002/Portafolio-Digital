@@ -2741,3 +2741,85 @@ html[data-effects='off'] {
 :root:not([data-theme='dark']) .halo-layer span { opacity: 1; }
 
 :root:not([data-theme='dark']) .music-dock__glow { opacity: 1; }
+
+
+// ─── Equipo: la canción de cada integrante ────────────────────────────────
+
+.member-card__song {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 4px 0 12px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  border: 1px solid var(--glass-border);
+  background: var(--accent-soft);
+  text-decoration: none !important;
+  color: var(--heading-color);
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out, border-color 0.3s ease-in-out;
+}
+
+.member-card__song:hover {
+  transform: translateY(-1px);
+  border-color: var(--accent);
+  box-shadow: 0 10px 22px -14px var(--accent-glow-strong);
+  color: var(--heading-color);
+}
+
+.member-card__song-icon {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: var(--accent);
+  color: #14100a;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+:root:not([data-theme='dark']) .member-card__song-icon { color: #ffffff; }
+.member-card__song-icon svg { width: 14px; height: 14px; }
+
+.member-card__song-text { display: flex; flex-direction: column; min-width: 0; line-height: 1.25; }
+
+.member-card__song-label {
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent-text);
+}
+
+.member-card__song-title {
+  font-size: 12.5px;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+// Pestañas del reproductor con el nombre de quien eligió la canción
+.music-dock__track {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1px;
+  padding: 7px 10px;
+}
+
+.music-dock__track-who {
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent-text);
+}
+
+.music-dock__track-name { max-width: 100%; }
+
+@keyframes dock-pulse {
+  0%   { box-shadow: 0 28px 60px -24px rgba(0, 0, 0, 0.65), 0 0 0 0 var(--accent-glow-strong); }
+  100% { box-shadow: 0 28px 60px -24px rgba(0, 0, 0, 0.65), 0 0 0 18px transparent; }
+}
+
+.music-dock.is-pulse { animation: dock-pulse 0.9s ease-out; }

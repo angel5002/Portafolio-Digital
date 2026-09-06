@@ -1,5 +1,6 @@
 // Estructura del portafolio: secciones requeridas por el curso y hoja de
 // ruta de entregas (fuente: "Estado del portafolio" de las fichas AC1–AC3).
+import { team } from './team';
 
 export const COURSE = {
   name: 'Ética y Deontología Profesional',
@@ -113,17 +114,30 @@ export function isEnabled(status: Status): boolean {
   return status !== 'todo';
 }
 
-/** Banda sonora del portafolio (reproductor fijo). La primera es la inicial. */
+/**
+ * Banda sonora del portafolio: la canción que cada integrante eligió para
+ * representarse (campo `song` en team.ts). El reproductor fijo las lista en
+ * el orden del equipo; la primera es la que suena al abrir el sitio.
+ */
 export interface Track {
   spotify: string;
   title: string;
   artist: string;
+  memberId: string;
+  memberName: string;
+  note?: string;
 }
 
-export const SOUNDTRACK: Track[] = [
-  { spotify: '5XeIQO9gGkGo54naYVVeJP', title: 'Mr. Fear', artist: 'Siamés' },
-  { spotify: '2e6PAITtgVsoOZ9jrndG26', title: 'As You Get High', artist: 'Siamés' }
-];
+export const SOUNDTRACK: Track[] = team
+  .filter((m) => m.song)
+  .map((m) => ({
+    spotify: m.song!.spotify,
+    title: m.song!.title,
+    artist: m.song!.artist,
+    memberId: m.id,
+    memberName: m.name,
+    note: m.song!.note
+  }));
 
 export function progress(): { done: number; total: number; pct: number } {
   const total = roadmap.length;

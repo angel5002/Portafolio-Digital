@@ -28,6 +28,8 @@ export interface Member {
   photoPos?: string;
   /** Iniciales para avatares sin foto */
   initials: string;
+  /** Canción que lo representa (aparece en el reproductor y en su tarjeta) */
+  song?: { spotify: string; title: string; artist: string; note?: string };
 }
 
 export const TEAM_NAME = 'Los Estoicos';
@@ -44,7 +46,8 @@ export const team: Member[] = [
     linkedin: null,
     photo: placeholder,
     hasPhoto: false,
-    initials: 'AV'
+    initials: 'AV',
+    song: { spotify: '7uXtqLi3cMTMDslp4KU6b5', title: 'Crazy', artist: 'Seal' }
   },
   {
     id: 'grecia-vergara',

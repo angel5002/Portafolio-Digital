@@ -1,23 +1,18 @@
-// Light/dark theme toggle. Persists preference in localStorage and wraps
-// the swap with the .is-theme-transitioning class so the cross-fade is slow
-// and smooth without affecting other micro-interactions.
+// Cambio de tema claro/oscuro.
+// Para que el cambio no dé tirones, el cross-fade se hace con la API de
+// View Transitions (una sola animación compuesta de toda la pantalla) en vez
+// de transicionar color y fondo en cada elemento. Si el navegador no la
+// soporta, se usa un fundido ligero solo sobre las superficies grandes.
+import { motionAllowed } from './motion';
+
 type Theme = 'light' | 'dark';
 
 const STORAGE_KEY = 'theme';
 const TRANSITION_CLASS = 'is-theme-transitioning';
-const TRANSITION_HOLD_MS = 480;
+const TRANSITION_HOLD_MS = 420;
 
 function applyTheme(theme: Theme): void {
   document.documentElement.setAttribute('data-theme', theme);
-}
-
-function readStored(): Theme | null {
-  try {
-    const value = localStorage.getItem(STORAGE_KEY);
-    return value === 'light' || value === 'dark' ? value : null;
-  } catch {
-    return null;
-  }
 }
 
 function persist(theme: Theme): void {
@@ -29,41 +24,53 @@ function persist(theme: Theme): void {
 }
 
 let releaseTimer: ReturnType<typeof setTimeout> | undefined;
+let busy = false;
 
-function withTransition(swap: () => void): void {
+function swapWithFallback(next: Theme): void {
   const root = document.documentElement;
   if (releaseTimer) clearTimeout(releaseTimer);
-
   root.classList.add(TRANSITION_CLASS);
-  // Force a paint so the class is in effect before data-theme flips.
   void root.offsetWidth;
-  swap();
-
+  applyTheme(next);
   releaseTimer = setTimeout(() => {
     root.classList.remove(TRANSITION_CLASS);
     releaseTimer = undefined;
   }, TRANSITION_HOLD_MS);
 }
 
+function swap(next: Theme): void {
+  const root = document.documentElement;
+  const doc = document as Document & {
+    startViewTransition?: (cb: () => void) => { finished: Promise<void> };
+  };
+
+  if (!motionAllowed() || !doc.startViewTransition) {
+    if (motionAllowed()) swapWithFallback(next);
+    else applyTheme(next);
+    return;
+  }
+
+  busy = true;
+  root.setAttribute('data-theme-switching', '');
+  const vt = doc.startViewTransition(() => applyTheme(next));
+  vt.finished.finally(() => {
+    root.removeAttribute('data-theme-switching');
+    busy = false;
+  });
+}
+
 export function initThemeToggle(): void {
   const buttons = document.querySelectorAll<HTMLButtonElement>('[data-theme-toggle]');
-  if (buttons.length === 0) return;
-
   buttons.forEach((btn) => {
     if (btn.dataset.bound) return;
     btn.dataset.bound = '1';
     btn.addEventListener('click', () => {
+      if (busy) return;
       const current =
-        (document.documentElement.getAttribute('data-theme') as Theme | null) ||
-        'light';
+        (document.documentElement.getAttribute('data-theme') as Theme | null) || 'dark';
       const next: Theme = current === 'dark' ? 'light' : 'dark';
-      withTransition(() => {
-        applyTheme(next);
-        persist(next);
-      });
+      persist(next);
+      swap(next);
     });
   });
-
-  // El tema oscuro es el predeterminado del sitio; el sistema no lo cambia.
-  void readStored;
 }

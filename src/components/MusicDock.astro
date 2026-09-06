@@ -2,51 +2,60 @@
 // Reproductor fijo de Spotify. Vive fuera de .app, que es lo único que se
 // reemplaza al navegar (ver el swap personalizado en BaseLayout), así el
 // iframe nunca se re-inserta y la música no se corta.
-// Lista de canciones en SOUNDTRACK (portfolio.ts); las pestañas cambian el
-// embed. Se puede plegar; el estado y la canción se guardan en localStorage.
+// Cada canción es la que eligió un integrante (campo `song` en team.ts);
+// las pestañas cambian el embed. El estado y la canción se guardan en
+// localStorage. Desde Equipo, el chip de canción de cada tarjeta también
+// selecciona la pista aquí ([data-play-track]).
 import { SOUNDTRACK } from '../lib/portfolio';
 
 const first = SOUNDTRACK[0];
 const embed = (id: string) => `https://open.spotify.com/embed/track/${id}?utm_source=generator&theme=0`;
+const firstName = (n: string) => n.split(' ')[0];
 ---
 
-<aside class="music-dock" data-music-dock aria-label="Banda sonora del portafolio">
-  <div class="music-dock__glow" aria-hidden="true"></div>
+{first && (
+  <aside class="music-dock" data-music-dock aria-label="Banda sonora del portafolio">
+    <div class="music-dock__glow" aria-hidden="true"></div>
 
-  <button class="music-dock__toggle" type="button" data-music-toggle aria-expanded="true" aria-controls="music-dock-body">
-    <span class="music-dock__eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
-    <span class="music-dock__text">
-      <span class="music-dock__eyebrow">Banda sonora</span>
-      <span class="music-dock__now"><span data-music-title>{first.title}</span> · <span data-music-artist>{first.artist}</span></span>
-    </span>
-    <svg class="music-dock__chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
-  </button>
+    <button class="music-dock__toggle" type="button" data-music-toggle aria-expanded="true" aria-controls="music-dock-body">
+      <span class="music-dock__eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+      <span class="music-dock__text">
+        <span class="music-dock__eyebrow">La canción de <span data-music-member>{first.memberName}</span></span>
+        <span class="music-dock__now"><span data-music-title>{first.title}</span> · <span data-music-artist>{first.artist}</span></span>
+      </span>
+      <svg class="music-dock__chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+    </button>
 
-  <div class="music-dock__body" id="music-dock-body">
-    <div class="music-dock__tracks" role="tablist" aria-label="Canciones">
-      {SOUNDTRACK.map((t, i) => (
-        <button
-          class:list={['music-dock__track', { 'is-active': i === 0 }]}
-          type="button"
-          role="tab"
-          aria-selected={i === 0 ? 'true' : 'false'}
-          data-music-track={t.spotify}
-          data-title={t.title}
-          data-artist={t.artist}
-        >
-          <span class="music-dock__track-n">{String(i + 1).padStart(2, '0')}</span>
-          <span class="music-dock__track-name">{t.title}</span>
-        </button>
-      ))}
+    <div class="music-dock__body" id="music-dock-body">
+      {SOUNDTRACK.length > 1 && (
+        <div class="music-dock__tracks" role="tablist" aria-label="Canciones del equipo">
+          {SOUNDTRACK.map((t, i) => (
+            <button
+              class:list={['music-dock__track', { 'is-active': i === 0 }]}
+              type="button"
+              role="tab"
+              aria-selected={i === 0 ? 'true' : 'false'}
+              data-music-track={t.spotify}
+              data-title={t.title}
+              data-artist={t.artist}
+              data-member={t.memberName}
+              title={`${t.title} · ${t.artist} — elegida por ${t.memberName}`}
+            >
+              <span class="music-dock__track-who">{firstName(t.memberName)}</span>
+              <span class="music-dock__track-name">{t.title}</span>
+            </button>
+          ))}
+        </div>
+      )}
+      <div class="music-dock__frame">
+        <iframe
+          src={embed(first.spotify)}
+          title={`${first.title} — ${first.artist}`}
+          loading="lazy"
+          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+          data-music-frame
+        ></iframe>
+      </div>
     </div>
-    <div class="music-dock__frame">
-      <iframe
-        src={embed(first.spotify)}
-        title={`${first.title} — ${first.artist}`}
-        loading="lazy"
-        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-        data-music-frame
-      ></iframe>
-    </div>
-  </div>
-</aside>
+  </aside>
+)}
