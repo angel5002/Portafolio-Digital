@@ -5,8 +5,10 @@
 // - "Linterna": un halo cálido muy tenue que sigue al cursor (solo tema oscuro
 //   y puntero fino).
 
-const reduce = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-const fine = () => window.matchMedia('(pointer: fine)').matches;
+import { motionAllowed, finePointer } from './motion';
+
+const reduce = () => !motionAllowed();
+const fine = () => finePointer();
 
 let progressBound = false;
 export function initReadingProgress(): void {
@@ -81,7 +83,7 @@ export function initCounters(): void {
 }
 
 export function initMagnetic(): void {
-  if (!fine() || reduce()) return;
+  if (!fine()) return;
   document.querySelectorAll<HTMLElement>('[data-magnetic]').forEach((el) => {
     if (el.dataset.magBound) return;
     el.dataset.magBound = '1';
@@ -89,6 +91,7 @@ export function initMagnetic(): void {
     let rect: DOMRect | null = null;
     el.addEventListener('pointerenter', () => { rect = el.getBoundingClientRect(); });
     el.addEventListener('pointermove', (e) => {
+      if (reduce()) return;
       if (!rect) rect = el.getBoundingClientRect();
       const dx = e.clientX - (rect.left + rect.width / 2);
       const dy = e.clientY - (rect.top + rect.height / 2);
@@ -104,7 +107,7 @@ export function initMagnetic(): void {
 let lanternBound = false;
 export function initLantern(): void {
   const el = document.querySelector<HTMLElement>('[data-lantern]');
-  if (!el || lanternBound || !fine() || reduce()) return;
+  if (!el || lanternBound || !fine()) return;
   lanternBound = true;
   let x = window.innerWidth / 2;
   let y = window.innerHeight / 2;
@@ -119,6 +122,10 @@ export function initLantern(): void {
     else raf = 0;
   };
   window.addEventListener('pointermove', (e) => {
+    if (reduce()) {
+      el.classList.remove('is-on');
+      return;
+    }
     tx = e.clientX;
     ty = e.clientY;
     el.classList.add('is-on');

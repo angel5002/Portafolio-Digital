@@ -28,6 +28,8 @@ interface Meteor {
   max: number;
 }
 
+import { motionAllowed, finePointer } from './motion';
+
 const LINK_RADIUS = 150;
 const PARALLAX_MOUSE = 22; // px máximos de desplazamiento por puntero
 const PARALLAX_SCROLL = 0.06; // fracción del scroll que se traslada
@@ -39,8 +41,8 @@ export function initStarfield(): void {
   const ctx = canvas.getContext('2d');
   if (!ctx) return;
 
-  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const fine = window.matchMedia('(pointer: fine)').matches;
+  const reduce = () => !motionAllowed();
+  const fine = finePointer();
 
   let stars: Star[] = [];
   let meteors: Meteor[] = [];
@@ -130,7 +132,7 @@ export function initStarfield(): void {
     const near: [number, number, number][] = []; // x, y, alpha (para constelación)
 
     for (const s of stars) {
-      const tw = reduce ? 1 : 0.65 + 0.35 * Math.sin(t * s.speed + s.phase);
+      const tw = reduce() ? 1 : 0.65 + 0.35 * Math.sin(t * s.speed + s.phase);
       const a = s.base * tw;
       const [x, y] = screenPos(s);
 
@@ -149,7 +151,7 @@ export function initStarfield(): void {
         ctx!.fill();
       }
 
-      if (fine && !reduce) {
+      if (fine && !reduce()) {
         const dx = x - mouseX;
         const dy = y - mouseY;
         const d2 = dx * dx + dy * dy;
@@ -193,7 +195,7 @@ export function initStarfield(): void {
       ctx!.fill();
     }
 
-    if (reduce) return;
+    if (reduce()) return;
 
     for (const m of meteors) {
       const p = m.life / m.max;
@@ -231,7 +233,7 @@ export function initStarfield(): void {
   }
 
   function loop(now: number): void {
-    if (!reduce && document.visibilityState === 'visible') {
+    if (!reduce() && document.visibilityState === 'visible') {
       const dt = Math.min(now - last, 80);
       if (dt > 30) {
         last = now;
@@ -265,6 +267,7 @@ export function initStarfield(): void {
   const observer = new MutationObserver(() => draw(performance.now()));
   observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
 
-  if (!reduce) raf = window.requestAnimationFrame(loop);
+  raf = window.requestAnimationFrame(loop);
+  document.addEventListener('effects:change', () => draw(performance.now()));
   window.addEventListener('beforeunload', () => window.cancelAnimationFrame(raf));
 }

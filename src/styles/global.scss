@@ -721,7 +721,7 @@ code {
   to { transform: scale(1); opacity: 1; }
 }
 
-@media (prefers-reduced-motion: reduce) {
+html[data-effects='off'] {
   .cover--hero,
   .cover--hero .cover__img {
     animation: none !important;
@@ -1039,7 +1039,7 @@ code {
   .hero-cover__title { max-width: 14ch; }
 }
 
-@media (prefers-reduced-motion: reduce) {
+html[data-effects='off'] {
   .hero-cover__img,
   .hero-cover__eyebrow,
   .hero-cover__title,
@@ -1732,7 +1732,7 @@ code {
   transform: translateY(0);
 }
 
-@media (prefers-reduced-motion: reduce) {
+html[data-effects='off'] {
   *,
   *::before,
   *::after {

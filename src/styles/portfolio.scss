@@ -2209,7 +2209,7 @@
 
 // ─── Reducción de movimiento ──────────────────────────────────────────────
 
-@media (prefers-reduced-motion: reduce) {
+html[data-effects='off'] {
   .halo-layer span,
   .pedestal__frame,
   .pedestal__glow,
@@ -2288,7 +2288,7 @@
 
 :root:not([data-theme='dark']) .pedestal__compass { opacity: 0.22; }
 
-@media (prefers-reduced-motion: reduce) {
+html[data-effects='off'] {
   .pedestal__compass { animation: none; }
 }
 
@@ -2376,7 +2376,7 @@
 
 .reveal-stagger.is-revealed > *:nth-child(6) { transition-delay: 350ms; }
 
-@media (prefers-reduced-motion: reduce) {
+html[data-effects='off'] {
   .reveal-stagger > * { filter: none; transform: none; }
 }
 
@@ -2582,7 +2582,7 @@
   .music-dock.is-collapsed { width: 220px; }
 }
 
-@media (prefers-reduced-motion: reduce) {
+html[data-effects='off'] {
   .music-dock__eq i, .music-dock__glow { animation: none; }
 }
 
@@ -2600,7 +2600,7 @@
   .back-to-top { left: calc(var(--sidebar-width-lg) + 24px); }
 }
 
-@media (prefers-reduced-motion: reduce) {
+html[data-effects='off'] {
   .music-dock__eq i { animation: none; }
 }
 
@@ -2719,7 +2719,7 @@
 ::view-transition-old(root),
 ::view-transition-new(root) { animation: none; }
 
-@media (prefers-reduced-motion: reduce) {
+html[data-effects='off'] {
   #main-wrapper { animation: none; }
   .lantern { display: none; }
 }

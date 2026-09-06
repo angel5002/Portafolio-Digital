@@ -2,12 +2,12 @@
 // marcadas con [data-tilt]. Solo con puntero fino (mouse) y sin
 // prefers-reduced-motion; en táctil las tarjetas se quedan planas.
 
+import { motionAllowed, finePointer } from './motion';
+
 const MAX_TILT = 5; // grados
 
 export function initTilt(): void {
-  const fine = window.matchMedia('(pointer: fine)').matches;
-  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (!fine || reduce) return;
+  if (!finePointer()) return;
 
   const cards = document.querySelectorAll<HTMLElement>('[data-tilt]');
   cards.forEach((card) => {
@@ -30,12 +30,13 @@ export function initTilt(): void {
     };
 
     card.addEventListener('pointerenter', () => {
+      if (!motionAllowed()) return;
       rect = card.getBoundingClientRect();
       card.classList.add('is-tilting');
     });
 
     card.addEventListener('pointermove', (e) => {
-      if (raf) return;
+      if (raf || !card.classList.contains('is-tilting')) return;
       raf = window.requestAnimationFrame(() => {
         raf = 0;
         update(e.clientX, e.clientY);

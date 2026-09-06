@@ -7,7 +7,7 @@ export function initScrollReveal(): void {
 
   if (
     typeof IntersectionObserver === 'undefined' ||
-    window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    document.documentElement.getAttribute('data-effects') === 'off'
   ) {
     targets.forEach((el) => el.classList.add('is-revealed'));
     return;

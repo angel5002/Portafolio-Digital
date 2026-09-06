@@ -48,6 +48,10 @@ const favicon = `${base.replace(/\/$/, '')}/favicon.svg`;
         const stored = forced || localStorage.getItem('theme');
         const theme = stored === 'light' || stored === 'dark' ? stored : 'dark';
         document.documentElement.setAttribute('data-theme', theme);
+        // Efectos: 'on'/'off' guardado por el usuario; si no, sigue al sistema.
+        const fx = localStorage.getItem('effects');
+        const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        document.documentElement.setAttribute('data-effects', fx === 'on' || fx === 'off' ? fx : (reduce ? 'off' : 'on'));
       } catch (_e) {}
     </script>
   </head>
@@ -99,16 +103,20 @@ const favicon = `${base.replace(/\/$/, '')}/favicon.svg`;
       import { initTilt } from '../scripts/tilt';
       import { initMusicDock } from '../scripts/music-dock';
       import { initReadingProgress, initCounters, initMagnetic, initLantern } from '../scripts/interactions';
+      import { initEffectsToggle } from '../scripts/motion';
 
       // Swap personalizado: en vez de reemplazar <body> completo (lo que
       // re-inserta el iframe de Spotify y lo recarga), solo se cambia .app.
       // El reproductor, el canvas de estrellas y los halos quedan intactos.
       document.addEventListener('astro:before-swap', (e) => {
         e.swap = () => {
-          const theme = document.documentElement.getAttribute('data-theme');
+          const html = document.documentElement;
+          const theme = html.getAttribute('data-theme');
+          const effects = html.getAttribute('data-effects');
           swapFunctions.deselectScripts(e.newDocument);
           swapFunctions.swapRootAttributes(e.newDocument);
-          if (theme) document.documentElement.setAttribute('data-theme', theme);
+          if (theme) html.setAttribute('data-theme', theme);
+          if (effects) html.setAttribute('data-effects', effects);
           swapFunctions.swapHeadElements(e.newDocument);
           const restoreFocus = swapFunctions.saveFocus();
           const oldApp = document.querySelector('[data-app]');
@@ -132,8 +140,11 @@ const favicon = `${base.replace(/\/$/, '')}/favicon.svg`;
         initCounters();
         initMagnetic();
         initLantern();
+        initEffectsToggle();
       };
       document.addEventListener('astro:page-load', init);
+      // Al activar efectos en vivo se enlazan las interacciones que estaban apagadas
+      document.addEventListener('effects:change', init);
     </script>
   </body>
 </html>
