@@ -47,7 +47,7 @@ export const team: Member[] = [
     photo: placeholder,
     hasPhoto: false,
     initials: 'AV',
-    song: { spotify: '7uXtqLi3cMTMDslp4KU6b5', title: 'Crazy', artist: 'Seal' }
+    song: { spotify: '2KP6bTmxOSEVMXAnbapkpa', title: 'Crazy', artist: 'Seal' }
   },
   {
     id: 'grecia-vergara',
