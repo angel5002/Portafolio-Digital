@@ -20,9 +20,9 @@ export const metaphor = {
 // Introducción reflexiva al propósito (redacción del portafolio; el texto
 // literal de la ficha AC1 se conserva en `purpose.team`).
 export const purposeEssay = [
-  'Una carrera que se llama Ingeniería Empresarial y de Sistemas suena a negocios y a tecnología, no a ética. Por eso conviene empezar por la pregunta incómoda: ¿de dónde nace lo ético en lo que hacemos? La torre de Babel nos dio la respuesta. La torre no cae por falta de piedras ni de esfuerzo: cae cuando los constructores dejan de entenderse. Una organización es exactamente eso, personas coordinándose a través de procesos y de sistemas. Y cada decisión de diseño, un formulario, un flujo de cobro, un indicador de rendimiento, fija de antemano cómo será tratada una persona que no estuvo en la reunión donde se decidió. Ahí aparece la ética: no como un anexo al final del proyecto, sino en el instante en que una decisión técnica se convierte en una decisión sobre alguien.',
-  'Aristóteles lo diría de otra forma: toda práctica tiene un telos, un fin propio que la justifica y que no se confunde con lo que se obtiene a cambio. Para nuestra carrera, ese fin no es la rentabilidad. La rentabilidad es un bien externo, necesario para que la organización exista, pero insuficiente para decir que funciona bien. El bien interno de la ingeniería empresarial es que la organización funcione para quienes la habitan y dependen de ella. Cuando decimos que nuestro telos es integrar éticamente el negocio y la tecnología, queremos decir algo preciso: que la eficiencia es un medio y la persona es el fin, nunca al revés. Es la fórmula de Kant, y es también lo que Giusti llama el sentido de la ética: no un catálogo de normas, sino la pregunta por cómo vivir bien con otros. En nuestro campo esa pregunta se traduce en dos más concretas: ¿para quién funciona este sistema y a quién deja fuera?',
-  'De ahí se desprenden los otros dos conceptos. La areté, la excelencia, no es la perfección técnica sino el hábito de decidir bien cuando el plazo aprieta y el presupuesto manda; se demuestra en la decisión pequeña que nadie va a revisar. Y la eudaimonía, el florecimiento, no se mide en el tablero de la empresa sino en la vida de quienes usan lo que construimos. Por eso este Manifiesto no termina en una declaración: sigue con las poblaciones que nos comprometemos a proteger y con la jerarquía de valores desde la que decidimos. Son la forma concreta de responder a la pregunta con la que empezamos.'
+  'Una carrera que se llama Ingeniería Empresarial y de Sistemas suena a negocios y a tecnología, no a ética. Por eso empezamos por la pregunta incómoda: ¿de dónde nace lo ético en lo que hacemos? La torre de Babel nos dio la respuesta. La torre no cae por falta de piedras ni de esfuerzo: cae cuando los constructores dejan de entenderse. Una organización es exactamente eso, personas coordinándose a través de procesos y de sistemas. Y cada decisión de diseño, un formulario, un flujo de cobro, un indicador de rendimiento, fija de antemano cómo será tratada una persona que no estuvo en la reunión donde se decidió. Ahí aparece la ética: no como un anexo al final del proyecto, sino en el instante en que una decisión técnica se convierte en una decisión sobre alguien.',
+  'Aristóteles (2014) lo diría de otra forma: toda práctica tiene un telos, un fin propio que la justifica y que no se confunde con lo que se obtiene a cambio. Para nuestra carrera, ese fin no es la rentabilidad. La rentabilidad es un bien externo, necesario para que la organización exista, pero insuficiente para decir que funciona bien. El bien interno de la ingeniería empresarial es que la organización funcione para quienes la habitan y dependen de ella. Cuando decimos que nuestro telos es integrar éticamente el negocio y la tecnología, decimos algo preciso: que la eficiencia es un medio y la persona es el fin, nunca al revés. Es la fórmula de Kant (1785/2012), y es también lo que Giusti (2007) llama el sentido de la ética: no un catálogo de normas, sino la pregunta por cómo vivir bien con otros. En nuestro campo esa pregunta se traduce en dos más concretas: ¿para quién funciona este sistema y a quién deja fuera?',
+  'De ahí se desprenden los otros dos conceptos. La areté, la excelencia, no es la perfección técnica sino el hábito de decidir bien cuando el plazo aprieta y el presupuesto manda; se demuestra en la decisión pequeña que nadie va a revisar. Y la eudaimonía, el florecimiento, no se mide en el tablero de la empresa sino en la vida de quienes usan lo que construimos. Por eso este Manifiesto no termina en una declaración: sigue con las poblaciones que nos comprometemos a proteger, con la jerarquía de valores desde la que decidimos y con las fallas que reconocemos en nuestro propio campo. Son la forma concreta de responder a la pregunta con la que empezamos.'
 ];
 
 export const purpose = {
@@ -154,11 +154,11 @@ export const schelerSheets: SchelerSheet[] = [
   {
     memberId: 'jose-vigil',
     rows: [
-      { has: 'si', example: 'Crear sistemas que realmente ayuden a las personas en su día a día. Por ejemplo, una plataforma que facilite el trabajo de los empleados y reduzca tareas complicadas o repetitivas, permitiéndoles trabajar de una manera más cómoda y eficiente.' },
-      { has: 'parcial', example: 'Que los sistemas o aplicaciones sean fáciles de entender y utilizar. No basta con que un sistema funcione bien: también debe generar una buena experiencia para el usuario y hacer que su trabajo sea más sencillo y agradable.' },
-      { has: 'si', example: 'Aplicar los conocimientos de manera responsable y ética. Que las decisiones y los sistemas desarrollados no solo beneficien económicamente a una empresa, sino que también aporten algo positivo a las personas y a la sociedad.' },
-      { has: 'si', example: 'Ayudar a las empresas a mejorar sus procesos mediante la tecnología: por ejemplo, un sistema que permita controlar mejor las ventas, el inventario o la información, ahorrando tiempo, reduciendo errores y mejorando los resultados.' },
-      { has: 'parcial', example: 'No perder los principios y valores al ejercer la profesión. Aunque se trabaje principalmente con empresas y tecnología, siempre actuar con respeto, honestidad y responsabilidad hacia las personas que utilicen o se vean afectadas por los sistemas desarrollados.' }
+      { has: 'si', example: 'En mi carrera me gustaría crear sistemas que realmente ayuden a las personas en su día a día. Por ejemplo, desarrollar una plataforma que facilite el trabajo de los empleados y reduzca tareas complicadas o repetitivas que requieran mayor esfuerzo, permitiéndoles trabajar de una manera más cómoda y eficiente.' },
+      { has: 'parcial', example: 'Me gustaría que los sistemas o aplicaciones que pueda desarrollar sean fáciles de entender y utilizar. Considero que no basta con que un sistema funcione bien: también debe generar una buena experiencia para el usuario y hacer que su trabajo sea más sencillo y agradable.' },
+      { has: 'si', example: 'Quiero aplicar mis conocimientos de manera responsable y ética. Para mí sería importante que las decisiones que tome y los sistemas que desarrolle no solo beneficien económicamente a una empresa, sino que también aporten algo positivo a las personas y a la sociedad.' },
+      { has: 'si', example: 'Uno de mis objetivos como ingeniero sería ayudar a las empresas a mejorar sus procesos mediante la tecnología. Por ejemplo, podría desarrollar un sistema que permita controlar mejor las ventas, el inventario o la información, ayudando a ahorrar tiempo, reducir errores y mejorar los resultados de la empresa.' },
+      { has: 'parcial', example: 'Personalmente, considero importante no perder mis principios y valores al momento de ejercer mi profesión. Aunque trabaje principalmente con empresas y tecnología, siempre buscaría actuar con respeto, honestidad y responsabilidad hacia las personas que utilicen o se vean afectadas por los sistemas que desarrolle.' }
     ]
   },
   {
@@ -178,3 +178,51 @@ export const tension =
 
 export const axiologicalPosition =
   'Como equipo priorizamos los valores espirituales y vitales sobre los económicos, porque nuestra profesión no debe enfocarse únicamente en generar beneficios financieros, sino en crear soluciones responsables. Al igual que nuestra metáfora de la Torre de Babel, una estructura tecnológica solo puede sostenerse cuando considera a todas las personas involucradas. Por ello buscamos desarrollar sistemas eficientes, pero siempre respetando la dignidad, inclusión y bienestar de los usuarios.';
+
+// ─── AC4 · Mapa de negligencias y acciones positivas ───────────────────────
+
+export interface Negligence {
+  short: string;
+  failure: string;
+  fallacy: string;
+  reasoning: string;
+  population: string;
+  impact: string;
+  action: string;
+}
+
+export const negligences: Negligence[] = [
+  {
+    short: 'Violación de la privacidad',
+    failure: 'Caso Interbank (octubre de 2024): 3 millones de clientes expuestos por una brecha en un proveedor tercero.',
+    fallacy: 'Apelación a la autoridad',
+    reasoning: 'Confiar en un proveedor «porque ya está homologado» es una excusa cómoda para no hacer el trabajo de verificar. Nadie audita lo que ya da por seguro, y ese es justamente el problema: la seguridad no se delega, se vigila. Aquí no hubo un error técnico imposible de prever, hubo una decisión de no mirar dos veces algo que ya se daba por resuelto.',
+    population: 'Microempresarios informales',
+    impact: 'Dependen de la banca digital para cobrar y facturar; con sus datos y credenciales filtradas quedan expuestos a fraude sin capacidad técnica de reclamo.',
+    action: 'Auditorías de seguridad a proveedores terceros y cifrado real verificado, no solo «de papel».'
+  },
+  {
+    short: 'Exclusión digital',
+    failure: 'Al migrar servicios (banca, trámites, atención al cliente) se da por hecho que cualquiera puede completarlos en línea y se apaga el canal presencial o telefónico.',
+    fallacy: 'Posverdad y generalización apresurada',
+    reasoning: 'Decir que «el Perú ya está digitalizado» es más una excusa para ahorrar costos que una descripción real del país. Es mucho más barato cerrar una ventanilla y decir «descárguese la app» que invertir en llegar a donde la señal no llega. El discurso de la digitalización total no describe la realidad: la maquilla para justificar que se deje de atender a quien no encaja en el molde del usuario ideal.',
+    population: 'Clientes de zonas con poca conectividad',
+    impact: 'Quedan sin soporte real mientras el sistema asume un usuario ideal que no existe en su contexto.',
+    action: 'Medir la cobertura real antes de cerrar un canal y sostener una vía mixta: ventanilla, SMS, agentes o bodegas.'
+  },
+  {
+    short: 'Negligencia en accesibilidad',
+    failure: 'Plataformas de RENIEC, SUNAT y bancos aprobadas sin testeo real con personas con discapacidad.',
+    fallacy: 'Posverdad',
+    reasoning: 'Aprobar un sistema porque «cumple los requisitos técnicos» sin haberlo probado con una persona real con discapacidad no es un descuido, es preferir la versión cómoda de los hechos antes que la incómoda. Es más fácil marcar un checklist que sentarse a ver si alguien puede usar el sistema de verdad. El resultado es un sistema que existe en el papel, pero no en la vida de quien lo necesita.',
+    population: 'Personas con discapacidad',
+    impact: 'Pierden autonomía sobre trámites que deberían poder hacer solas y terminan dependiendo de terceros para algo tan básico como sacar su DNI o hacer una transferencia.',
+    action: 'Testing obligatorio con usuarios reales con discapacidad antes de lanzar cualquier plataforma pública o bancaria.'
+  }
+];
+
+export const socraticQuestion =
+  '¿Por qué en ingeniería de sistemas seguimos llamando «listo» a un sistema que nunca se probó con la persona que más lo necesita?';
+
+export const manifestoClosing =
+  'Empezamos con la Torre de Babel: una estructura que no colapsa por falta de esfuerzo, sino porque quienes la construyen dejan de mirar a quién están dejando fuera. Por eso decidimos priorizar los valores espirituales y vitales sobre los económicos, y hoy reconocemos que nuestro propio campo sostiene sus fallas —la confianza ciega en un proveedor, la digitalización que excluye, la accesibilidad que solo existe en el papel— con la misma excusa: dar por resuelto lo que nunca se verificó. Sostener la torre no es evitar que se caiga, es dejar de fingir que todos están dentro cuando en realidad se quedaron fuera el microempresario, el usuario sin señal y la persona con discapacidad.';

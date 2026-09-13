@@ -239,6 +239,24 @@
   color-scheme: dark;
 }
 
+// ─── Referencias: tono rojizo, como una estrella roja entre el dorado ──────
+// Claro: ladrillo profundo (legible sobre papel frío). Oscuro: coral tipo
+// Antares, cálido y luminoso sobre la noche índigo.
+
+:root {
+  --refs-accent: #a4372a;
+  --refs-soft: rgba(164, 55, 42, 0.08);
+  --refs-border: rgba(164, 55, 42, 0.28);
+  --refs-glow: rgba(214, 110, 90, 0.16);
+}
+
+[data-theme='dark'] {
+  --refs-accent: #f28b79;
+  --refs-soft: rgba(242, 139, 121, 0.1);
+  --refs-border: rgba(242, 139, 121, 0.28);
+  --refs-glow: rgba(232, 100, 80, 0.16);
+}
+
 // Alias SCSS de compilación
 $breakpoint-sm: 576px;
 $breakpoint-md: 768px;

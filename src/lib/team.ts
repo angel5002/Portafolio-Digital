@@ -1,4 +1,4 @@
-// Integrantes del equipo "Los Estoicos" (fuente: fichas AC1–AC3, HUM-010).
+// Integrantes del equipo "Los Estoicos" (fuente: fichas AC1–AC4, HUM-010).
 // Las fotos viven en src/assets/images/equipo; quien no tiene foto usa el
 // SVG placeholder. `photoPos` ajusta el encuadre (object-position) de la
 // imagen dentro del recorte cuadrado de la tarjeta.
@@ -6,6 +6,7 @@
 import type { ImageMetadata } from 'astro:assets';
 import grecia from '../assets/images/equipo/grecia-vergara.jpg';
 import hideki from '../assets/images/equipo/hideki-fukuhara.jpg';
+import jose from '../assets/images/equipo/jose-vigil.jpg';
 import laryel from '../assets/images/equipo/laryel-negron.jpg';
 import leonardo from '../assets/images/equipo/leonardo-abanto.jpg';
 import placeholder from '../assets/images/equipo/placeholder.svg';
@@ -19,7 +20,7 @@ export interface Member {
   fullName: string;
   code: string;
   career: string;
-  /** Reseña breve (máx. 2 líneas). `null` = pendiente */
+  /** Reseña breve (máx. 2 líneas), escrita por el integrante en primera persona. `null` = pendiente */
   bio: string | null;
   /** URL de LinkedIn. `null` = pendiente */
   linkedin: string | null;
@@ -42,7 +43,7 @@ export const team: Member[] = [
     fullName: 'Angel Jaime Vargas Flores',
     code: '100182073',
     career: CAREER,
-    bio: 'Estudiante de Ingeniería Empresarial y de Sistemas. Curioso por naturaleza, dedica gran parte de su tiempo a investigar herramientas tecnológicas.',
+    bio: 'Estudio Ingeniería Empresarial y de Sistemas. Soy curioso por naturaleza y dedico gran parte de mi tiempo a investigar herramientas tecnológicas.',
     linkedin: null,
     photo: placeholder,
     hasPhoto: false,
@@ -55,7 +56,7 @@ export const team: Member[] = [
     fullName: 'Grecia Hadid Vergara Carpio',
     code: '100182640',
     career: CAREER,
-    bio: null,
+    bio: 'Soy estudiante de Ingeniería Empresarial y de Sistemas, con interés en descubrir nuevas ideas y analizar la historia detrás de cada acontecimiento para aprender de ellos.',
     linkedin: null,
     photo: grecia,
     hasPhoto: true,
@@ -68,7 +69,7 @@ export const team: Member[] = [
     fullName: 'Hideki Fukuhara Taira',
     code: '100176939',
     career: CAREER,
-    bio: 'Tiene 18 años y estudia Ingeniería Empresarial y de Sistemas. Le apasionan las matemáticas y aprender cosas nuevas.',
+    bio: 'Tengo 18 años y estudio Ingeniería Empresarial y de Sistemas. Me apasionan las matemáticas y aprender cosas nuevas.',
     linkedin: null,
     photo: hideki,
     hasPhoto: true,
@@ -83,8 +84,9 @@ export const team: Member[] = [
     career: CAREER,
     bio: null,
     linkedin: null,
-    photo: placeholder,
-    hasPhoto: false,
+    photo: jose,
+    hasPhoto: true,
+    photoPos: 'center 30%',
     initials: 'JV'
   },
   {
@@ -93,7 +95,7 @@ export const team: Member[] = [
     fullName: 'Laryel John Negrón Galindo',
     code: '100178529',
     career: CAREER,
-    bio: 'Orientado al detalle y al rigor metodológico. Para él, la estadística es el lenguaje preciso con el que la realidad puede ser descrita y cuestionada.',
+    bio: 'Me oriento al detalle y al rigor metodológico. Para mí, la estadística es el lenguaje preciso con el que la realidad puede ser descrita y cuestionada.',
     linkedin: null,
     photo: laryel,
     hasPhoto: true,
@@ -106,7 +108,7 @@ export const team: Member[] = [
     fullName: 'Leonardo Manuel Abanto Huertas',
     code: '100203036',
     career: CAREER,
-    bio: 'Comprometido con aprender y compartir conocimiento. Valora el trabajo en equipo y la diversidad de perspectivas que cada compañero aporta al grupo.',
+    bio: 'Estoy comprometido con aprender y compartir conocimiento. Valoro el trabajo en equipo y la diversidad de perspectivas que cada compañero aporta al grupo.',
     linkedin: null,
     photo: leonardo,
     hasPhoto: true,

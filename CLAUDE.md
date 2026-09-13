@@ -12,7 +12,7 @@ El sitio reutiliza el diseño y las funcionalidades del blog de Realidad Naciona
 |---|---|---|---|
 | Inicio (hero + resumen) | `/` | — | listo |
 | Equipo | `/equipo` | — | listo (faltan datos, ver abajo) |
-| Manifiesto de Identidad Ética | `/manifiesto` | I · sem. 1–5 | AC1–AC3 integrados; AC4 pendiente |
+| Manifiesto de Identidad Ética | `/manifiesto` | I · sem. 1–5 | AC1–AC4 integrados |
 | Podcast de Dilema Moral | `/podcast` | II · sem. 6–7 | desactivada (plantilla en `src/pages-disabled/`) |
 | Video-reacción crítico | `/video-reaccion` | III · sem. 9–12 | desactivada (plantilla en `src/pages-disabled/`) |
 | Infografía de Integridad y Sostenibilidad | `/infografia` | IV · sem. 13–15 | desactivada (plantilla en `src/pages-disabled/`) |
@@ -38,9 +38,15 @@ Extras heredados del blog: `/bitacora` (una entrada MDX por aprendizaje colabora
 
 ## Pendientes de contenido
 
-- Reseñas de Grecia Vergara y José Vigil; fotos de Angel Vargas y José Vigil; LinkedIn de todos.
+- Reseñas de Grecia Vergara y José Vigil; foto de Angel Vargas; LinkedIn de todos.
 - Nombre del docente.
-- AC4 (mapa crítico profesional), podcast, video-reacción, infografía.
+- Podcast, video-reacción, infografía.
+
+## Referencias y redacción
+
+- `src/lib/referencias.ts` — bibliografía APA 7 de cada AC, tomada de la «Conexión teórica» de su ficha (no inventar editoriales ni iniciales que la ficha no trae). `src/components/References.astro` la muestra como panel al final de cada entrada de la bitácora (vía `EntryLayout`, por `number`) y, con `label`, como grupo dentro del panel único «Referencias» al final del Manifiesto (`#referencias`, un ancla `#referencias-acN` por AC; cada bloque tiene un enlace «Referencias de ACN ↓»). Color propio rojizo: tokens `--refs-*` en `tokens.scss` (ladrillo en claro, coral tipo Antares en oscuro). Al añadir un AC nuevo: agregar su lista ahí y citar en el texto (autor, año) cuando corresponda.
+- Redacción del equipo en primera persona y en forma directa: «Elegimos…», «Identificamos…», no «Teníamos que elegir…», «Tuvimos que…», «La consigna fue…». El sitio lo escribimos nosotros: nunca una voz externa que hable «del equipo» o «de él/ella».
+- Reseñas de `team.ts` y ejemplos individuales de las tablas de Scheler: primera persona del singular, tal como cada integrante los escribió («Estudio…», «Me apasionan…», «En mi carrera me gustaría…»). No pasarlos a tercera persona ni a forma impersonal.
 - Banda sonora de AC1 y AC3 (`music:` en el frontmatter).
 - Canción de cada integrante (campo `song` en `team.ts`); solo Angel la tiene.
 
@@ -62,6 +68,6 @@ Banda sonora del reproductor fijo: cada integrante tiene un campo `song` en `src
 
 ## Convenciones
 
-- Idioma: español. Textos del Manifiesto transcritos de las fichas AC1–AC3 con correcciones mínimas de tipeo; no reescribirlos sin acuerdo del equipo.
+- Idioma: español. Textos del Manifiesto transcritos de las fichas AC1–AC4 con correcciones mínimas de tipeo; no reescribirlos sin acuerdo del equipo.
 - Mantener el tema oscuro como predeterminado; el claro debe seguir funcionando (tokens en `tokens.scss`).
 - No introducir dependencias nuevas sin necesidad; el sitio es estático.

@@ -44,8 +44,8 @@ export const sections: Section[] = [
     label: 'Manifiesto',
     title: 'Manifiesto de Identidad Ética',
     eyebrow: 'Módulo I · Semanas 1–5',
-    desc: 'Nuestra metáfora, nuestro propósito profesional, las poblaciones que nos comprometemos a proteger y los valores desde los que decidimos.',
-    status: 'wip',
+    desc: 'Nuestra metáfora, nuestro propósito profesional, las poblaciones que nos comprometemos a proteger, los valores desde los que decidimos y las fallas que reconocemos en nuestro campo.',
+    status: 'done',
     icon: 'compass'
   },
   {
@@ -94,7 +94,7 @@ export const roadmap: Milestone[] = [
   { code: 'AC1', title: 'Metáfora artística y propósito de la carrera', when: 'Semana 1', status: 'done', href: 'bitacora/ac1-metafora-artistica', note: 'Manifiesto' },
   { code: 'AC2', title: 'Poblaciones vulnerables y compromiso ético', when: 'Semana 2', status: 'done', href: 'bitacora/ac2-poblaciones-vulnerables', note: 'Manifiesto' },
   { code: 'AC3', title: 'Jerarquía de valores y tensión axiológica', when: 'Semana 3', status: 'done', href: 'bitacora/ac3-jerarquia-de-valores', note: 'Manifiesto' },
-  { code: 'AC4', title: 'Mapa de negligencias y propuestas de mejora', when: 'Semana 4', status: 'wip', note: 'Manifiesto' },
+  { code: 'AC4', title: 'Mapa de negligencias y acciones positivas', when: 'Semana 4', status: 'done', href: 'bitacora/ac4-mapa-de-negligencias', note: 'Manifiesto' },
   { code: 'EC1', title: 'Presentación del Manifiesto de Identidad Ética completo', when: 'Semana 5', status: 'todo', href: 'manifiesto', note: '18 % de la nota' },
   { code: 'AC5–AC6', title: 'Guion del podcast (dilema ético profesional)', when: 'Semanas 6–7', status: 'todo', href: 'podcast' },
   { code: 'AC7–AC9', title: 'Video-reacción al podcast', when: 'Semanas 9–11', status: 'todo', href: 'video-reaccion' },
