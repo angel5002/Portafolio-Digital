@@ -2624,8 +2624,10 @@ html[data-effects='off'] {
 
 .music-dock__body { padding: 0 12px 12px; }
 
+// Tres por fila: con cinco o seis canciones una sola fila cortaba los títulos
 .music-dock__tracks {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 6px;
   padding: 0 0 10px;
 }

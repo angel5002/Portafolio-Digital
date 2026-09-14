@@ -104,7 +104,8 @@ export const team: Member[] = [
     photo: laryel,
     hasPhoto: true,
     photoPos: 'center 28%',
-    initials: 'LN'
+    initials: 'LN',
+    song: { spotify: '0YxQ5bR8jTvOxG06vEmsq3', title: 'Loco por Volverte a Ver', artist: 'Chili Fernández' }
   },
   {
     id: 'leonardo-abanto',
