@@ -1,106 +1,200 @@
-// Reproductor fijo: plegar/desplegar y cambiar de canción.
-// Plegar solo oculta el bloque (el iframe sigue vivo, la música no se corta).
-// Cambiar de canción sí recarga el embed: es lo esperado.
-// Cualquier elemento de la página con [data-play-track="ID"] (por ejemplo el
-// chip de canción en las tarjetas de Equipo) selecciona esa pista en el dock.
-const KEY_STATE = 'music-dock';
-const KEY_TRACK = 'music-dock-track';
+// Reproductor fijo con la canción de cada integrante.
+// - Empieza plegado y en silencio. Al abrirlo por primera vez suena la
+//   canción seleccionada (la primera es la de Angel).
+// - Cada canción tiene su propio embed de Spotify, creado una sola vez (al
+//   pasar el cursor por el reproductor o al abrirlo) y apilado en el mismo
+//   recuadro. Cambiar de pestaña no recarga nada: muestra el embed que ya
+//   está listo, pausa el anterior y reproduce el nuevo con la Spotify iFrame
+//   API. Cambiar el `src` de un iframe, en cambio, vacía y redibuja el
+//   reproductor, y eso se veía como si «reapareciera».
+// - Plegar solo oculta el bloque; la música sigue.
+// - [data-play-track="ID"] en cualquier página (chip «Mi canción» de Equipo)
+//   abre el reproductor y hace sonar esa pista.
 
-let delegationBound = false;
+const API_SRC = 'https://open.spotify.com/embed/iframe-api/v1';
+const PLAYER_HEIGHT = 152;
+
+interface PlaybackUpdate {
+  data: { isPaused: boolean };
+}
+
+interface EmbedController {
+  play(): void;
+  pause(): void;
+  addListener(event: 'ready', cb: () => void): void;
+  addListener(event: 'playback_update', cb: (e: PlaybackUpdate) => void): void;
+}
+
+interface SpotifyIframeApi {
+  createController(
+    el: HTMLElement,
+    options: { uri: string; width?: string; height?: number; theme?: 'dark' },
+    cb: (controller: EmbedController) => void
+  ): void;
+}
+
+declare global {
+  interface Window {
+    onSpotifyIframeApiReady?: (api: SpotifyIframeApi) => void;
+  }
+}
+
+let apiPromise: Promise<SpotifyIframeApi> | null = null;
+
+function loadApi(): Promise<SpotifyIframeApi> {
+  apiPromise ??= new Promise((resolve, reject) => {
+    window.onSpotifyIframeApiReady = resolve;
+    const script = document.createElement('script');
+    script.src = API_SRC;
+    script.async = true;
+    script.onerror = () => {
+      apiPromise = null;
+      reject(new Error('No se pudo cargar la Spotify iFrame API'));
+    };
+    document.head.appendChild(script);
+  });
+  return apiPromise;
+}
 
 export function initMusicDock(): void {
+  // El dock vive fuera de [data-app] y no se reemplaza al navegar: basta con
+  // enlazarlo una vez.
   const dock = document.querySelector<HTMLElement>('[data-music-dock]');
-  if (!dock) return;
+  if (!dock || dock.dataset.bound) return;
+  dock.dataset.bound = '1';
 
   const toggle = dock.querySelector<HTMLButtonElement>('[data-music-toggle]');
-  const frame = dock.querySelector<HTMLIFrameElement>('[data-music-frame]');
   const titleEl = dock.querySelector<HTMLElement>('[data-music-title]');
   const artistEl = dock.querySelector<HTMLElement>('[data-music-artist]');
   const memberEl = dock.querySelector<HTMLElement>('[data-music-member]');
-  const tracks = Array.from(dock.querySelectorAll<HTMLButtonElement>('[data-music-track]'));
+  const tabs = Array.from(dock.querySelectorAll<HTMLButtonElement>('[data-music-track]'));
+  const slots = Array.from(dock.querySelectorAll<HTMLElement>('[data-music-slot]'));
+  if (slots.length === 0) return;
 
-  const read = (k: string) => {
-    try {
-      return localStorage.getItem(k);
-    } catch {
-      return null;
-    }
-  };
-  const write = (k: string, v: string) => {
-    try {
-      localStorage.setItem(k, v);
-    } catch {
-      /* ignore */
-    }
-  };
+  const controllers = new Map<string, EmbedController>();
+  const ready = new Set<string>();
+  let playersRequested = false;
+  let activeId = slots.find((s) => s.classList.contains('is-active'))?.dataset.musicSlot ?? '';
+  let opened = false;
+  // Pasa a true cuando alguien pide música (abrir el dock, elegir pista)
+  let wantsToPlay = false;
+  let playingId: string | null = null;
 
-  let collapsed = dock.classList.contains('is-collapsed');
-  const applyCollapsed = (c: boolean) => {
-    collapsed = c;
-    dock.classList.toggle('is-collapsed', c);
-    toggle?.setAttribute('aria-expanded', c ? 'false' : 'true');
+  const hasSlot = (id: string) => slots.some((s) => s.dataset.musicSlot === id);
+
+  const syncPlaying = () => {
+    dock.classList.toggle('is-playing', playingId !== null && playingId === activeId);
   };
 
-  const select = (btn: HTMLButtonElement, load: boolean) => {
-    tracks.forEach((b) => {
-      const on = b === btn;
+  const playActive = () => {
+    wantsToPlay = true;
+    controllers.forEach((c, id) => {
+      if (id !== activeId) c.pause();
+    });
+    if (ready.has(activeId)) controllers.get(activeId)?.play();
+  };
+
+  const createPlayers = () => {
+    if (playersRequested) return;
+    playersRequested = true;
+    loadApi()
+      .then((api) => {
+        slots.forEach((slot) => {
+          const id = slot.dataset.musicSlot ?? '';
+          const mount = slot.querySelector<HTMLElement>('[data-music-mount]');
+          if (!id || !mount) return;
+          api.createController(
+            mount,
+            { uri: `spotify:track:${id}`, width: '100%', height: PLAYER_HEIGHT, theme: 'dark' },
+            (controller) => {
+              controllers.set(id, controller);
+              const frame = slot.querySelector('iframe');
+              frame?.setAttribute('title', slot.dataset.label ?? 'Spotify');
+              // La API los crea con loading="lazy": plegado, el dock está fuera
+              // de pantalla y no se precargarían
+              frame?.setAttribute('loading', 'eager');
+              controller.addListener('ready', () => {
+                ready.add(id);
+                slot.classList.add('is-ready');
+                if (wantsToPlay && id === activeId) controller.play();
+              });
+              controller.addListener('playback_update', (e) => {
+                if (!e.data.isPaused) playingId = id;
+                else if (playingId === id) playingId = null;
+                syncPlaying();
+              });
+            }
+          );
+        });
+      })
+      .catch(() => {
+        playersRequested = false;
+      });
+  };
+
+  const setCollapsed = (collapsed: boolean) => {
+    dock.classList.toggle('is-collapsed', collapsed);
+    toggle?.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
+  };
+
+  const select = (id: string) => {
+    if (!hasSlot(id)) return;
+    activeId = id;
+    tabs.forEach((b) => {
+      const on = b.dataset.musicTrack === id;
       b.classList.toggle('is-active', on);
       b.setAttribute('aria-selected', on ? 'true' : 'false');
     });
-    if (titleEl) titleEl.textContent = btn.dataset.title ?? '';
-    if (artistEl) artistEl.textContent = btn.dataset.artist ?? '';
-    if (memberEl) memberEl.textContent = btn.dataset.member ?? '';
-    const id = btn.dataset.musicTrack ?? '';
-    if (load && frame) {
-      frame.src = `https://open.spotify.com/embed/track/${id}?utm_source=generator&theme=0`;
-      frame.title = `${btn.dataset.title} — ${btn.dataset.artist}`;
+    slots.forEach((s) => s.classList.toggle('is-active', s.dataset.musicSlot === id));
+    const tab = tabs.find((b) => b.dataset.musicTrack === id);
+    if (tab) {
+      if (titleEl) titleEl.textContent = tab.dataset.title ?? '';
+      if (artistEl) artistEl.textContent = tab.dataset.artist ?? '';
+      if (memberEl) memberEl.textContent = tab.dataset.member ?? '';
     }
-    write(KEY_TRACK, id);
+    syncPlaying();
   };
 
-  const selectById = (id: string) => {
-    const btn = tracks.find((b) => b.dataset.musicTrack === id);
-    if (!btn) return false;
-    if (!btn.classList.contains('is-active')) select(btn, true);
-    return true;
-  };
+  toggle?.addEventListener('click', () => {
+    if (!dock.classList.contains('is-collapsed')) {
+      setCollapsed(true);
+      return;
+    }
+    setCollapsed(false);
+    createPlayers();
+    if (!opened) {
+      opened = true;
+      playActive();
+    }
+  });
 
-  if (!dock.dataset.bound) {
-    dock.dataset.bound = '1';
-    applyCollapsed(read(KEY_STATE) === 'collapsed');
-    toggle?.addEventListener('click', () => {
-      applyCollapsed(!collapsed);
-      write(KEY_STATE, collapsed ? 'collapsed' : 'open');
+  // Precarga: el cursor sobre el reproductor anticipa que se va a abrir
+  dock.addEventListener('pointerenter', createPlayers, { once: true });
+  dock.addEventListener('focusin', createPlayers, { once: true });
+
+  tabs.forEach((tab) => {
+    tab.addEventListener('click', () => {
+      if (tab.classList.contains('is-active')) return;
+      select(tab.dataset.musicTrack ?? '');
+      playActive();
     });
+  });
 
-    const remembered = read(KEY_TRACK);
-    const initial = tracks.find((b) => b.dataset.musicTrack === remembered);
-    if (initial && initial !== tracks[0]) select(initial, true);
-
-    tracks.forEach((btn) => {
-      btn.addEventListener('click', () => {
-        if (btn.classList.contains('is-active')) return;
-        select(btn, true);
-      });
-    });
-  }
-
-  // Delegación global: chips de canción en otras páginas (sobrevive a la navegación)
-  if (!delegationBound) {
-    delegationBound = true;
-    document.addEventListener('click', (e) => {
-      const el = (e.target as HTMLElement).closest<HTMLElement>('[data-play-track]');
-      if (!el) return;
-      const id = el.dataset.playTrack ?? '';
-      if (selectById(id)) {
-        e.preventDefault();
-        if (collapsed) {
-          applyCollapsed(false);
-          write(KEY_STATE, 'open');
-        }
-        dock.classList.add('is-pulse');
-        window.setTimeout(() => dock.classList.remove('is-pulse'), 900);
-      }
-    });
-  }
+  // Chips de canción en otras páginas (delegación: sobrevive a la navegación)
+  document.addEventListener('pointerover', (e) => {
+    if (!playersRequested && (e.target as HTMLElement).closest?.('[data-play-track]')) createPlayers();
+  });
+  document.addEventListener('click', (e) => {
+    const el = (e.target as HTMLElement).closest<HTMLElement>('[data-play-track]');
+    const id = el?.dataset.playTrack ?? '';
+    if (!el || !hasSlot(id)) return;
+    e.preventDefault();
+    select(id);
+    opened = true;
+    setCollapsed(false);
+    createPlayers();
+    playActive();
+    dock.classList.add('is-pulse');
+    window.setTimeout(() => dock.classList.remove('is-pulse'), 900);
+  });
 }

@@ -1,23 +1,23 @@
 ---
 // Reproductor fijo de Spotify. Vive fuera de .app, que es lo único que se
-// reemplaza al navegar (ver el swap personalizado en BaseLayout), así el
-// iframe nunca se re-inserta y la música no se corta.
-// Cada canción es la que eligió un integrante (campo `song` en team.ts);
-// las pestañas cambian el embed. El estado y la canción se guardan en
-// localStorage. Desde Equipo, el chip de canción de cada tarjeta también
-// selecciona la pista aquí ([data-play-track]).
+// reemplaza al navegar (ver el swap personalizado en BaseLayout), así los
+// embeds nunca se re-insertan y la música no se corta.
+// Cada canción es la que eligió un integrante (campo `song` en team.ts).
+// Empieza plegado y en silencio; los embeds (uno por canción, apilados en
+// .music-dock__frame) los crea music-dock.ts con la Spotify iFrame API.
+// Desde Equipo, el chip «Mi canción» de cada tarjeta también selecciona la
+// pista aquí ([data-play-track]).
 import { SOUNDTRACK } from '../lib/portfolio';
 
 const first = SOUNDTRACK[0];
-const embed = (id: string) => `https://open.spotify.com/embed/track/${id}?utm_source=generator&theme=0`;
 const firstName = (n: string) => n.split(' ')[0];
 ---
 
 {first && (
-  <aside class="music-dock" data-music-dock aria-label="Banda sonora del portafolio">
+  <aside class="music-dock is-collapsed" data-music-dock aria-label="Banda sonora del portafolio">
     <div class="music-dock__glow" aria-hidden="true"></div>
 
-    <button class="music-dock__toggle" type="button" data-music-toggle aria-expanded="true" aria-controls="music-dock-body">
+    <button class="music-dock__toggle" type="button" data-music-toggle aria-expanded="false" aria-controls="music-dock-body">
       <span class="music-dock__eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
       <span class="music-dock__text">
         <span class="music-dock__eyebrow">La canción de <span data-music-member>{first.memberName}</span></span>
@@ -48,13 +48,16 @@ const firstName = (n: string) => n.split(' ')[0];
         </div>
       )}
       <div class="music-dock__frame">
-        <iframe
-          src={embed(first.spotify)}
-          title={`${first.title} — ${first.artist}`}
-          loading="lazy"
-          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-          data-music-frame
-        ></iframe>
+        <p class="music-dock__hint" aria-hidden="true">Cargando reproductor…</p>
+        {SOUNDTRACK.map((t, i) => (
+          <div
+            class:list={['music-dock__slot', { 'is-active': i === 0 }]}
+            data-music-slot={t.spotify}
+            data-label={`${t.title} — ${t.artist}`}
+          >
+            <div data-music-mount></div>
+          </div>
+        ))}
       </div>
     </div>
   </aside>

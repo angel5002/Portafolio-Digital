@@ -2665,10 +2665,37 @@ html[data-effects='off'] {
 
 .music-dock__track-name { overflow: hidden; text-overflow: ellipsis; }
 
+// Un embed por canción, apilados; solo el activo y ya cargado es visible.
+// Cambiar de pestaña cruza dos reproductores ya dibujados: nada se recarga.
 .music-dock__frame {
+  position: relative;
+  height: 152px;
   border-radius: 14px;
   overflow: hidden;
   background: rgba(0, 0, 0, 0.25);
+}
+
+.music-dock__hint {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  margin: 0;
+  font-size: 12px;
+  color: var(--text-muted-color);
+}
+
+.music-dock__slot {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.22s ease;
+}
+
+.music-dock__slot.is-active.is-ready {
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .music-dock__frame iframe {
@@ -2678,6 +2705,12 @@ html[data-effects='off'] {
   border: 0;
   background: transparent;
 }
+
+html[data-effects='off'] .music-dock__slot { transition: none; }
+
+// El ecualizador del botón solo se mueve mientras suena la canción activa
+.music-dock__eq i { animation-fill-mode: both; }
+.music-dock:not(.is-playing) .music-dock__eq i { animation-play-state: paused; }
 
 .music-dock.is-collapsed { width: 250px; }
 .music-dock.is-collapsed .music-dock__body { position: absolute; left: -9999px; width: 336px; }
