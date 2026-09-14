@@ -62,7 +62,8 @@ export const team: Member[] = [
     photo: grecia,
     hasPhoto: true,
     photoPos: 'center 38%',
-    initials: 'GV'
+    initials: 'GV',
+    song: { spotify: '736PP5LTtREkDgktNmX3Gu', title: 'Superpowers', artist: 'Daniel Caesar' }
   },
   {
     id: 'hideki-fukuhara',

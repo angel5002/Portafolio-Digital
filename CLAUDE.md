@@ -42,7 +42,7 @@ Extras heredados del blog: `/bitacora` (una entrada MDX por aprendizaje colabora
 - Nombre del docente.
 - Podcast, video-reacción, infografía.
 - Banda sonora de AC1 y AC3 (`music:` en el frontmatter).
-- Canción de Grecia, Laryel y Leonardo (campo `song` en `team.ts`).
+- Canción de Laryel y Leonardo (campo `song` en `team.ts`).
 
 ## Referencias y redacción
 
@@ -64,7 +64,7 @@ npm run build    # genera dist/
 
 Despliegue: repositorio `https://github.com/angel5002/Portafolio-Digital` (rama `main`, raíz = esta carpeta). Cada push dispara el workflow de GitHub Pages en `.github/workflows/deploy.yml` (Pages configurado en modo *GitHub Actions*; `BASE=/Portafolio-Digital/`). Sitio publicado: **https://angel5002.github.io/Portafolio-Digital/**.
 
-Banda sonora del reproductor fijo: cada integrante tiene un campo `song` en `src/lib/team.ts` (`{ spotify, title, artist }`, ID tomado de `open.spotify.com/track/<ID>`). `SOUNDTRACK` en `portfolio.ts` se deriva de ahí; el dock muestra «La canción de <nombre>» y una pestaña por integrante; en Equipo, el chip «Mi canción» de cada tarjeta selecciona la pista en el dock. Hoy: Angel Vargas (Seal — Crazy), Hideki Fukuhara (Dire Straits — Sultans of Swing) y José Vigil (ANOTR, Abel Balder — Relax My Eyes).
+Banda sonora del reproductor fijo: cada integrante tiene un campo `song` en `src/lib/team.ts` (`{ spotify, title, artist }`, ID tomado de `open.spotify.com/track/<ID>`). `SOUNDTRACK` en `portfolio.ts` se deriva de ahí; el dock muestra «La canción de <nombre>» y una pestaña por integrante; en Equipo, el chip «Mi canción» de cada tarjeta selecciona la pista en el dock. Hoy: Angel Vargas (Seal — Crazy), Grecia Vergara (Daniel Caesar — Superpowers), Hideki Fukuhara (Dire Straits — Sultans of Swing) y José Vigil (ANOTR, Abel Balder — Relax My Eyes).
 
 ## Convenciones
 
