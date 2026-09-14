@@ -38,17 +38,17 @@ Extras heredados del blog: `/bitacora` (una entrada MDX por aprendizaje colabora
 
 ## Pendientes de contenido
 
-- Reseñas de Grecia Vergara y José Vigil; foto de Angel Vargas; LinkedIn de todos.
+- LinkedIn de todos.
 - Nombre del docente.
 - Podcast, video-reacción, infografía.
+- Banda sonora de AC1 y AC3 (`music:` en el frontmatter).
+- Canción de Grecia, Laryel y Leonardo (campo `song` en `team.ts`).
 
 ## Referencias y redacción
 
 - `src/lib/referencias.ts` — bibliografía APA 7 de cada AC, tomada de la «Conexión teórica» de su ficha (no inventar editoriales ni iniciales que la ficha no trae). `src/components/References.astro` la muestra como panel al final de cada entrada de la bitácora (vía `EntryLayout`, por `number`) y, con `label`, como grupo dentro del panel único «Referencias» al final del Manifiesto (`#referencias`, un ancla `#referencias-acN` por AC; cada bloque tiene un enlace «Referencias de ACN ↓»). Color propio rojizo: tokens `--refs-*` en `tokens.scss` (ladrillo en claro, coral tipo Antares en oscuro). Al añadir un AC nuevo: agregar su lista ahí y citar en el texto (autor, año) cuando corresponda.
 - Redacción del equipo en primera persona y en forma directa: «Elegimos…», «Identificamos…», no «Teníamos que elegir…», «Tuvimos que…», «La consigna fue…». El sitio lo escribimos nosotros: nunca una voz externa que hable «del equipo» o «de él/ella».
 - Reseñas de `team.ts` y ejemplos individuales de las tablas de Scheler: primera persona del singular, tal como cada integrante los escribió («Estudio…», «Me apasionan…», «En mi carrera me gustaría…»). No pasarlos a tercera persona ni a forma impersonal.
-- Banda sonora de AC1 y AC3 (`music:` en el frontmatter).
-- Canción de cada integrante (campo `song` en `team.ts`); solo Angel la tiene.
 
 ## Comandos
 
@@ -64,7 +64,7 @@ npm run build    # genera dist/
 
 Despliegue: repositorio `https://github.com/angel5002/Portafolio-Digital` (rama `main`, raíz = esta carpeta). Cada push dispara el workflow de GitHub Pages en `.github/workflows/deploy.yml` (Pages configurado en modo *GitHub Actions*; `BASE=/Portafolio-Digital/`). Sitio publicado: **https://angel5002.github.io/Portafolio-Digital/**.
 
-Banda sonora del reproductor fijo: cada integrante tiene un campo `song` en `src/lib/team.ts` (`{ spotify, title, artist }`, ID tomado de `open.spotify.com/track/<ID>`). `SOUNDTRACK` en `portfolio.ts` se deriva de ahí; el dock muestra «La canción de <nombre>» y una pestaña por integrante; en Equipo, el chip «Su canción» de cada tarjeta selecciona la pista en el dock. Hoy solo Angel Vargas (Seal — Crazy).
+Banda sonora del reproductor fijo: cada integrante tiene un campo `song` en `src/lib/team.ts` (`{ spotify, title, artist }`, ID tomado de `open.spotify.com/track/<ID>`). `SOUNDTRACK` en `portfolio.ts` se deriva de ahí; el dock muestra «La canción de <nombre>» y una pestaña por integrante; en Equipo, el chip «Mi canción» de cada tarjeta selecciona la pista en el dock. Hoy: Angel Vargas (Seal — Crazy), Hideki Fukuhara (Dire Straits — Sultans of Swing) y José Vigil (ANOTR, Abel Balder — Relax My Eyes).
 
 ## Convenciones
 

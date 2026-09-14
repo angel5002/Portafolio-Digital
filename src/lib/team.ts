@@ -4,12 +4,12 @@
 // imagen dentro del recorte cuadrado de la tarjeta.
 
 import type { ImageMetadata } from 'astro:assets';
+import angel from '../assets/images/equipo/angel-vargas.jpg';
 import grecia from '../assets/images/equipo/grecia-vergara.jpg';
 import hideki from '../assets/images/equipo/hideki-fukuhara.jpg';
 import jose from '../assets/images/equipo/jose-vigil.jpg';
 import laryel from '../assets/images/equipo/laryel-negron.jpg';
 import leonardo from '../assets/images/equipo/leonardo-abanto.jpg';
-import placeholder from '../assets/images/equipo/placeholder.svg';
 
 export interface Member {
   /** Slug estable para ids/anclas */
@@ -45,8 +45,9 @@ export const team: Member[] = [
     career: CAREER,
     bio: 'Estudio Ingeniería Empresarial y de Sistemas. Soy curioso por naturaleza y dedico gran parte de mi tiempo a investigar herramientas tecnológicas.',
     linkedin: null,
-    photo: placeholder,
-    hasPhoto: false,
+    photo: angel,
+    hasPhoto: true,
+    photoPos: 'center 30%',
     initials: 'AV',
     song: { spotify: '2KP6bTmxOSEVMXAnbapkpa', title: 'Crazy', artist: 'Seal' }
   },
@@ -74,7 +75,8 @@ export const team: Member[] = [
     photo: hideki,
     hasPhoto: true,
     photoPos: 'center 32%',
-    initials: 'HF'
+    initials: 'HF',
+    song: { spotify: '37Tmv4NnfQeb0ZgUC4fOJj', title: 'Sultans of Swing', artist: 'Dire Straits' }
   },
   {
     id: 'jose-vigil',
@@ -82,12 +84,13 @@ export const team: Member[] = [
     fullName: 'José Alberto Vigil Rodríguez',
     code: '100106264',
     career: CAREER,
-    bio: null,
+    bio: 'Tengo 22 años, soy DJ de música electrónica y apasionado por la música. Estudio Ingeniería Empresarial y de Sistemas, combinando mi creatividad con mi interés por los negocios y la tecnología.',
     linkedin: null,
     photo: jose,
     hasPhoto: true,
     photoPos: 'center 30%',
-    initials: 'JV'
+    initials: 'JV',
+    song: { spotify: '5u4hhtZ7f4rWkMZEZcTKrH', title: 'Relax My Eyes', artist: 'ANOTR, Abel Balder' }
   },
   {
     id: 'laryel-negron',
