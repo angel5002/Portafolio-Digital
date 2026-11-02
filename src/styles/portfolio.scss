@@ -2111,6 +2111,76 @@
   height: auto;
 }
 
+// Al pasar el mouse: la obra se acerca despacio, sube un poco, gana color y
+// la cruza un reflejo de luz. El borde dorado la separa del fondo estrellado.
+.art__media,
+.vr-band__bg {
+  position: relative;
+  isolation: isolate;
+  outline: 1px solid rgba(240, 211, 155, 0);
+  outline-offset: -1px;
+  transition:
+    transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1),
+    box-shadow 0.6s ease,
+    outline-color 0.6s ease;
+}
+
+.art__media img,
+.vr-band__bg img {
+  transition:
+    transform 1.2s cubic-bezier(0.2, 0.7, 0.2, 1),
+    filter 0.8s ease;
+  will-change: transform;
+}
+
+.art__media::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(115deg, transparent 30%, rgba(255, 244, 220, 0.22) 50%, transparent 70%);
+  transform: translateX(-120%);
+  transition: transform 1.1s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+@media (hover: hover) {
+  .art:hover .art__media {
+    transform: translateY(-4px);
+    outline-color: rgba(240, 211, 155, 0.55);
+    box-shadow: var(--card-shadow-hover, var(--card-shadow)), 0 24px 48px -24px rgba(240, 192, 110, 0.45);
+  }
+
+  .art:hover .art__media img,
+  .vr-band__bg:hover img {
+    transform: scale(1.06);
+    filter: saturate(1.12) contrast(1.05) brightness(1.04);
+  }
+
+  .art:hover .art__media::after { transform: translateX(120%); }
+
+  .vr-band__bg:hover { outline-color: rgba(240, 211, 155, 0.45); }
+
+  // La portada no sube (el título va encima); solo se acerca la obra
+  .vr-hero__cover .art:hover .art__media { transform: none; }
+
+  // La panorámica de Bruegel, además, se desplaza hacia la cola del censo
+  .art--panorama:hover .art__media img { transform: scale(1.08) translateX(2%); }
+}
+
+// Con «Efectos» apagado no hay movimiento (ni zoom ni reflejo), pero la obra
+// sí se ilumina y gana el borde dorado al pasar el mouse
+html[data-effects='off'] {
+  .art__media,
+  .art__media img,
+  .vr-band__bg,
+  .vr-band__bg img {
+    transform: none !important;
+  }
+
+  .art__media::after { display: none; }
+}
+
 .art__cap { margin-top: 12px; }
 
 .art__why {
@@ -2159,15 +2229,30 @@
   .vr-hero__cover img { aspect-ratio: 16 / 9; object-position: 50% 10%; }
 }
 
+// El grabado es claro y muy cargado: el velo oscuro tiene que ser alto y
+// firme detrás del título para que se lea en cualquier tamaño
 .vr-hero__title {
   position: absolute;
   inset: auto 0 0 0;
-  padding: 80px 28px 26px;
+  z-index: 1;
+  padding: 150px 28px 28px;
   border-radius: 0 0 var(--radius-xl) var(--radius-xl);
-  background: linear-gradient(to top, rgba(8, 9, 20, 0.92), rgba(8, 9, 20, 0.55) 55%, transparent);
+  background: linear-gradient(
+    to top,
+    rgba(6, 8, 18, 0.97) 0%,
+    rgba(6, 8, 18, 0.9) 38%,
+    rgba(6, 8, 18, 0.55) 72%,
+    rgba(6, 8, 18, 0) 100%
+  );
+  pointer-events: none;
 }
 
-.vr-hero__title .vr-kicker { color: #f0d39b !important; }
+.vr-hero__title .vr-kicker {
+  color: #f3d9a4 !important;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.8);
+}
+
+.vr-hero__title h2 { text-shadow: 0 2px 18px rgba(0, 0, 0, 0.75), 0 1px 3px rgba(0, 0, 0, 0.6); }
 
 .vr-hero__title h2 {
   margin: 0;
