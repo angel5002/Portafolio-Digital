@@ -2092,7 +2092,6 @@
   text-align: center;
 }
 
-.vr-question--full { grid-column: 1 / -1; }
 .vr-question--clear { clear: both; }
 
 // Obra con su reflexión
@@ -3494,13 +3493,72 @@ html[data-effects='off'] .music-dock__slot { transition: none; }
 .music-dock__eq i { animation-fill-mode: both; }
 .music-dock:not(.is-playing) .music-dock__eq i { animation-play-state: paused; }
 
-.music-dock.is-collapsed { width: 250px; }
+.music-dock.is-collapsed { width: 294px; }
 .music-dock.is-collapsed .music-dock__body { position: absolute; left: -9999px; width: 336px; }
 .music-dock.is-collapsed .music-dock__chev { transform: rotate(180deg); }
 
+// Cabecera: pestaña para esconder (izquierda) + botón de plegar/desplegar
+.music-dock__head { display: flex; align-items: stretch; }
+.music-dock__head .music-dock__toggle { flex: 1; min-width: 0; width: auto; padding-left: 12px; }
+
+.music-dock__hide {
+  position: relative;
+  flex: none;
+  width: 44px;
+  display: grid;
+  place-items: center;
+  color: var(--accent-text);
+  border-right: 1px solid var(--glass-border);
+  transition: background-color 0.35s ease-in-out, color 0.35s ease-in-out;
+}
+
+.music-dock__hide:hover { background: var(--accent-soft); }
+
+.music-dock__hide svg {
+  grid-area: 1 / 1;
+  width: 17px;
+  height: 17px;
+  transition:
+    transform 0.6s var(--ease-spring, cubic-bezier(0.34, 1.56, 0.64, 1)),
+    opacity 0.35s ease;
+}
+
+.music-dock__hide-note { opacity: 0; transform: scale(0.4) rotate(-30deg); }
+.music-dock__hide:hover .music-dock__hide-chev { transform: translateX(3px); }
+
+// Escondido: se desliza al borde derecho y solo asoma la pestaña (44 px).
+// translateX = ancho del dock + margen derecho − ancho de la pestaña.
+.music-dock {
+  transition:
+    width 0.4s var(--ease-out-soft),
+    box-shadow 0.35s ease-in-out,
+    transform 0.75s cubic-bezier(0.22, 1.25, 0.36, 1);
+}
+
+.music-dock.is-hidden { transform: translateX(calc(100% + 20px - 44px)); }
+.music-dock.is-hidden:hover { transform: translateX(calc(100% + 20px - 56px)); }
+.music-dock.is-hidden .music-dock__hide { background: var(--accent-soft); border-right-color: transparent; }
+.music-dock.is-hidden .music-dock__hide-chev { opacity: 0; transform: rotate(180deg) scale(0.4); }
+.music-dock.is-hidden .music-dock__hide-note { opacity: 1; transform: none; }
+
+// Mientras suena, la nota de la pestaña se balancea para recordar que hay música
+@keyframes dock-note {
+  0%, 100% { transform: rotate(-8deg) translateY(0); }
+  50%      { transform: rotate(8deg) translateY(-2px); }
+}
+
+.music-dock.is-hidden.is-playing .music-dock__hide-note { animation: dock-note 1.4s ease-in-out infinite; }
+
 @media (max-width: 600px) {
   .music-dock { right: 12px; bottom: 12px; width: calc(100vw - 24px); }
-  .music-dock.is-collapsed { width: 220px; }
+  .music-dock.is-collapsed { width: 264px; }
+  .music-dock.is-hidden { transform: translateX(calc(100% + 12px - 44px)); }
+  .music-dock.is-hidden:hover { transform: translateX(calc(100% + 12px - 44px)); }
+}
+
+html[data-effects='off'] {
+  .music-dock { transition: width 0.4s var(--ease-out-soft), box-shadow 0.35s ease-in-out; }
+  .music-dock__hide-note { animation: none !important; }
 }
 
 html[data-effects='off'] {

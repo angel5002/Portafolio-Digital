@@ -124,11 +124,13 @@ const WIDE = '(min-width: 1200px) 900px, 92vw';
         </div>
       )}
       {podcast.after?.map((par) => <p>{par}</p>)}
+      <!-- La pregunta va dentro de la columna de texto: la figura fija de la
+           derecha deja de pegarse justo donde termina este texto y no la tapa -->
+      <p class="vr-question"><span>Para pensar</span>{podcast.question}</p>
     </div>
     <div class="vr-split__aside">
       <ArtFigure art={podcast.art} src={panoptico} sizes="(min-width: 1024px) 340px, 92vw" class="art--paper" />
     </div>
-    <p class="vr-question vr-question--full"><span>Para pensar</span>{podcast.question}</p>
   </section>
 
   <!-- ── 3 · Panorámica, la cuenta en cifras y el fragmento del video ── -->

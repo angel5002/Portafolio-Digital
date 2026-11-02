@@ -8,6 +8,8 @@
 //   API. Cambiar el `src` de un iframe, en cambio, vacía y redibuja el
 //   reproductor, y eso se veía como si «reapareciera».
 // - Plegar solo oculta el bloque; la música sigue.
+// - La pestaña de la izquierda esconde todo el dock hacia el borde derecho
+//   (queda asomando solo ella); la música también sigue.
 // - [data-play-track="ID"] en cualquier página (chip «Mi canción» de Equipo)
 //   abre el reproductor y hace sonar esa pista.
 
@@ -137,6 +139,24 @@ export function initMusicDock(): void {
     toggle?.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
   };
 
+  // Escondido: el dock se desliza al borde derecho y solo asoma la pestaña.
+  // Se pliega antes para que lo que asome sea solo la cabecera.
+  const hideBtn = dock.querySelector<HTMLButtonElement>('[data-music-hide]');
+  const body = dock.querySelector<HTMLElement>('.music-dock__body');
+  const setHidden = (hidden: boolean) => {
+    if (hidden) setCollapsed(true);
+    dock.classList.toggle('is-hidden', hidden);
+    hideBtn?.setAttribute('aria-pressed', hidden ? 'true' : 'false');
+    const label = hidden ? 'Mostrar el reproductor' : 'Ocultar el reproductor';
+    hideBtn?.setAttribute('aria-label', label);
+    hideBtn?.setAttribute('title', label);
+    // Lo que queda fuera de pantalla no debe recibir el foco
+    toggle?.toggleAttribute('inert', hidden);
+    body?.toggleAttribute('inert', hidden);
+  };
+
+  hideBtn?.addEventListener('click', () => setHidden(!dock.classList.contains('is-hidden')));
+
   const select = (id: string) => {
     if (!hasSlot(id)) return;
     activeId = id;
@@ -191,6 +211,7 @@ export function initMusicDock(): void {
     e.preventDefault();
     select(id);
     opened = true;
+    setHidden(false);
     setCollapsed(false);
     createPlayers();
     playActive();

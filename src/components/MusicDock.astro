@@ -17,14 +17,24 @@ const firstName = (n: string) => n.split(' ')[0];
   <aside class="music-dock is-collapsed" data-music-dock aria-label="Banda sonora del portafolio">
     <div class="music-dock__glow" aria-hidden="true"></div>
 
-    <button class="music-dock__toggle" type="button" data-music-toggle aria-expanded="false" aria-controls="music-dock-body">
-      <span class="music-dock__eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
-      <span class="music-dock__text">
-        <span class="music-dock__eyebrow">La canción de <span data-music-member>{first.memberName}</span></span>
-        <span class="music-dock__now"><span data-music-title>{first.title}</span> · <span data-music-artist>{first.artist}</span></span>
-      </span>
-      <svg class="music-dock__chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
-    </button>
+    <div class="music-dock__head">
+      <!-- Pestaña de la izquierda: esconde el reproductor hacia el borde
+           derecho (solo queda ella a la vista) y lo vuelve a sacar. La música
+           sigue sonando mientras está escondido. -->
+      <button class="music-dock__hide" type="button" data-music-hide aria-pressed="false" aria-label="Ocultar el reproductor" title="Ocultar el reproductor">
+        <svg class="music-dock__hide-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 6 15 12 9 18"></polyline></svg>
+        <svg class="music-dock__hide-note" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>
+      </button>
+
+      <button class="music-dock__toggle" type="button" data-music-toggle aria-expanded="false" aria-controls="music-dock-body">
+        <span class="music-dock__eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <span class="music-dock__text">
+          <span class="music-dock__eyebrow">La canción de <span data-music-member>{first.memberName}</span></span>
+          <span class="music-dock__now"><span data-music-title>{first.title}</span> · <span data-music-artist>{first.artist}</span></span>
+        </span>
+        <svg class="music-dock__chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+      </button>
+    </div>
 
     <div class="music-dock__body" id="music-dock-body">
       {SOUNDTRACK.length > 1 && (
