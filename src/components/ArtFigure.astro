@@ -1,0 +1,39 @@
+---
+// Obra de arte de la página Video-reacción, con la reflexión que nos provoca
+// («¿Por qué esta imagen?») y su ficha. Datos en src/lib/videoreaccion.ts.
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import type { Art } from '../lib/videoreaccion';
+
+interface Props {
+  art: Art;
+  src: ImageMetadata;
+  sizes: string;
+  class?: string;
+  /** Sin pie: la reflexión se muestra aparte (p. ej., en la portada de la parte 1) */
+  bare?: boolean;
+  loading?: 'lazy' | 'eager';
+}
+
+const { art, src, sizes, class: cls, bare = false, loading = 'lazy' } = Astro.props;
+---
+
+<figure class:list={['art', cls]}>
+  <div class="art__media">
+    <Image
+      src={src}
+      alt={art.alt}
+      widths={[480, 800, 1200, 1600].filter((w) => w <= src.width)}
+      sizes={sizes}
+      loading={loading}
+      decoding="async"
+    />
+  </div>
+  {!bare && (
+    <figcaption class="art__cap">
+      <p class="art__why">¿Por qué esta imagen?</p>
+      <p class="art__reflection">{art.reflection}</p>
+      <p class="art__credit"><em>{art.title}</em> · {art.author}, {art.year}</p>
+    </figcaption>
+  )}
+</figure>

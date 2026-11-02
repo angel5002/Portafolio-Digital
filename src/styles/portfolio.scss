@@ -2022,36 +2022,508 @@
 .analysis-item--link:hover { transform: translateX(4px); }
 .analysis-item--link:hover p:last-child { color: var(--text-color); }
 
-// Fragmentos citados del podcast, del video y del código
-.fragment {
-  margin: 18px 0;
-  padding: 18px 22px;
-  border-left: 2px solid var(--accent);
-  border-radius: 0 var(--radius-lg) var(--radius-lg) 0;
-  background: var(--accent-soft);
+// ─── Video-reacción: las seis partes de la reflexión ───────────────────────
+// Cada parte usa una maquetación distinta (portada, columnas, panorámica,
+// figura flotante, banda y rejilla) para que imagen y texto no repitan patrón.
+
+.vr-part {
+  margin-top: 72px;
+  scroll-margin-top: 24px;
 }
 
-.mblock .fragment__line {
-  margin: 0 0 10px;
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-size: 17px;
-  line-height: 1.55;
+.vr-part p { font-size: 15px; line-height: 1.75; color: var(--text-color); }
+.vr-part .callout__label { margin: 0 0 10px; font-size: 11px; line-height: 1.4; color: var(--accent-text); }
+
+.vr-kicker {
+  margin: 0 0 8px;
+  font-size: 11px !important;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent-text) !important;
+}
+
+.vr-kicker--center,
+.vr-title--center { text-align: center; }
+
+.vr-title {
+  margin: 0 0 18px;
+  font-family: var(--font-display);
+  font-size: clamp(24px, 3.2vw, 32px);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
   color: var(--heading-color);
 }
 
-.mblock .fragment__line:last-child { margin-bottom: 0; }
+.vr-title--big { font-size: clamp(30px, 5vw, 48px); }
 
-.fragment__who {
+// Pregunta socrática que cierra cada parte
+.vr-question {
+  position: relative;
+  margin: 28px 0 0;
+  padding: 4px 0 4px 22px;
+  border-left: 3px solid var(--accent);
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 20px !important;
+  line-height: 1.5 !important;
+  color: var(--heading-color) !important;
+}
+
+.vr-question span {
+  display: block;
+  margin-bottom: 4px;
+  font-family: var(--font-body);
+  font-style: normal;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent-text);
+}
+
+.vr-question--center {
+  max-width: 640px;
+  margin-inline: auto;
+  padding: 26px 0 0;
+  border-left: 0;
+  border-top: 1px solid var(--border-color);
+  text-align: center;
+}
+
+.vr-question--full { grid-column: 1 / -1; }
+.vr-question--clear { clear: both; }
+
+// Obra con su reflexión
+.art { margin: 0; }
+
+.art__media {
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  background: var(--card-bg);
+  box-shadow: var(--card-shadow);
+}
+
+.art__media img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.art__cap { margin-top: 12px; }
+
+.art__why {
+  margin: 0 0 4px !important;
+  font-size: 11px !important;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent-text) !important;
+}
+
+.art__reflection {
+  margin: 0 0 6px !important;
+  font-size: 13.5px !important;
+  line-height: 1.6 !important;
+  color: var(--text-color);
+}
+
+.art__credit {
+  margin: 0 !important;
+  font-size: 12px !important;
+  line-height: 1.5 !important;
+  color: var(--text-muted-color) !important;
+}
+
+// Nota lateral con la reflexión de una imagen (partes 1 y 5)
+.vr-note {
+  padding: 18px 20px;
+  border-radius: var(--radius-lg);
+  background: var(--card-bg);
+  border: 1px solid var(--card-border-color);
+}
+
+// Texto en dos columnas en pantallas anchas
+.vr-cols { margin-top: 8px; }
+.vr-cols p { margin: 0 0 14px; break-inside: avoid; }
+
+@media (min-width: 1024px) {
+  .vr-cols { columns: 2; column-gap: 36px; }
+}
+
+// 1 · Portada
+.vr-hero__cover { position: relative; }
+
+.vr-hero__cover .art__media { border-radius: var(--radius-xl); }
+
+.vr-hero__cover img {
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  object-position: 50% 0%;
+}
+
+@media (min-width: 720px) {
+  .vr-hero__cover img { aspect-ratio: 16 / 9; object-position: 50% 10%; }
+}
+
+.vr-hero__title {
+  position: absolute;
+  inset: auto 0 0 0;
+  padding: 80px 28px 26px;
+  border-radius: 0 0 var(--radius-xl) var(--radius-xl);
+  background: linear-gradient(to top, rgba(8, 9, 20, 0.92), rgba(8, 9, 20, 0.55) 55%, transparent);
+}
+
+.vr-hero__title .vr-kicker { color: #f0d39b !important; }
+
+.vr-hero__title h2 {
+  margin: 0;
+  max-width: 620px;
+  font-family: var(--font-display);
+  font-size: clamp(24px, 4vw, 40px);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1.12;
+  color: #fff;
+}
+
+.vr-hero__lede {
+  display: grid;
+  gap: 18px;
+  margin: 28px 0 10px;
+  align-items: start;
+}
+
+@media (min-width: 1024px) {
+  .vr-hero__lede { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: 32px; }
+}
+
+.vr-part .vr-lede {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: 22px;
+  line-height: 1.5;
+  color: var(--heading-color);
+}
+
+// 2 · Texto + figura fija
+.vr-split { display: grid; gap: 28px; }
+
+@media (min-width: 1024px) {
+  .vr-split { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: 40px; align-items: start; }
+  .vr-split__aside { position: sticky; top: 24px; }
+}
+
+.vr-split__text p { margin: 0 0 14px; }
+
+.art--paper .art__media { background: #f6f3ea; padding: 14px; }
+
+.vr-chat {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 22px 0 24px;
+}
+
+.vr-part .vr-chat__bubble {
+  max-width: 86%;
+  margin: 0;
+  padding: 12px 16px;
+  border-radius: 18px 18px 18px 4px;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border-color);
+  font-size: 14.5px;
+  line-height: 1.55;
+}
+
+.vr-part .vr-chat__bubble--right {
+  align-self: flex-end;
+  border-radius: 18px 18px 4px 18px;
+  background: var(--accent-soft);
+  border-color: transparent;
+}
+
+.vr-chat__who {
   display: block;
   margin-bottom: 2px;
-  font-family: var(--font-body, inherit);
-  font-style: normal;
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
+  color: var(--accent-text);
+}
+
+// 3 · Panorámica + cifras
+.art--panorama { position: relative; margin-top: 8px; }
+
+.art--panorama img {
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  object-position: 15% 75%;
+}
+
+@media (min-width: 720px) {
+  .art--panorama img { aspect-ratio: 21 / 9; }
+  .art--panorama .art__cap { max-width: 520px; margin: 12px 0 0 auto; text-align: right; }
+}
+
+.vr-tally {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 12px 28px;
+  margin: 36px 0;
+  text-align: center;
+}
+
+.vr-tally__item { min-width: 180px; }
+
+.vr-part .vr-tally__n {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(40px, 6vw, 56px);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  line-height: 1;
   color: var(--text-muted-color);
+}
+
+.vr-part .vr-tally__item--big .vr-tally__n {
+  font-size: clamp(52px, 9vw, 84px);
+  color: var(--accent-text);
+}
+
+.vr-part .vr-tally__label { margin: 8px 0 0; font-weight: 600; font-size: 14px; color: var(--heading-color); }
+.vr-part .vr-tally__note { margin: 0; font-size: 13px; color: var(--text-muted-color); }
+
+@media (max-width: 599px) {
+  .vr-tally { flex-direction: column; gap: 6px; }
+}
+
+.vr-tally__vs {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 26px;
+  color: var(--text-muted-color);
+}
+
+.vr-narrow { max-width: 680px; margin: 0 auto; }
+.vr-narrow p { margin: 0 0 14px; }
+
+.vr-pull {
+  margin: 28px 0;
+  padding: 0;
+  text-align: center;
+}
+
+.vr-part .vr-pull p {
+  margin: 0 0 14px;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 24px;
+  line-height: 1.4;
+  color: var(--heading-color);
+}
+
+.vr-pull p::before { content: '«'; color: var(--accent-text); }
+.vr-pull p::after { content: '»'; color: var(--accent-text); }
+
+.vr-pull cite {
+  font-style: normal;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-muted-color);
+}
+
+// 4 · Figura flotante + artículos como documento
+.vr-float::after { content: ''; display: table; clear: both; }
+.vr-float > p { margin: 0 0 14px; }
+
+.vr-float__art { margin-bottom: 24px; }
+
+@media (min-width: 900px) {
+  .vr-float__art {
+    float: left;
+    width: 38%;
+    margin: 4px 32px 18px 0;
+  }
+}
+
+.vr-doc {
+  margin: 22px 0 24px;
+  padding: 22px 24px;
+  border-radius: var(--radius-md);
+  background: var(--card-bg);
+  border: 1px solid var(--card-border-color);
+  border-top: 3px solid var(--refs-accent, var(--accent));
+  overflow: hidden;
+}
+
+.vr-part .vr-doc__head {
+  margin: 0 0 14px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--refs-accent, var(--accent-text));
+}
+
+.vr-doc__article + .vr-doc__article {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px dashed var(--border-color);
+}
+
+.vr-part .vr-doc__num { margin: 0 0 4px; font-size: 12.5px; font-weight: 700; color: var(--heading-color); }
+
+.vr-part .vr-doc__text {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: 17px;
+  line-height: 1.55;
+  color: var(--text-color);
+}
+
+// 5 · Banda con la pintura de fondo
+.vr-band__bg {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-xl);
+  min-height: 420px;
+  display: flex;
+  align-items: flex-end;
+}
+
+.vr-band__bg img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 60%;
+}
+
+.vr-band__bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(8, 9, 20, 0.95) 10%, rgba(8, 9, 20, 0.6) 55%, rgba(8, 9, 20, 0.15));
+}
+
+.vr-band__text {
+  position: relative;
+  z-index: 1;
+  max-width: 640px;
+  padding: 220px 22px 92px;
+}
+
+@media (min-width: 720px) {
+  .vr-band__text { padding: 120px 28px 92px; }
+}
+
+.vr-band__text .vr-kicker { color: #f0d39b !important; }
+.vr-band__text .vr-title { color: #fff; }
+.vr-band__text p { margin: 0; color: rgba(255, 255, 255, 0.88) !important; }
+
+.proposal-grid.vr-band__cards {
+  position: relative;
+  z-index: 2;
+  margin: -64px 20px 0;
+}
+
+.vr-band__cards .proposal-card { box-shadow: var(--card-shadow); }
+
+.vr-band__after {
+  display: grid;
+  gap: 22px;
+  margin-top: 28px;
+  align-items: start;
+}
+
+.vr-band__after p:not(.vr-question):not([class^='art__']) { margin: 0; }
+
+@media (min-width: 1024px) {
+  .vr-band__after { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: 32px; }
+}
+
+// 6 · Cierre
+.vr-ethics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 0;
+  margin: 26px 0 34px;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid var(--card-border-color);
+}
+
+.vr-ethics__card {
+  padding: 22px 24px;
+  background: var(--card-bg);
+}
+
+.vr-ethics__card + .vr-ethics__card {
+  background: var(--accent-soft);
+  border-left: 1px solid var(--card-border-color);
+}
+
+.vr-part .vr-ethics__name {
+  margin: 0 0 6px;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 22px;
+  color: var(--heading-color);
+}
+
+.vr-part .vr-ethics__idea { margin: 0 0 10px; }
+.vr-part .vr-ethics__valeria { margin: 0; font-size: 13.5px; font-weight: 600; color: var(--accent-text); }
+
+.vr-close__grid {
+  display: grid;
+  gap: 28px;
+  align-items: start;
+}
+
+.vr-close__grid p { margin: 0 0 14px; }
+
+@media (min-width: 1024px) {
+  .vr-close__grid { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: 40px; }
+}
+
+.vr-commitment {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  margin: 40px 0 0;
+  padding: 36px 32px;
+  border-radius: var(--radius-xl);
+  background: var(--card-bg);
+  border: 1px solid var(--card-border-color);
+  text-align: center;
+}
+
+.vr-commitment::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(circle at 0% 0%, var(--halo-1) 0%, transparent 55%),
+    radial-gradient(circle at 100% 100%, var(--accent-soft) 0%, transparent 60%);
+}
+
+.vr-part .vr-commitment p:last-child {
+  max-width: 640px;
+  margin: 0 auto;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: clamp(22px, 3vw, 28px);
+  line-height: 1.4;
+  color: var(--heading-color);
 }
 
 // Propuesta de reforma del código (parte 5)
@@ -2071,7 +2543,7 @@
   border: 1px solid var(--card-border-color);
 }
 
-.proposal-card__tag {
+.proposal-card .proposal-card__tag {
   align-self: flex-start;
   margin: 0 0 10px;
   padding: 3px 9px;
@@ -2084,7 +2556,7 @@
   background: var(--accent-soft);
 }
 
-.mblock .proposal-card__title {
+.proposal-card .proposal-card__title {
   margin: 0 0 8px;
   font-family: var(--font-display);
   font-size: 16px;
@@ -2103,7 +2575,7 @@
 
 .proposal-card li + li { margin-top: 4px; }
 
-.mblock .proposal-card__basis {
+.proposal-card .proposal-card__basis {
   margin: auto 0 0;
   padding-top: 10px;
   border-top: 1px solid var(--border-color);

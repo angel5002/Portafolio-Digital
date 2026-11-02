@@ -14,7 +14,7 @@ El sitio reutiliza el diseño y las funcionalidades del blog de Realidad Naciona
 | Equipo | `/equipo` | — | listo (faltan datos, ver abajo) |
 | Manifiesto de Identidad Ética | `/manifiesto` | I · sem. 1–5 | AC1–AC4 integrados |
 | Podcast de Dilema Moral | `/podcast` | II · sem. 6–7 | desactivada (plantilla en `src/pages-disabled/`) |
-| Video-reacción crítico | `/video-reaccion` | III · sem. 9–12 | publicada: video de Drive + reflexión en 6 partes para la EC2 (`src/lib/videoreaccion.ts`) |
+| Video-reacción crítico | `/video-reaccion` | III · sem. 9–12 | publicada: video de Drive + reflexión en 6 partes para la EC2 (`src/lib/videoreaccion.ts`); cada parte tiene una obra de dominio público (`src/assets/images/videoreaccion/`, componente `ArtFigure.astro`) y una maquetación distinta, a propósito, para no repetir patrón |
 | Infografía de Integridad y Sostenibilidad | `/infografia` | IV · sem. 13–15 | desactivada (plantilla en `src/pages-disabled/`) |
 
 Extras heredados del blog: `/bitacora` (una entrada MDX por aprendizaje colaborativo), `/tags`, `/sobre` (curso, módulos, evaluaciones y hoja de ruta).

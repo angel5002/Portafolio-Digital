@@ -88,9 +88,13 @@ export const references: Record<string, Reference[]> = {
   // y el material de las semanas 9–11 del sílabo
   'AC7–AC9': [
     { lead: 'Alvarez, K. (2015).', title: 'El experimento de la prisión de Stanford', rest: ' [Película].' },
+    { lead: 'Bosse, A. (1651).', title: 'Frontispicio de Leviatán, de Thomas Hobbes', rest: ' [Grabado]. Wikimedia Commons.', url: 'https://commons.wikimedia.org/wiki/File:Leviathan_frontispiece_cropped_British_Library.jpg' },
+    { lead: 'Bruegel el Viejo, P. (1566).', title: 'El censo de Belén', rest: ' [Pintura]. Museos Reales de Bellas Artes de Bélgica, Bruselas.', url: 'https://commons.wikimedia.org/wiki/File:The_Census_at_Bethlehem_by_Bruegel_the_Elder.jpg' },
     { lead: 'Colegio de Ingenieros del Perú. (s. f.).', title: 'Código de Ética del Colegio de Ingenieros del Perú', rest: '.' },
     { lead: 'Congreso de la República del Perú. (2011).', title: 'Ley N.° 29733, Ley de Protección de Datos Personales', rest: '.' },
+    { lead: 'David, J.-L. (s. f.).', title: 'El juramento del Juego de Pelota', rest: ' [Pintura]. Wikimedia Commons.', url: 'https://commons.wikimedia.org/wiki/File:Serment_du_Jeu_de_Paume_-_Jacques-Louis_David.jpg' },
     { lead: 'Foucault, M. (1975).', title: 'Vigilar y castigar', rest: '.' },
+    { lead: 'Hammershøi, V. (1903–1904).', title: 'Interior con mujer de espaldas', rest: ' [Pintura]. Randers Kunstmuseum, Randers, Dinamarca.', url: 'https://commons.wikimedia.org/wiki/File:Vilhelm_Hammershoi_-_Interieur_mit_Rueckenansicht_einer_Frau_-_1903-1904_-_Randers_Kunstmuseum.jpg' },
     { lead: 'Hobbes, T. (1651).', title: 'Leviatán', rest: '.' },
     {
       lead: 'Kant, I. (2012).',
@@ -99,6 +103,7 @@ export const references: Record<string, Reference[]> = {
     },
     { lead: 'Locke, J. (1690).', title: 'Segundo tratado sobre el gobierno civil', rest: '.' },
     { lead: 'Mill, J. S. (1863).', title: 'Utilitarianism', rest: '.' },
+    { lead: 'Reveley, W. (1791).', title: 'Plano del panóptico de Jeremy Bentham', rest: ' [Dibujo]. Wikimedia Commons (CC BY-SA 4.0).', url: "https://commons.wikimedia.org/wiki/File:Plan_of_Jeremy_Bentham's_panopticon_prison,_drawn_by_Willey_Reveley_in_1791.jpg" },
     { lead: 'Rousseau, J.-J. (1762).', title: 'El contrato social', rest: '.' },
     {
       lead: 'TED. (2008).',
@@ -107,6 +112,7 @@ export const references: Record<string, Reference[]> = {
       url: 'https://www.youtube.com/watch?v=OsFEV35tWsg'
     },
     sesion('2026b', 9, 'Contrato social y normas profesionales'),
+    { lead: 'Van Gogh, V. (1890).', title: 'El buen samaritano (según Delacroix)', rest: ' [Pintura]. Kröller-Müller Museum, Otterlo, Países Bajos.', url: 'https://commons.wikimedia.org/wiki/File:Vincent_van_Gogh_-_The_Good_Samaritan,_1890_-_Google_Art_Project.jpg' },
     sesion('2026b', 10, 'Análisis de los códigos deontológicos'),
     sesion('2026b', 11, 'La brecha entre la ética de la intención y el desempeño profesional'),
     {

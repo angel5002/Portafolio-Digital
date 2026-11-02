@@ -1,8 +1,21 @@
 ---
+import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import ArtFigure from '../components/ArtFigure.astro';
 import References from '../components/References.astro';
 import { COURSE } from '../lib/portfolio';
-import { DRIVE_ID, guidingQuestion, parts } from '../lib/videoreaccion';
+import { DRIVE_ID, guidingQuestion, parts, tally, weberEthics, commitment } from '../lib/videoreaccion';
+import leviatan from '../assets/images/videoreaccion/leviatan.jpg';
+import panoptico from '../assets/images/videoreaccion/panoptico.jpg';
+import censo from '../assets/images/videoreaccion/censo.jpg';
+import interior from '../assets/images/videoreaccion/interior.jpg';
+import juramento from '../assets/images/videoreaccion/juramento.jpg';
+import samaritano from '../assets/images/videoreaccion/samaritano.jpg';
+
+// Cada parte tiene su propia maquetación: portada, columnas con figura fija,
+// panorámica con cifras, figura flotante, banda con tarjetas y cierre en rejilla.
+const [intro, podcast, reaccion, vacios, propuesta, cierre] = parts;
+const WIDE = '(min-width: 1200px) 900px, 92vw';
 ---
 
 <BaseLayout
@@ -51,48 +64,179 @@ import { DRIVE_ID, guidingQuestion, parts } from '../lib/videoreaccion';
     <p>{guidingQuestion}</p>
   </div>
 
-  {parts.map((p) => (
-    <section class="mblock reveal" id={p.id}>
-      <h2 class="mblock__title">{p.title} <span class="mblock__week">{p.n} · {p.tag}</span></h2>
-      {p.paragraphs.map((par) => <p>{par}</p>)}
+  <!-- ── 1 · Portada: la imagen manda, el título va encima ── -->
+  <section class="vr-part vr-hero reveal" id={intro.id}>
+    <div class="vr-hero__cover">
+      <ArtFigure art={intro.art} src={leviatan} sizes={WIDE} bare />
+      <div class="vr-hero__title">
+        <p class="vr-kicker">{intro.n} · {intro.tag}</p>
+        <h2>{intro.title}</h2>
+      </div>
+    </div>
+    <div class="vr-hero__lede">
+      <p class="vr-lede">{intro.paragraphs[0]}</p>
+      <aside class="vr-note">
+        <p class="art__why">¿Por qué esta imagen?</p>
+        <p class="art__reflection">{intro.art.reflection}</p>
+        <p class="art__credit"><em>{intro.art.title}</em> · {intro.art.author}, {intro.art.year}</p>
+      </aside>
+    </div>
+    <div class="vr-cols">
+      {intro.paragraphs.slice(1).map((par) => <p>{par}</p>)}
+    </div>
+    <p class="vr-question"><span>Para pensar</span>{intro.question}</p>
+  </section>
 
-      {p.fragment && (
-        <blockquote class="fragment">
-          <p class="callout__label">{p.fragment.label}</p>
-          {p.fragment.lines.map((l) => (
-            <p class="fragment__line">
-              {l.who && <span class="fragment__who">{l.who}</span>}
+  <!-- ── 2 · Texto y diálogo a la izquierda, panóptico fijo a la derecha ── -->
+  <section class="vr-part vr-split reveal" id={podcast.id}>
+    <div class="vr-split__text">
+      <p class="vr-kicker">{podcast.n} · {podcast.tag}</p>
+      <h2 class="vr-title">{podcast.title}</h2>
+      {podcast.paragraphs.map((par) => <p>{par}</p>)}
+      {podcast.fragment && (
+        <div class="vr-chat" aria-label={podcast.fragment.label}>
+          <p class="callout__label">{podcast.fragment.label}</p>
+          {podcast.fragment.lines.map((l) => (
+            <p class:list={['vr-chat__bubble', { 'vr-chat__bubble--right': l.who === 'Valeria' }]}>
+              <span class="vr-chat__who">{l.who}</span>
               {l.text}
             </p>
           ))}
-        </blockquote>
-      )}
-
-      {p.cards && (
-        <div class="proposal-grid">
-          {p.cards.map((c) => (
-            <article class="proposal-card">
-              <p class="proposal-card__tag">{c.tag}</p>
-              <p class="proposal-card__title">{c.title}</p>
-              <ul>
-                {c.points.map((pt) => <li>{pt}</li>)}
-              </ul>
-              <p class="proposal-card__basis">{c.basis}</p>
-            </article>
-          ))}
         </div>
       )}
+      {podcast.after?.map((par) => <p>{par}</p>)}
+    </div>
+    <div class="vr-split__aside">
+      <ArtFigure art={podcast.art} src={panoptico} sizes="(min-width: 1024px) 340px, 92vw" class="art--paper" />
+    </div>
+    <p class="vr-question vr-question--full"><span>Para pensar</span>{podcast.question}</p>
+  </section>
 
-      {p.after?.map((par) => <p>{par}</p>)}
+  <!-- ── 3 · Panorámica, la cuenta en cifras y el fragmento del video ── -->
+  <section class="vr-part vr-wide reveal" id={reaccion.id}>
+    <p class="vr-kicker vr-kicker--center">{reaccion.n} · {reaccion.tag}</p>
+    <h2 class="vr-title vr-title--center">{reaccion.title}</h2>
+    <ArtFigure art={reaccion.art} src={censo} sizes={WIDE} class="art--panorama" />
+    <div class="vr-tally">
+      {tally.map((t, i) => (
+        <>
+          {i > 0 && <span class="vr-tally__vs" aria-hidden="true">vs.</span>}
+          <div class:list={['vr-tally__item', { 'vr-tally__item--big': i > 0 }]}>
+            <p class="vr-tally__n">{t.n}</p>
+            <p class="vr-tally__label">{t.label}</p>
+            <p class="vr-tally__note">{t.note}</p>
+          </div>
+        </>
+      ))}
+    </div>
+    <div class="vr-narrow">
+      {reaccion.paragraphs.map((par) => <p>{par}</p>)}
+      {reaccion.fragment && (
+        <blockquote class="vr-pull">
+          {reaccion.fragment.lines.map((l) => <p>{l.text}</p>)}
+          <cite>{reaccion.fragment.label}</cite>
+        </blockquote>
+      )}
+      {reaccion.after?.map((par) => <p>{par}</p>)}
+    </div>
+    <p class="vr-question vr-question--center"><span>Para pensar</span>{reaccion.question}</p>
+  </section>
 
-      <div class="callout">
-        <p class="callout__label">Para pensar</p>
-        <p style="margin:0;">{p.question}</p>
+  <!-- ── 4 · Figura flotante y artículos como documento ── -->
+  <section class="vr-part vr-float reveal" id={vacios.id}>
+    <ArtFigure art={vacios.art} src={interior} sizes="(min-width: 1024px) 340px, 92vw" class="vr-float__art" />
+    <p class="vr-kicker">{vacios.n} · {vacios.tag}</p>
+    <h2 class="vr-title">{vacios.title}</h2>
+    {vacios.paragraphs.map((par) => <p>{par}</p>)}
+    {vacios.fragment && (
+      <div class="vr-doc">
+        <p class="vr-doc__head">{vacios.fragment.label}</p>
+        {vacios.fragment.lines.map((l) => (
+          <div class="vr-doc__article">
+            <p class="vr-doc__num">{l.who}</p>
+            <p class="vr-doc__text">{l.text}</p>
+          </div>
+        ))}
       </div>
-    </section>
-  ))}
+    )}
+    {vacios.after?.map((par) => <p>{par}</p>)}
+    <p class="vr-question vr-question--clear"><span>Para pensar</span>{vacios.question}</p>
+  </section>
 
-  <div class="reveal" style="margin-top: 40px;">
+  <!-- ── 5 · Banda con la pintura de fondo y tarjetas que suben sobre ella ── -->
+  <section class="vr-part vr-band reveal" id={propuesta.id}>
+    <div class="vr-band__bg">
+      <Image
+        src={juramento}
+        alt={propuesta.art.alt}
+        widths={[800, 1200, 1600]}
+        sizes={WIDE}
+        loading="lazy"
+        decoding="async"
+      />
+      <div class="vr-band__text">
+        <p class="vr-kicker">{propuesta.n} · {propuesta.tag}</p>
+        <h2 class="vr-title">{propuesta.title}</h2>
+        {propuesta.paragraphs.map((par) => <p>{par}</p>)}
+      </div>
+    </div>
+    {propuesta.cards && (
+      <div class="proposal-grid vr-band__cards">
+        {propuesta.cards.map((c) => (
+          <article class="proposal-card">
+            <p class="proposal-card__tag">{c.tag}</p>
+            <p class="proposal-card__title">{c.title}</p>
+            <ul>
+              {c.points.map((pt) => <li>{pt}</li>)}
+            </ul>
+            <p class="proposal-card__basis">{c.basis}</p>
+          </article>
+        ))}
+      </div>
+    )}
+    <div class="vr-band__after">
+      <div>
+        {propuesta.after?.map((par) => <p>{par}</p>)}
+        <p class="vr-question"><span>Para pensar</span>{propuesta.question}</p>
+      </div>
+      <aside class="vr-note">
+        <p class="art__why">¿Por qué esta imagen?</p>
+        <p class="art__reflection">{propuesta.art.reflection}</p>
+        <p class="art__credit"><em>{propuesta.art.title}</em> · {propuesta.art.author}, {propuesta.art.year}</p>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ── 6 · Cierre: Weber en dos columnas, rejilla con la pintura y compromiso ── -->
+  <section class="vr-part vr-close reveal" id={cierre.id}>
+    <p class="vr-kicker">{cierre.n} · {cierre.tag}</p>
+    <h2 class="vr-title vr-title--big">{cierre.title}</h2>
+    <div class="vr-cols">
+      {cierre.paragraphs.map((par) => <p>{par}</p>)}
+    </div>
+    <div class="vr-ethics">
+      {weberEthics.map((e) => (
+        <article class="vr-ethics__card">
+          <p class="vr-ethics__name">{e.name}</p>
+          <p class="vr-ethics__idea">{e.idea}</p>
+          <p class="vr-ethics__valeria">{e.valeria}</p>
+        </article>
+      ))}
+    </div>
+    <div class="vr-close__grid">
+      <div>
+        {cierre.after?.map((par) => <p>{par}</p>)}
+      </div>
+      <ArtFigure art={cierre.art} src={samaritano} sizes="(min-width: 1024px) 360px, 92vw" />
+    </div>
+    <blockquote class="vr-commitment">
+      <p class="callout__label">Nuestro compromiso</p>
+      <p>{commitment}</p>
+    </blockquote>
+    <p class="vr-question vr-question--center"><span>Para pensar</span>{cierre.question}</p>
+  </section>
+
+  <div class="reveal" style="margin-top: 48px;">
     <References code="AC7–AC9" />
   </div>
 </BaseLayout>

@@ -1,6 +1,9 @@
 // Contenido de la página Video-reacción (AC7–AC9) y base de nuestra EC2.
-// Sale de las transcripciones del podcast «Datos a luca» y del video-reacción.
-// Seis partes, en el orden en que nos las repartimos para la sustentación.
+// Sale de las transcripciones del podcast «Datos a luca» y del video-reacción,
+// y del sílabo (semanas 9–11). Seis partes, en el orden en que nos las
+// repartimos para la sustentación. Cada parte tiene su obra de arte (archivos
+// en src/assets/images/videoreaccion/, todas de dominio público en Wikimedia
+// Commons) y su propia maquetación en src/pages/video-reaccion.astro.
 
 export interface Line {
   who?: string;
@@ -19,6 +22,17 @@ export interface Card {
   basis: string;
 }
 
+export interface Art {
+  /** Nombre del archivo en src/assets/images/videoreaccion/ (sin extensión) */
+  key: 'leviatan' | 'panoptico' | 'censo' | 'interior' | 'juramento' | 'samaritano';
+  title: string;
+  author: string;
+  year: string;
+  alt: string;
+  /** Por qué elegimos esta imagen: la reflexión que nos provoca */
+  reflection: string;
+}
+
 export interface Part {
   id: string;
   n: number;
@@ -27,6 +41,7 @@ export interface Part {
   title: string;
   /** Resumen de una línea para el índice junto al video */
   summary: string;
+  art: Art;
   paragraphs: string[];
   fragment?: Fragment;
   cards?: Card[];
@@ -40,6 +55,29 @@ export const DRIVE_ID = '1fMyFStnQaGAft1fT6hyTBdhQEWRkrqtt';
 export const guidingQuestion =
   'Si Valeria cumple lo que el código le pide, ¿el código la respalda?';
 
+/** Parte 3: la cuenta de Ricardo frente a la de Mill */
+export const tally = [
+  { n: '12', label: 'personas que Ricardo contó', note: 'tienen nombre, cara y escritorio' },
+  { n: '200 000', label: 'personas que olvidó', note: 'son filas de un Excel' }
+];
+
+/** Parte 6: las dos éticas de Weber aplicadas a Valeria */
+export const weberEthics = [
+  {
+    name: 'Ética de la convicción',
+    idea: 'Actúa por principios, cueste lo que cueste.',
+    valeria: 'Valeria la cumple: no carga la base.'
+  },
+  {
+    name: 'Ética de la responsabilidad',
+    idea: 'Se hace cargo de lo que pasa después.',
+    valeria: 'Le falta: dejarlo por escrito, avisar y proponer otra salida.'
+  }
+];
+
+export const commitment =
+  'Como futuros ingenieros, nos comprometemos a no usar datos sin saber de dónde vienen, y a no dejar solo a quien se niegue.';
+
 export const parts: Part[] = [
   {
     id: 'intro',
@@ -47,6 +85,14 @@ export const parts: Part[] = [
     tag: 'Intro y contexto',
     title: '¿Por qué volvimos a nuestro propio podcast?',
     summary: 'Qué pasa en Datos a luca y por qué lo escuchamos otra vez.',
+    art: {
+      key: 'leviatan',
+      title: 'Frontispicio de Leviatán',
+      author: 'Abraham Bosse para Thomas Hobbes',
+      year: '1651',
+      alt: 'Grabado del frontispicio de Leviatán: un gigante coronado, con espada y báculo, cuyo cuerpo está formado por cientos de personas pequeñas',
+      reflection: 'Mira de cerca el cuerpo del gigante: está hecho de cientos de personas. Así entendemos una profesión. No existe sola; la sostienen todos los que confían en ella.'
+    },
     paragraphs: [
       'Cuando grabamos Datos a luca, sentíamos que el dilema ya estaba resuelto: Valeria no debía cargar la base y punto. Semanas después lo volvimos a escuchar y algo nos incomodó. Habíamos dedicado todo el episodio a si debía decir que no, y casi nada a lo que le pasaba después de decirlo.',
       'El caso se cuenta rápido. Lima, fin de trimestre, una aseguradora que no llega a su meta. Ricardo, el jefe, compra por 1500 soles un Excel con 200 000 nombres, DNI y celulares, el mismo formato que circula en los bots de Telegram. Si la campaña no sale, se van doce personas del área comercial, y una de ellas es el practicante que Valeria formó. Ella sabe que la Ley 29733 lo prohíbe. Lo que la paraliza no es la ley, es el costo.',
@@ -62,6 +108,14 @@ export const parts: Part[] = [
     tag: 'Fragmento del podcast',
     title: 'Doce contra doscientos mil',
     summary: 'Ricardo hace la cuenta como Mill; Valeria responde como Kant.',
+    art: {
+      key: 'panoptico',
+      title: 'Plano del panóptico de Jeremy Bentham',
+      author: 'Willey Reveley',
+      year: '1791',
+      alt: 'Plano y corte de una cárcel circular: las celdas rodean una torre central desde la que se puede vigilar a todos',
+      reflection: 'Desde la torre se ve cada celda, pero el preso nunca sabe si lo están mirando, así que se porta bien por si acaso. Foucault lo usó para explicar cómo nos moldea la vigilancia. Valeria se pregunta lo contrario: ¿y si nadie mira?'
+    },
     paragraphs: [
       'El corazón del episodio es una discusión de cinco minutos. Ricardo no niega que los datos sean robados; prefiere hacer cuentas. Valeria no discute las cuentas; discute la regla.'
     ],
@@ -88,6 +142,14 @@ export const parts: Part[] = [
     tag: 'Fragmento del video-reacción',
     title: 'La cuenta estaba mal hecha',
     summary: 'Al leer a Mill descubrimos que Ricardo se olvidó de 200 000 personas.',
+    art: {
+      key: 'censo',
+      title: 'El censo de Belén',
+      author: 'Pieter Bruegel el Viejo',
+      year: '1566',
+      alt: 'Pintura de un pueblo nevado lleno de gente: a la izquierda, una multitud hace cola ante una posada para ser registrada',
+      reflection: 'Bruegel pintó un censo: un pueblo entero haciendo cola para quedar anotado en un registro. Cada figura tiene frío, prisa, algo que hacer. En el libro del recaudador, en cambio, solo queda un nombre. Eso es una fila de Excel.'
+    },
     paragraphs: [
       'Lo que más nos sorprendió al revisar el podcast fue darnos cuenta de que el choque entre Kant y Mill era, en parte, un error de suma. Leímos Utilitarianism y Mill es claro: lo que importa es la felicidad de todos los afectados, no solo la de quienes están en la reunión.'
     ],
@@ -111,6 +173,14 @@ export const parts: Part[] = [
     tag: 'Humanización: los vacíos',
     title: 'Lo que el código no dice',
     summary: 'Los artículos 29 y 34 le dicen qué no hacer, pero la dejan sola.',
+    art: {
+      key: 'interior',
+      title: 'Interior con mujer de espaldas',
+      author: 'Vilhelm Hammershøi',
+      year: '1903–1904',
+      alt: 'Pintura en tonos grises: una mujer vestida de negro, de espaldas, sola en una habitación casi vacía',
+      reflection: 'Una mujer de espaldas en un cuarto casi vacío. Así imaginamos a Valeria después de decir que no: con la razón de su lado y nadie alrededor.'
+    },
     paragraphs: [
       'Primero, una distinción que nos ayudó mucho: no todas las normas son iguales. En el caso de Valeria, tres normas jalan para lados distintos. La legal, la Ley 29733, dice que no. La social, el «así funciona el sector», dice que todos lo hacen. La moral, su conciencia, dice que esas personas no son un medio. El código deontológico debería ser el puente entre las tres. ¿Lo es?',
       'Revisamos dos artículos del Código de Ética del Colegio de Ingenieros del Perú. A primera vista, Valeria tiene el código de su lado. Pero cuando lo lees pensando en ella, en ese día y con esa presión, aparecen los huecos.'
@@ -136,6 +206,14 @@ export const parts: Part[] = [
     tag: 'Humanización: la propuesta',
     title: 'Tres cambios para que decir que no sea posible',
     summary: 'Reformamos los artículos 29 y 34 y proponemos uno nuevo, el 29-A.',
+    art: {
+      key: 'juramento',
+      title: 'El juramento del Juego de Pelota',
+      author: 'Jacques-Louis David',
+      year: '20 de junio de 1789',
+      alt: 'Pintura de una multitud en un salón que levanta los brazos para jurar, alrededor de un hombre de pie sobre una mesa',
+      reflection: 'En 1789, cientos de diputados juraron no separarse hasta darse una nueva constitución. Para Rousseau, una norma es legítima cuando nace de todos y no de unos pocos. Reescribir un código es eso: ponerse de acuerdo sobre cómo queremos vivir juntos.'
+    },
     paragraphs: [
       'Humanizar el código, para nosotros, no es hacerlo más blando. Es escribirlo para la persona que de verdad decide: la que trabaja en una cadena con jefes, metas y miedo, y no para un ingeniero ideal que decide solo y sin presión. Propusimos tres cambios.'
     ],
@@ -181,19 +259,23 @@ export const parts: Part[] = [
     tag: 'Cierre',
     title: 'Negarse no basta',
     summary: 'Weber: convicción y responsabilidad. Y nuestro compromiso.',
+    art: {
+      key: 'samaritano',
+      title: 'El buen samaritano (según Delacroix)',
+      author: 'Vincent van Gogh',
+      year: '1890',
+      alt: 'Pintura de colores intensos: un hombre sube a un herido a su caballo mientras, al fondo, dos figuras se alejan por el camino',
+      reflection: 'Fíjate en el fondo: dos personas se alejan por el camino. Pasaron junto al herido y siguieron. No le hicieron nada… ¿o sí? Eso es la responsabilidad por omisión.'
+    },
     paragraphs: [
       'Aunque el código cambie, Valeria sigue decidiendo bajo presión. Su jefe le dice «la decisión es mía», sus compañeros no dicen nada y, si a las cinco no está la campaña, empiezan los despidos.',
-      'Weber distingue dos éticas. La de la convicción actúa por principios, cueste lo que cueste. La de la responsabilidad se hace cargo de lo que pasa después. Y dice que un buen profesional necesita las dos. Al negarse, Valeria cumple con la primera, y eso es lo correcto. Pero si solo rechaza la orden, Ricardo le pasa el archivo a otro analista, la base se carga igual y el practicante pierde su puesto igual. Son las consecuencias no deseadas de una decisión correcta. ¿De qué sirvió entonces su «no»?',
+      'Weber distingue dos éticas y dice que un buen profesional necesita las dos. Si Valeria solo rechaza la orden, Ricardo le pasa el archivo a otro analista, la base se carga igual y el practicante pierde su puesto igual. Son las consecuencias no deseadas de una decisión correcta. ¿De qué sirvió entonces su «no»?'
+    ],
+    after: [
       'Por eso creemos que lo correcto era no cargar la base, y en eso coinciden Kant y el propio Mill bien aplicado. Pero negarse no basta: hay que dejarlo por escrito, avisar y proponer otra salida. Y los que no hicieron nada también respondieron. Es la responsabilidad por omisión: Ricardo nunca cuestionó la meta y los demás callaron. No actuar también fue una decisión.',
       'Aquí volvemos a Zimbardo (2008). Para él, el héroe no es alguien extraordinario, sino una persona común que actúa cuando los demás se quedan quietos. En esa oficina no hacía falta un héroe solitario; hacía falta que alguien más dijera «yo tampoco la cargo».',
       'Entonces, ¿el código respalda a Valeria? Solo en parte. Le dice qué no hacer, pero la deja sola con las consecuencias. Y eso no debería depender del valor de una sola persona.'
     ],
-    fragment: {
-      label: 'Nuestro compromiso',
-      lines: [
-        { text: 'Como futuros ingenieros, nos comprometemos a no usar datos sin saber de dónde vienen, y a no dejar solo a quien se niegue.' }
-      ]
-    },
     question:
       'En el podcast preguntamos si cargarías el archivo sabiendo que nadie va a preguntar de dónde salió. Hoy agregamos otra: si quien se niega es tu compañero de al lado, ¿te quedarías callado?'
   }
