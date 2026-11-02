@@ -1,0 +1,98 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import References from '../components/References.astro';
+import { COURSE } from '../lib/portfolio';
+import { DRIVE_ID, guidingQuestion, parts } from '../lib/videoreaccion';
+---
+
+<BaseLayout
+  title={`Video-reacción crítico · ${COURSE.portfolioName}`}
+  description="Video-reacción crítico a nuestro podcast Datos a luca: vacíos del Código de Ética del CIP, tensiones ético-legales y una propuesta para humanizarlo."
+  crumbs={[{ label: 'Video-reacción' }]}
+>
+  <header class="page-header">
+    <p class="page-header__eyebrow">Módulo III · Semanas 9–12 · AC7–AC9</p>
+    <h1 class="page-header__title">Video-reacción <span class="serif-em">crítico</span></h1>
+    <p class="page-header__lead">
+      Volvimos a escuchar nuestro podcast, Datos a luca, con el Código de Ética del Colegio
+      de Ingenieros del Perú al lado. Esta reflexión, en seis partes, es la base de nuestra EC2.
+    </p>
+  </header>
+
+  <div class="video-layout reveal">
+    <div class="video-frame-card">
+      <div class="video-embed">
+        <iframe
+          src={`https://drive.google.com/file/d/${DRIVE_ID}/preview`}
+          title="Video-reacción crítico al podcast"
+          loading="lazy"
+          allow="autoplay; fullscreen; picture-in-picture"
+          allowfullscreen
+        ></iframe>
+      </div>
+      <div class="video-meta">
+        <p class="video-meta__title">Nuestra reacción a Datos a luca</p>
+        <p class="video-meta__sub">AC7–AC9 · 8 min 21 s · <a href={`https://drive.google.com/file/d/${DRIVE_ID}/view`} target="_blank" rel="noopener">Abrir en Google Drive</a></p>
+      </div>
+    </div>
+
+    <nav class="analysis-list" aria-label="Partes de la reflexión">
+      {parts.map((p) => (
+        <a class="analysis-item analysis-item--link" href={`#${p.id}`}>
+          <p class="analysis-item__label">{p.n} · {p.tag}</p>
+          <p>{p.summary}</p>
+        </a>
+      ))}
+    </nav>
+  </div>
+
+  <div class="callout callout--serif reveal" style="margin-top: 28px;">
+    <p class="callout__label">La pregunta que guía todo</p>
+    <p>{guidingQuestion}</p>
+  </div>
+
+  {parts.map((p) => (
+    <section class="mblock reveal" id={p.id}>
+      <h2 class="mblock__title">{p.title} <span class="mblock__week">{p.n} · {p.tag}</span></h2>
+      {p.paragraphs.map((par) => <p>{par}</p>)}
+
+      {p.fragment && (
+        <blockquote class="fragment">
+          <p class="callout__label">{p.fragment.label}</p>
+          {p.fragment.lines.map((l) => (
+            <p class="fragment__line">
+              {l.who && <span class="fragment__who">{l.who}</span>}
+              {l.text}
+            </p>
+          ))}
+        </blockquote>
+      )}
+
+      {p.cards && (
+        <div class="proposal-grid">
+          {p.cards.map((c) => (
+            <article class="proposal-card">
+              <p class="proposal-card__tag">{c.tag}</p>
+              <p class="proposal-card__title">{c.title}</p>
+              <ul>
+                {c.points.map((pt) => <li>{pt}</li>)}
+              </ul>
+              <p class="proposal-card__basis">{c.basis}</p>
+            </article>
+          ))}
+        </div>
+      )}
+
+      {p.after?.map((par) => <p>{par}</p>)}
+
+      <div class="callout">
+        <p class="callout__label">Para pensar</p>
+        <p style="margin:0;">{p.question}</p>
+      </div>
+    </section>
+  ))}
+
+  <div class="reveal" style="margin-top: 40px;">
+    <References code="AC7–AC9" />
+  </div>
+</BaseLayout>

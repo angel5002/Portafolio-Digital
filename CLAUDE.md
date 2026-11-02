@@ -14,7 +14,7 @@ El sitio reutiliza el diseño y las funcionalidades del blog de Realidad Naciona
 | Equipo | `/equipo` | — | listo (faltan datos, ver abajo) |
 | Manifiesto de Identidad Ética | `/manifiesto` | I · sem. 1–5 | AC1–AC4 integrados |
 | Podcast de Dilema Moral | `/podcast` | II · sem. 6–7 | desactivada (plantilla en `src/pages-disabled/`) |
-| Video-reacción crítico | `/video-reaccion` | III · sem. 9–12 | desactivada (plantilla en `src/pages-disabled/`) |
+| Video-reacción crítico | `/video-reaccion` | III · sem. 9–12 | publicada: video de Drive + reflexión en 6 partes para la EC2 (`src/lib/videoreaccion.ts`) |
 | Infografía de Integridad y Sostenibilidad | `/infografia` | IV · sem. 13–15 | desactivada (plantilla en `src/pages-disabled/`) |
 
 Extras heredados del blog: `/bitacora` (una entrada MDX por aprendizaje colaborativo), `/tags`, `/sobre` (curso, módulos, evaluaciones y hoja de ruta).
@@ -40,7 +40,7 @@ Extras heredados del blog: `/bitacora` (una entrada MDX por aprendizaje colabora
 
 - LinkedIn de todos.
 - Nombre del docente.
-- Podcast, video-reacción, infografía.
+- Podcast, infografía.
 - Banda sonora de AC1 y AC3 (`music:` en el frontmatter).
 - Canción de Leonardo (campo `song` en `team.ts`).
 

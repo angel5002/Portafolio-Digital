@@ -83,6 +83,38 @@ export const references: Record<string, Reference[]> = {
     },
     ficha('2026a', 'AC4', 'Mapa de negligencias y acciones positivas en nuestro ámbito profesional'),
     sesion('2026b', 4, 'Verdad lógica vs. verdad ética, falacias y posverdad, y método socrático para la resolución de problemas')
+  ],
+  // Video-reacción: autores y normas que citamos en el podcast y en el video,
+  // y el material de las semanas 9–11 del sílabo
+  'AC7–AC9': [
+    { lead: 'Alvarez, K. (2015).', title: 'El experimento de la prisión de Stanford', rest: ' [Película].' },
+    { lead: 'Colegio de Ingenieros del Perú. (s. f.).', title: 'Código de Ética del Colegio de Ingenieros del Perú', rest: '.' },
+    { lead: 'Congreso de la República del Perú. (2011).', title: 'Ley N.° 29733, Ley de Protección de Datos Personales', rest: '.' },
+    { lead: 'Foucault, M. (1975).', title: 'Vigilar y castigar', rest: '.' },
+    { lead: 'Hobbes, T. (1651).', title: 'Leviatán', rest: '.' },
+    {
+      lead: 'Kant, I. (2012).',
+      title: 'Fundamentación de la metafísica de las costumbres',
+      rest: '. Obra original publicada en 1785.'
+    },
+    { lead: 'Locke, J. (1690).', title: 'Segundo tratado sobre el gobierno civil', rest: '.' },
+    { lead: 'Mill, J. S. (1863).', title: 'Utilitarianism', rest: '.' },
+    { lead: 'Rousseau, J.-J. (1762).', title: 'El contrato social', rest: '.' },
+    {
+      lead: 'TED. (2008).',
+      title: 'Philip Zimbardo: cómo la gente corriente se convierte en monstruos... o héroes',
+      rest: ' [Video]. YouTube.',
+      url: 'https://www.youtube.com/watch?v=OsFEV35tWsg'
+    },
+    sesion('2026b', 9, 'Contrato social y normas profesionales'),
+    sesion('2026b', 10, 'Análisis de los códigos deontológicos'),
+    sesion('2026b', 11, 'La brecha entre la ética de la intención y el desempeño profesional'),
+    {
+      lead: 'Weber, M. (1919).',
+      title: 'La política como vocación',
+      rest: '.',
+      url: 'https://archive.org/details/weber-politica-vocacion/page/2/mode/1up'
+    }
   ]
 };
 

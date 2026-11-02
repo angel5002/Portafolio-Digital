@@ -65,7 +65,7 @@ export const sections: Section[] = [
     title: 'Video-reacción crítico',
     eyebrow: 'Módulo III · Semanas 9–12',
     desc: 'Revisamos nuestro propio podcast: vacíos normativos, tensiones ético-legales y una propuesta para humanizar el código deontológico.',
-    status: 'todo',
+    status: 'done',
     icon: 'video'
   },
   {
@@ -97,7 +97,7 @@ export const roadmap: Milestone[] = [
   { code: 'AC4', title: 'Mapa de negligencias y acciones positivas', when: 'Semana 4', status: 'done', href: 'bitacora/ac4-mapa-de-negligencias', note: 'Manifiesto' },
   { code: 'EC1', title: 'Presentación del Manifiesto de Identidad Ética completo', when: 'Semana 5', status: 'todo', href: 'manifiesto', note: '18 % de la nota' },
   { code: 'AC5–AC6', title: 'Guion del podcast (dilema ético profesional)', when: 'Semanas 6–7', status: 'todo', href: 'podcast' },
-  { code: 'AC7–AC9', title: 'Video-reacción al podcast', when: 'Semanas 9–11', status: 'todo', href: 'video-reaccion' },
+  { code: 'AC7–AC9', title: 'Video-reacción al podcast', when: 'Semanas 9–11', status: 'done', href: 'video-reaccion' },
   { code: 'EC2', title: 'Sustentación del portafolio', when: 'Semana 12', status: 'todo' },
   { code: 'AC10–AC11', title: 'Infografía de integridad y sostenibilidad', when: 'Semanas 13–14', status: 'todo', href: 'infografia' },
   { code: 'EC3', title: 'Sustentación final del portafolio', when: 'Semana 15', status: 'todo' }
