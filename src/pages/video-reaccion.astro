@@ -73,18 +73,18 @@ const WIDE = '(min-width: 1200px) 900px, 92vw';
         <h2>{intro.title}</h2>
       </div>
     </div>
-    <div class="vr-hero__lede">
-      <p class="vr-lede">{intro.paragraphs[0]}</p>
-      <aside class="vr-note">
+    <div class="vr-hero__body">
+      <div class="vr-hero__text">
+        <p class="vr-lede">{intro.paragraphs[0]}</p>
+        {intro.paragraphs.slice(1).map((par) => <p>{par}</p>)}
+        <p class="vr-question"><span>Para pensar</span>{intro.question}</p>
+      </div>
+      <aside class="vr-note vr-hero__note">
         <p class="art__why">¿Por qué esta imagen?</p>
         <p class="art__reflection">{intro.art.reflection}</p>
         <p class="art__credit"><em>{intro.art.title}</em> · {intro.art.author}, {intro.art.year}</p>
       </aside>
     </div>
-    <div class="vr-cols">
-      {intro.paragraphs.slice(1).map((par) => <p>{par}</p>)}
-    </div>
-    <p class="vr-question"><span>Para pensar</span>{intro.question}</p>
   </section>
 
   <!-- ── 2 · Texto y diálogo a la izquierda, panóptico fijo a la derecha ── -->
@@ -94,14 +94,33 @@ const WIDE = '(min-width: 1200px) 900px, 92vw';
       <h2 class="vr-title">{podcast.title}</h2>
       {podcast.paragraphs.map((par) => <p>{par}</p>)}
       {podcast.fragment && (
-        <div class="vr-chat" aria-label={podcast.fragment.label}>
-          <p class="callout__label">{podcast.fragment.label}</p>
-          {podcast.fragment.lines.map((l) => (
-            <p class:list={['vr-chat__bubble', { 'vr-chat__bubble--right': l.who === 'Valeria' }]}>
-              <span class="vr-chat__who">{l.who}</span>
-              {l.text}
-            </p>
-          ))}
+        <div class="vr-chat" role="group" aria-label={podcast.fragment.label}>
+          <div class="vr-chat__bar">
+            <span class="vr-chat__faces" aria-hidden="true">
+              <span class="vr-avatar">R</span>
+              <span class="vr-avatar vr-avatar--v">V</span>
+            </span>
+            <span class="vr-chat__head">
+              <span class="vr-chat__name">Ricardo y Valeria</span>
+              <span class="vr-chat__status">{podcast.fragment.label} · Datos a luca</span>
+            </span>
+          </div>
+          <div class="vr-chat__body">
+            <p class="vr-chat__day">Fin de trimestre · antes de las cinco</p>
+            {podcast.fragment.lines.map((l, i) => {
+              const out = l.who === 'Valeria';
+              const first = i === 0 || podcast.fragment!.lines[i - 1].who !== l.who;
+              return (
+                <div class:list={['vr-msg', { 'vr-msg--out': out, 'vr-msg--cont': !first }]}>
+                  {!out && <span class:list={['vr-avatar', { 'vr-avatar--ghost': !first }]} aria-hidden="true">R</span>}
+                  <p class="vr-msg__bubble">
+                    {first && <span class="vr-msg__who">{l.who}</span>}
+                    {l.text}
+                  </p>
+                </div>
+              );
+            })}
+          </div>
         </div>
       )}
       {podcast.after?.map((par) => <p>{par}</p>)}
@@ -132,14 +151,18 @@ const WIDE = '(min-width: 1200px) 900px, 92vw';
     <div class="vr-narrow">
       {reaccion.paragraphs.map((par) => <p>{par}</p>)}
       {reaccion.fragment && (
-        <blockquote class="vr-pull">
-          {reaccion.fragment.lines.map((l) => <p>{l.text}</p>)}
-          <cite>{reaccion.fragment.label}</cite>
-        </blockquote>
+        <div class="vr-quotes">
+          <p class="callout__label">{reaccion.fragment.label}</p>
+          {reaccion.fragment.lines.map((l) => (
+            <blockquote class="vr-quote">
+              <p>{l.text}</p>
+            </blockquote>
+          ))}
+        </div>
       )}
       {reaccion.after?.map((par) => <p>{par}</p>)}
+      <p class="vr-question"><span>Para pensar</span>{reaccion.question}</p>
     </div>
-    <p class="vr-question vr-question--center"><span>Para pensar</span>{reaccion.question}</p>
   </section>
 
   <!-- ── 4 · Figura flotante y artículos como documento ── -->
@@ -211,7 +234,7 @@ const WIDE = '(min-width: 1200px) 900px, 92vw';
   <section class="vr-part vr-close reveal" id={cierre.id}>
     <p class="vr-kicker">{cierre.n} · {cierre.tag}</p>
     <h2 class="vr-title vr-title--big">{cierre.title}</h2>
-    <div class="vr-cols">
+    <div class="vr-close__intro">
       {cierre.paragraphs.map((par) => <p>{par}</p>)}
     </div>
     <div class="vr-ethics">
@@ -224,10 +247,15 @@ const WIDE = '(min-width: 1200px) 900px, 92vw';
       ))}
     </div>
     <div class="vr-close__grid">
-      <div>
+      <div class="vr-close__text">
         {cierre.after?.map((par) => <p>{par}</p>)}
+        <div class="vr-close__why">
+          <p class="art__why">¿Por qué esta imagen?</p>
+          <p class="art__reflection">{cierre.art.reflection}</p>
+          <p class="art__credit"><em>{cierre.art.title}</em> · {cierre.art.author}, {cierre.art.year}</p>
+        </div>
       </div>
-      <ArtFigure art={cierre.art} src={samaritano} sizes="(min-width: 1024px) 360px, 92vw" />
+      <ArtFigure art={cierre.art} src={samaritano} sizes="(min-width: 1024px) 360px, 92vw" bare />
     </div>
     <blockquote class="vr-commitment">
       <p class="callout__label">Nuestro compromiso</p>

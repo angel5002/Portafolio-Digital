@@ -2144,14 +2144,6 @@
   border: 1px solid var(--card-border-color);
 }
 
-// Texto en dos columnas en pantallas anchas
-.vr-cols { margin-top: 8px; }
-.vr-cols p { margin: 0 0 14px; break-inside: avoid; }
-
-@media (min-width: 1024px) {
-  .vr-cols { columns: 2; column-gap: 36px; }
-}
-
 // 1 · Portada
 .vr-hero__cover { position: relative; }
 
@@ -2188,19 +2180,23 @@
   color: #fff;
 }
 
-.vr-hero__lede {
+// Una sola columna de lectura; la nota de la imagen acompaña a un lado
+.vr-hero__body {
   display: grid;
-  gap: 18px;
-  margin: 28px 0 10px;
-  align-items: start;
+  gap: 22px;
+  margin-top: 30px;
 }
 
+.vr-hero__text p { margin: 0 0 14px; }
+.vr-hero__note { order: -1; }
+
 @media (min-width: 1024px) {
-  .vr-hero__lede { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: 32px; }
+  .vr-hero__body { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: 40px; align-items: start; }
+  .vr-hero__note { order: 0; position: sticky; top: 24px; }
 }
 
 .vr-part .vr-lede {
-  margin: 0;
+  margin: 0 0 18px;
   font-family: var(--font-serif);
   font-size: 22px;
   line-height: 1.5;
@@ -2219,40 +2215,112 @@
 
 .art--paper .art__media { background: #f6f3ea; padding: 14px; }
 
+// Diálogo del podcast como ventana de chat
 .vr-chat {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin: 22px 0 24px;
+  margin: 24px 0 26px;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  border: 1px solid var(--card-border-color);
+  background: var(--card-bg);
+  box-shadow: var(--card-shadow);
 }
 
-.vr-part .vr-chat__bubble {
-  max-width: 86%;
-  margin: 0;
+.vr-chat__bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
   padding: 12px 16px;
-  border-radius: 18px 18px 18px 4px;
+  border-bottom: 1px solid var(--border-color);
+  background: var(--accent-soft);
+}
+
+.vr-chat__faces { display: flex; }
+.vr-chat__faces .vr-avatar + .vr-avatar { margin-left: -10px; box-shadow: 0 0 0 2px var(--card-bg); }
+
+.vr-chat__head { display: flex; flex-direction: column; line-height: 1.3; }
+.vr-chat__name { font-size: 14px; font-weight: 600; color: var(--heading-color); }
+.vr-chat__status { font-size: 12px; color: var(--text-muted-color); }
+
+.vr-chat__body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 14px 16px 18px;
+  background:
+    radial-gradient(circle at 100% 0%, var(--accent-soft), transparent 45%),
+    var(--main-bg);
+}
+
+.vr-part .vr-chat__day {
+  align-self: center;
+  margin: 0 0 10px;
+  padding: 3px 12px;
+  border-radius: var(--radius-pill);
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  font-size: 11.5px;
+  color: var(--text-muted-color);
+}
+
+.vr-avatar {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff;
+  background: #5b6aa8;
+}
+
+.vr-avatar--v { background: #b8862f; }
+.vr-avatar--ghost { visibility: hidden; }
+
+.vr-msg {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.vr-msg--cont { margin-top: 0; }
+.vr-msg--out { justify-content: flex-end; }
+
+.vr-part .vr-msg__bubble {
+  max-width: 78%;
+  margin: 0;
+  padding: 9px 13px;
+  border-radius: 16px 16px 16px 4px;
   background: var(--card-bg);
   border: 1px solid var(--card-border-color);
   font-size: 14.5px;
-  line-height: 1.55;
+  line-height: 1.5;
+  color: var(--text-color);
 }
 
-.vr-part .vr-chat__bubble--right {
-  align-self: flex-end;
-  border-radius: 18px 18px 4px 18px;
-  background: var(--accent-soft);
+.vr-part .vr-msg--out .vr-msg__bubble {
+  border-radius: 16px 16px 4px 16px;
+  background: #b8862f;
   border-color: transparent;
+  color: #fff;
 }
 
-.vr-chat__who {
+.vr-part .vr-msg--out.vr-msg--cont .vr-msg__bubble { border-top-right-radius: 4px; }
+
+.vr-msg__who {
   display: block;
-  margin-bottom: 2px;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--accent-text);
+  margin-bottom: 1px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #8f9ce0;
 }
+
+.vr-msg--out .vr-msg__who { color: rgba(255, 255, 255, 0.85); }
+
+:root[data-theme='light'] .vr-msg__who { color: #3b4a8a; }
+:root[data-theme='light'] .vr-msg--out .vr-msg__who { color: rgba(255, 255, 255, 0.9); }
 
 // 3 · Panorámica + cifras
 .art--panorama { position: relative; margin-top: 8px; }
@@ -2312,31 +2380,46 @@
 .vr-narrow { max-width: 680px; margin: 0 auto; }
 .vr-narrow p { margin: 0 0 14px; }
 
-.vr-pull {
-  margin: 28px 0;
-  padding: 0;
-  text-align: center;
+// Citas del video: tarjetas alineadas a la izquierda, una al lado de otra
+.vr-quotes {
+  display: grid;
+  gap: 12px;
+  margin: 24px 0 26px;
 }
 
-.vr-part .vr-pull p {
-  margin: 0 0 14px;
+.vr-quotes .callout__label { grid-column: 1 / -1; margin: 0; }
+
+@media (min-width: 720px) {
+  .vr-quotes { grid-template-columns: 1fr 1fr; }
+}
+
+.vr-quote {
+  position: relative;
+  margin: 0;
+  padding: 40px 20px 18px;
+  border-radius: var(--radius-lg);
+  background: var(--card-bg);
+  border: 1px solid var(--card-border-color);
+}
+
+.vr-quote::before {
+  content: '“';
+  position: absolute;
+  top: 2px;
+  left: 16px;
+  font-family: var(--font-serif);
+  font-size: 56px;
+  line-height: 1;
+  color: var(--accent-text);
+}
+
+.vr-part .vr-quote p {
+  margin: 0;
   font-family: var(--font-serif);
   font-style: italic;
-  font-size: 24px;
-  line-height: 1.4;
+  font-size: 18px;
+  line-height: 1.45;
   color: var(--heading-color);
-}
-
-.vr-pull p::before { content: '«'; color: var(--accent-text); }
-.vr-pull p::after { content: '»'; color: var(--accent-text); }
-
-.vr-pull cite {
-  font-style: normal;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--text-muted-color);
 }
 
 // 4 · Figura flotante + artículos como documento
@@ -2432,7 +2515,7 @@
 .proposal-grid.vr-band__cards {
   position: relative;
   z-index: 2;
-  margin: -64px 20px 0;
+  margin: -64px 0 0;
 }
 
 .vr-band__cards .proposal-card { box-shadow: var(--card-shadow); }
@@ -2482,16 +2565,43 @@
 .vr-part .vr-ethics__idea { margin: 0 0 10px; }
 .vr-part .vr-ethics__valeria { margin: 0; font-size: 13.5px; font-weight: 600; color: var(--accent-text); }
 
+.vr-close__intro p { margin: 0 0 14px; }
+
 .vr-close__grid {
   display: grid;
   gap: 28px;
-  align-items: start;
 }
 
-.vr-close__grid p { margin: 0 0 14px; }
+.vr-close__text p { margin: 0 0 14px; }
+.vr-close__text p:last-child { margin-bottom: 0; }
 
+// La reflexión de la pintura va en la columna de texto: así la pintura ocupa
+// todo el alto del bloque y no queda espacio vacío a ningún lado
+.vr-close__why {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border-color);
+}
+
+.vr-close__grid .art__media img { aspect-ratio: 4 / 5; object-fit: cover; }
+
+// En escritorio la pintura mide lo mismo que el texto de al lado, y el corte
+// entre las dos éticas cae justo donde empieza la pintura (columnas 3fr / 2fr)
 @media (min-width: 1024px) {
-  .vr-close__grid { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: 40px; }
+  .vr-close__grid { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: 40px; align-items: stretch; }
+
+  .vr-close__grid .art { display: flex; flex-direction: column; }
+  .vr-close__grid .art__media { position: relative; flex: 1 1 auto; min-height: 260px; }
+
+  .vr-close__grid .art__media img {
+    position: absolute;
+    inset: 0;
+    height: 100%;
+    aspect-ratio: auto;
+    object-position: 50% 35%;
+  }
+
+  .vr-ethics { grid-template-columns: calc((100% - 40px) * 0.6 + 40px) minmax(0, 1fr); }
 }
 
 .vr-commitment {
