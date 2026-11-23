@@ -223,6 +223,21 @@ export function initPodcast(): void {
   // Al navegar a otra página el <audio> se va con ella: dejarlo en pausa
   document.addEventListener('astro:before-swap', () => audio.pause(), { signal, once: true });
 
+  // Las meninas: el foco sigue al cursor
+  document.querySelectorAll<HTMLElement>('[data-pc-spot]').forEach((el) => {
+    el.addEventListener(
+      'pointermove',
+      (e) => {
+        const media = el.querySelector<HTMLElement>('.art__media');
+        if (!media) return;
+        const r = media.getBoundingClientRect();
+        media.style.setProperty('--mx', `${e.clientX - r.left}px`);
+        media.style.setProperty('--my', `${e.clientY - r.top}px`);
+      },
+      { signal }
+    );
+  });
+
   render();
   syncPlaying();
 }

@@ -1,12 +1,20 @@
 ---
-// Obra de arte de la página Video-reacción, con la reflexión que nos provoca
-// («¿Por qué esta imagen?») y su ficha. Datos en src/lib/videoreaccion.ts.
+// Obra de arte con la reflexión que nos provoca («¿Por qué esta imagen?») y
+// su ficha. La usan Video-reacción (src/lib/videoreaccion.ts) y Podcast
+// (src/lib/podcast.ts).
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
-import type { Art } from '../lib/videoreaccion';
+
+export interface ArtInfo {
+  title: string;
+  author: string;
+  year: string;
+  alt: string;
+  reflection: string;
+}
 
 interface Props {
-  art: Art;
+  art: ArtInfo;
   src: ImageMetadata;
   sizes: string;
   class?: string;

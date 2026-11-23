@@ -87,14 +87,20 @@ export const references: Record<string, Reference[]> = {
   ],
   // Podcast: los marcos y la norma que se discuten en el episodio
   'AC5–AC6': [
+    { lead: 'Caravaggio. (1599–1600).', title: 'La vocación de san Mateo', rest: ' [Pintura]. Iglesia de San Luis de los Franceses, Roma, Italia.', url: 'https://commons.wikimedia.org/wiki/File:The_Calling_of_Saint_Matthew-Caravaggo_(1599-1600).jpg' },
     { lead: 'Congreso de la República del Perú. (2011).', title: 'Ley N.° 29733, Ley de Protección de Datos Personales', rest: '.' },
+    { lead: 'Foucault, M. (1966).', title: 'Las palabras y las cosas', rest: '.' },
     { lead: 'Foucault, M. (1975).', title: 'Vigilar y castigar', rest: '.' },
+    { lead: 'Friedrich, C. D. (ca. 1818).', title: 'El caminante sobre el mar de nubes', rest: ' [Pintura]. Hamburger Kunsthalle, Hamburgo, Alemania.', url: 'https://commons.wikimedia.org/wiki/File:Caspar_David_Friedrich_-_Wanderer_above_the_sea_of_fog.jpg' },
     {
       lead: 'Kant, I. (2012).',
       title: 'Fundamentación de la metafísica de las costumbres',
       rest: '. Obra original publicada en 1785.'
     },
-    { lead: 'Mill, J. S. (1863).', title: 'Utilitarianism', rest: '.' }
+    { lead: 'Matsys, Q. (1514).', title: 'El cambista y su mujer', rest: ' [Pintura]. Museo del Louvre, París, Francia.', url: 'https://commons.wikimedia.org/wiki/File:Quentin_Massys_001.jpg' },
+    { lead: 'Mill, J. S. (1863).', title: 'Utilitarianism', rest: '.' },
+    { lead: 'Velázquez, D. (1656).', title: 'Las meninas', rest: ' [Pintura]. Museo Nacional del Prado, Madrid, España.', url: 'https://commons.wikimedia.org/wiki/File:Las_Meninas,_by_Diego_Vel%C3%A1zquez,_from_Prado_in_Google_Earth.jpg' },
+    { lead: 'Vermeer, J. (ca. 1664).', title: 'Mujer con balanza', rest: ' [Pintura]. National Gallery of Art, Washington D. C., Estados Unidos.', url: 'https://commons.wikimedia.org/wiki/File:Johannes_Vermeer_-_Woman_Holding_a_Balance_-_Google_Art_Project.jpg' }
   ],
   // Video-reacción: autores y normas que citamos en el podcast y en el video,
   // y el material de las semanas 9–11 del sílabo

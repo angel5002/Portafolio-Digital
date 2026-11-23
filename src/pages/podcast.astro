@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import References from '../components/References.astro';
+import ArtFigure from '../components/ArtFigure.astro';
 import { COURSE } from '../lib/portfolio';
 import { withBase } from '../lib/paths';
 import {
@@ -15,12 +16,19 @@ import {
   hindsight,
   questions,
   peaks,
+  arts,
   clock
 } from '../lib/podcast';
+import cambista from '../assets/images/podcast/cambista.jpg';
+import vocacion from '../assets/images/podcast/vocacion.jpg';
+import balanza from '../assets/images/podcast/balanza.jpg';
+import meninas from '../assets/images/podcast/meninas.jpg';
+import caminante from '../assets/images/podcast/caminante.jpg';
 
 // Página del podcast: un reproductor propio (forma de onda real, capítulos y
 // mini reproductor flotante en src/scripts/podcast.ts) y, debajo, el episodio
-// contado por partes. Cada parte tiene un botón para escucharla desde ahí.
+// contado por partes. Cada parte tiene un botón para escucharla desde ahí y
+// una obra de arte con su propia animación (src/lib/podcast.ts → arts).
 const base = import.meta.env.BASE_URL;
 const audioSrc = withBase(base, EPISODE.audio);
 const [ricardo, valeria] = voices;
@@ -145,12 +153,17 @@ const words = (n: number) => (n >= 10000 ? String(n).replace(/\B(?=(\d{3})+(?!\d
         Escuchar desde {clock(at(0).t)}
       </button>
     </div>
-    <h2 class="vr-title">Lima, fin de trimestre</h2>
-    <p class="pc-lede">
-      Una aseguradora que no llegó a su meta. Valeria, analista de datos, recibe de su jefe un Excel
-      que reconoce al instante: es el mismo formato que circula en los bots de Telegram. Ella sabe que
-      la Ley 29733 lo prohíbe. Lo que la paraliza no es la ley.
-    </p>
+    <div class="pc-case">
+      <div class="pc-case__text">
+        <h2 class="vr-title">Lima, fin de trimestre</h2>
+        <p class="pc-lede">
+          Una aseguradora que no llegó a su meta. Valeria, analista de datos, recibe de su jefe un Excel
+          que reconoce al instante: es el mismo formato que circula en los bots de Telegram. Ella sabe que
+          la Ley 29733 lo prohíbe. Lo que la paraliza no es la ley.
+        </p>
+      </div>
+      <ArtFigure art={arts.cambista} src={cambista} sizes="(min-width: 900px) 360px, 92vw" class="pc-art pc-art--wipe" />
+    </div>
     <ul class="pc-facts">
       {facts.map((f) => (
         <li class="pc-fact">
@@ -174,6 +187,8 @@ const words = (n: number) => (n >= 10000 ? String(n).replace(/\B(?=(\d{3})+(?!\d
       </button>
     </div>
     <h2 class="vr-title">Un solo clic</h2>
+
+    <ArtFigure art={arts.vocacion} src={vocacion} sizes="(min-width: 1200px) 900px, 92vw" class="pc-art pc-art--banner" />
 
     <div class="pc-script">
       <p class="pc-script__slug">Interior · Oficina de la aseguradora · Fin de trimestre</p>
@@ -204,9 +219,14 @@ const words = (n: number) => (n >= 10000 ? String(n).replace(/\B(?=(\d{3})+(?!\d
           </dl>
         </article>
       ))}
-      <div class="pc-duel__scale" aria-hidden="true">
-        <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M32 12v42M22 54h20M10 18h44M10 18l-6 14h12zM54 18l-6 14h12z"/><circle cx="32" cy="12" r="2.5"/></svg>
+      <div class="pc-duel__art">
+        <ArtFigure art={arts.balanza} src={balanza} sizes="(min-width: 1000px) 240px, 70vw" class="pc-art pc-art--sway" bare />
       </div>
+    </div>
+    <div class="art__cap pc-duel__cap">
+      <p class="art__why">¿Por qué esta imagen?</p>
+      <p class="art__reflection">{arts.balanza.reflection}</p>
+      <p class="art__credit"><em>{arts.balanza.title}</em> · {arts.balanza.author}, {arts.balanza.year}</p>
     </div>
   </section>
 
@@ -230,10 +250,22 @@ const words = (n: number) => (n >= 10000 ? String(n).replace(/\B(?=(\d{3})+(?!\d
         </li>
       ))}
     </ol>
-    <figure class="pc-doubt">
-      <blockquote><p>{doubt.quote}</p></blockquote>
-      <figcaption>{doubt.text}</figcaption>
-    </figure>
+    <div class="pc-gaze">
+      <div class="pc-gaze__art" data-pc-spot>
+        <ArtFigure art={arts.meninas} src={meninas} sizes="(min-width: 900px) 420px, 92vw" class="pc-art pc-art--spot pc-art--wipe" bare />
+      </div>
+      <div class="pc-gaze__text">
+        <figure class="pc-doubt">
+          <blockquote><p>{doubt.quote}</p></blockquote>
+          <figcaption>{doubt.text}</figcaption>
+        </figure>
+        <div class="art__cap">
+          <p class="art__why">¿Por qué esta imagen?</p>
+          <p class="art__reflection">{arts.meninas.reflection}</p>
+          <p class="art__credit"><em>{arts.meninas.title}</em> · {arts.meninas.author}, {arts.meninas.year}</p>
+        </div>
+      </div>
+    </div>
   </section>
 
   <!-- ── Cómo lo escuchamos hoy ── -->
@@ -288,15 +320,30 @@ const words = (n: number) => (n >= 10000 ? String(n).replace(/\B(?=(\d{3})+(?!\d
       </div>
     </div>
 
-    <h2 class="vr-title vr-title--center">Te dejamos estas preguntas</h2>
-    <ol class="pc-questions">
-      {questions.map((q, i) => (
-        <li class:list={{ 'is-last': i === questions.length - 1 }}>
-          {i === questions.length - 1 && <span>La más incómoda</span>}
-          {q}
-        </li>
-      ))}
-    </ol>
+    <div class="pc-ending">
+      <div class="pc-ending__art">
+        <div class="pc-fogwrap">
+          <ArtFigure art={arts.caminante} src={caminante} sizes="(min-width: 900px) 380px, 92vw" class="pc-art pc-art--wipe" bare />
+          <span class="pc-fog" aria-hidden="true"><i></i><i></i><i></i></span>
+        </div>
+        <div class="art__cap">
+          <p class="art__why">¿Por qué esta imagen?</p>
+          <p class="art__reflection">{arts.caminante.reflection}</p>
+          <p class="art__credit"><em>{arts.caminante.title}</em> · {arts.caminante.author}, {arts.caminante.year}</p>
+        </div>
+      </div>
+      <div class="pc-ending__questions">
+        <h2 class="vr-title">Te dejamos estas preguntas</h2>
+        <ol class="pc-questions">
+          {questions.map((q, i) => (
+            <li class:list={{ 'is-last': i === questions.length - 1 }}>
+              {i === questions.length - 1 && <span>La más incómoda</span>}
+              {q}
+            </li>
+          ))}
+        </ol>
+      </div>
+    </div>
   </section>
 
   <div class="reveal" style="margin-top: 56px;">

@@ -156,6 +156,65 @@ export const questions = [
   'Si supieras que nadie va a preguntar nunca de dónde salió ese archivo, ¿lo cargarías?'
 ];
 
+export interface PodcastArt {
+  /** Nombre del archivo en src/assets/images/podcast/ (sin extensión) */
+  key: 'cambista' | 'vocacion' | 'balanza' | 'meninas' | 'caminante';
+  title: string;
+  author: string;
+  year: string;
+  alt: string;
+  /** Por qué elegimos esta obra: la reflexión que nos provoca */
+  reflection: string;
+}
+
+/**
+ * Una obra por parte del episodio, todas de dominio público (Wikimedia
+ * Commons; ficha completa en referencias.ts, AC5–AC6). Cada una tiene su
+ * propia animación en portfolio.scss (sección «Podcast · obras»).
+ */
+export const arts: Record<PodcastArt['key'], PodcastArt> = {
+  cambista: {
+    key: 'cambista',
+    title: 'El cambista y su mujer',
+    author: 'Quentin Matsys',
+    year: '1514',
+    alt: 'Pintura: un cambista pesa monedas en una pequeña balanza sobre una mesa verde; a su lado, su mujer pasa las páginas de un libro de oraciones con la mirada puesta en el dinero. Un espejo convexo sobre la mesa refleja una ventana.',
+    reflection: 'Ella tiene abierto un libro de oraciones, pero no lo lee: mira las monedas que pesa su marido. Matsys lo pintó hace más de quinientos años, y es lo que pasa en una empresa a fin de trimestre: la conciencia sigue sobre la mesa, abierta, mientras los ojos se van a la cuenta.'
+  },
+  vocacion: {
+    key: 'vocacion',
+    title: 'La vocación de san Mateo',
+    author: 'Caravaggio',
+    year: '1599–1600',
+    alt: 'Pintura en penumbra: varios hombres sentados alrededor de una mesa con monedas; desde la derecha entra un haz de luz y una figura los señala.',
+    reflection: 'Mateo cobraba impuestos y estaba en su mesa, con las monedas, cuando entró la luz y alguien lo señaló. Todavía se discute cuál de los hombres es él: el que parece señalarse a sí mismo, como preguntando «¿yo?», o el joven que no levanta la vista del dinero. A Valeria la decisión también la encuentra en su escritorio. La pregunta es si va a levantar la mirada.'
+  },
+  balanza: {
+    key: 'balanza',
+    title: 'Mujer con balanza',
+    author: 'Johannes Vermeer',
+    year: 'c. 1664',
+    alt: 'Pintura: una mujer de pie junto a una ventana sostiene una pequeña balanza vacía sobre una mesa con perlas y monedas; detrás de ella cuelga un cuadro del Juicio Final.',
+    reflection: 'Los platillos de la balanza están vacíos. Detrás de la mujer cuelga un Juicio Final; frente a ella, perlas y monedas. Vermeer no pinta lo que se pesa, sino la calma antes de decidir. Ricardo y Valeria ponen cosas distintas en los platillos, pero en esa oficina nadie se da ese momento.'
+  },
+  meninas: {
+    key: 'meninas',
+    title: 'Las meninas',
+    author: 'Diego Velázquez',
+    year: '1656',
+    alt: 'Pintura: la infanta Margarita rodeada de sus damas, un perro y otros personajes en una gran sala; a la izquierda, el propio Velázquez, pincel en mano, mira hacia afuera; al fondo, un espejo refleja a los reyes.',
+    reflection: 'Foucault abre Las palabras y las cosas con este cuadro. Casi todos miran hacia afuera, hacia donde estamos nosotros, y el espejo del fondo muestra a los reyes: quienes miran también son mirados. Velázquez incluso se pintó a sí mismo, pincel en mano. Ricardo dice que nadie va a auditar el Excel; el cuadro responde que siempre hay alguien en el lugar del que mira, aunque sea uno mismo.'
+  },
+  caminante: {
+    key: 'caminante',
+    title: 'El caminante sobre el mar de nubes',
+    author: 'Caspar David Friedrich',
+    year: 'c. 1818',
+    alt: 'Pintura: un hombre de espaldas, de pie sobre una roca, contempla un paisaje de montañas cubierto de niebla.',
+    reflection: 'Friedrich pintó al caminante de espaldas: no vemos su cara ni sabemos qué piensa, solo lo que tiene delante. Eso nos pone en su lugar. Así cerramos el episodio: Valeria con el cursor sobre «cargar», y quien escucha parado donde está ella, frente a una niebla que no deja ver qué viene después.'
+  }
+};
+
 export const peaks: number[] = [
   0.76, 0.86, 0.68, 1.0, 0.51, 0.75, 0.95, 0.79, 0.73, 0.76, 0.56, 0.65, 0.77, 0.79, 0.73, 0.91,
   0.73, 0.87, 0.63, 0.92, 0.87, 0.71, 0.68, 0.53, 0.89, 0.6, 0.92, 0.86, 0.75, 0.77, 0.83, 0.79,

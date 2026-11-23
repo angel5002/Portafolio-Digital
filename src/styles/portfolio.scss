@@ -2454,14 +2454,6 @@
   margin-top: 26px;
 }
 
-@media (min-width: 860px) {
-  .pc-duel__grid {
-    grid-template-columns: minmax(0, 1fr) 72px minmax(0, 1fr);
-    align-items: stretch;
-    gap: 0;
-  }
-}
-
 .pc-voice {
   --c: var(--pc-r);
   padding: 26px 24px 24px;
@@ -2473,15 +2465,6 @@
 
 .pc-voice--ricardo { order: 1; }
 .pc-voice--valeria { --c: var(--pc-v); order: 3; }
-
-.pc-duel__scale {
-  order: 2;
-  display: grid;
-  place-items: center;
-  color: var(--text-muted-color);
-}
-
-.pc-duel__scale svg { width: 44px; height: 44px; }
 
 .pc-voice p { margin: 0; }
 
@@ -2869,8 +2852,9 @@
 }
 
 .pc-questions li span {
-  display: inline-block;
-  margin-bottom: 8px;
+  display: block;
+  width: fit-content;
+  margin: 0 auto 8px;
   padding: 3px 10px;
   border-radius: var(--radius-pill);
   background: color-mix(in srgb, var(--pc-alert) 14%, transparent);
@@ -2893,6 +2877,274 @@ html[data-effects='off'] {
   .pc-crm__cursor { animation: none !important; }
 
   .pc-mini { transition: none; }
+}
+
+// ─── Podcast · obras ───
+// Una obra por parte, cada una con su propio movimiento: El cambista y El
+// caminante se descubren de abajo hacia arriba al entrar en pantalla;
+// Caravaggio se desliza con el scroll mientras crece la luz que entra por la
+// derecha; Vermeer oscila despacio, como su balanza; Las meninas se
+// ilumina donde está el cursor (como un foco que mira) y sobre Friedrich se
+// mueve la niebla.
+
+@keyframes pc-sway {
+  0%, 100% { transform: rotate(-1.1deg); }
+  50% { transform: rotate(1.1deg); }
+}
+
+@keyframes pc-fog {
+  from { transform: translateX(-14%); }
+  to { transform: translateX(14%); }
+}
+
+@keyframes pc-light {
+  from { object-position: 50% 18%; }
+  to { object-position: 50% 64%; }
+}
+
+@keyframes pc-beam {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+// Descubrir de abajo hacia arriba al entrar en pantalla
+.reveal .pc-art--wipe .art__media {
+  clip-path: inset(100% 0 0 0 round var(--radius-lg));
+  transition:
+    clip-path 1.3s cubic-bezier(0.65, 0, 0.35, 1) 0.15s,
+    transform 0.6s cubic-bezier(0.2, 0.7, 0.2, 1),
+    box-shadow 0.6s ease,
+    outline-color 0.6s ease;
+}
+
+.reveal.is-revealed .pc-art--wipe .art__media { clip-path: inset(0 0 0 0 round var(--radius-lg)); }
+
+// Mientras se descubre, la obra llega un poco más cerca y se aleja
+.reveal:not(.is-revealed) .pc-art--wipe .art__media img { transform: scale(1.14); }
+
+// 1 · El caso: texto y El cambista lado a lado
+.pc-case {
+  display: grid;
+  gap: 26px;
+  align-items: center;
+}
+
+@media (min-width: 900px) {
+  .pc-case {
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+    gap: 44px;
+  }
+}
+
+.pc-case .pc-art {
+  width: 100%;
+  max-width: 400px;
+  justify-self: center;
+}
+
+// 2 · La escena: Caravaggio en panorámica
+.pc-art--banner { margin: 24px 0 0; }
+
+.pc-art--banner .art__media { aspect-ratio: 21 / 9; }
+
+@media (max-width: 700px) {
+  .pc-art--banner .art__media { aspect-ratio: 4 / 3; }
+}
+
+.pc-art--banner .art__media img {
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 40%;
+}
+
+// El haz de luz que entra por la derecha, como en el cuadro
+.pc-art--banner .art__media::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(205deg, rgba(255, 232, 180, 0.34) 0%, rgba(255, 232, 180, 0.08) 32%, transparent 55%);
+  opacity: 0.55;
+}
+
+@supports (animation-timeline: view()) {
+  html:not([data-effects='off']) .pc-art--banner .art__media img {
+    animation: pc-light linear both;
+    animation-timeline: view();
+    animation-range: entry 10% exit 90%;
+  }
+
+  html:not([data-effects='off']) .pc-art--banner .art__media::before {
+    animation: pc-beam linear both;
+    animation-timeline: view();
+    animation-range: entry 20% cover 55%;
+  }
+}
+
+.pc-art--banner .art__cap {
+  max-width: 720px;
+  margin-top: 14px;
+}
+
+// 3 · Mill frente a Kant: Vermeer al centro del tríptico
+.pc-duel__art {
+  order: 2;
+  display: grid;
+  place-items: center;
+  padding: 6px 0;
+}
+
+.pc-duel__art .pc-art { width: min(250px, 66vw); }
+
+.pc-art--sway {
+  transform-origin: 50% 0;
+  animation: pc-sway 7s ease-in-out infinite;
+}
+
+.pc-art--sway:hover { animation-play-state: paused; }
+
+@media (min-width: 860px) {
+  .pc-duel__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  .pc-duel__art {
+    grid-column: 1 / -1;
+    order: 0;
+  }
+}
+
+@media (min-width: 1000px) {
+  .pc-duel__grid {
+    grid-template-columns: minmax(0, 1fr) 230px minmax(0, 1fr);
+    align-items: center;
+    gap: 22px;
+  }
+
+  .pc-duel__art {
+    grid-column: auto;
+    order: 2;
+  }
+
+  .pc-duel__art .pc-art { width: 100%; }
+
+  .pc-voice { align-self: stretch; }
+}
+
+.pc-duel__cap {
+  max-width: 640px;
+  margin: 24px auto 0;
+  text-align: center;
+}
+
+// 4 · Las meninas junto a la duda de Valeria
+.pc-gaze {
+  display: grid;
+  gap: 26px;
+  margin-top: 52px;
+  align-items: center;
+}
+
+@media (min-width: 900px) {
+  .pc-gaze {
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: 46px;
+  }
+}
+
+.pc-gaze .pc-doubt {
+  max-width: none;
+  margin: 0 0 24px;
+  text-align: left;
+}
+
+.pc-gaze .pc-doubt figcaption { margin-top: 12px; }
+
+// Foco que sigue al cursor (--mx, --my los pone src/scripts/podcast.ts)
+.pc-art--spot .art__media::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: radial-gradient(circle at var(--mx, 50%) var(--my, 45%), transparent 0, transparent 90px, rgba(4, 6, 14, 0.66) 240px);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+@media (hover: hover) {
+  .pc-art--spot:hover .art__media::before { opacity: 1; }
+}
+
+// 5 · Te toca a ti: el caminante, con niebla que se mueve, junto a las preguntas
+.pc-ending {
+  display: grid;
+  gap: 30px;
+}
+
+.pc-ending .vr-title { text-align: center; }
+
+@media (min-width: 900px) {
+  .pc-ending {
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    gap: 50px;
+    align-items: start;
+  }
+
+  .pc-ending__art {
+    position: sticky;
+    top: calc(var(--topbar-height) + 24px);
+  }
+
+  .pc-ending .vr-title { text-align: left; }
+
+  .pc-ending .pc-questions { margin: 8px 0 0; }
+
+  .pc-ending .pc-questions li { text-align: left; }
+
+  .pc-ending .pc-questions li span { margin-left: 0; }
+}
+
+.pc-fogwrap { position: relative; }
+
+.pc-fog {
+  position: absolute;
+  inset: 38% 0 0;
+  z-index: 2;
+  overflow: hidden;
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  pointer-events: none;
+  transition: opacity 1.4s ease 0.9s;
+}
+
+.reveal:not(.is-revealed) .pc-fog { opacity: 0; }
+
+.pc-fog i {
+  position: absolute;
+  left: -25%;
+  width: 150%;
+  height: 60%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(236, 240, 247, 0.5), rgba(236, 240, 247, 0));
+  animation: pc-fog 18s ease-in-out infinite alternate;
+}
+
+.pc-fog i:nth-child(1) { top: 20%; }
+.pc-fog i:nth-child(2) { top: 50%; opacity: 0.8; animation-duration: 24s; animation-delay: -8s; }
+.pc-fog i:nth-child(3) { top: 0; opacity: 0.55; animation-duration: 30s; animation-delay: -15s; }
+
+// La niebla va encima: la obra no sube al pasar el mouse para no separarse
+.pc-fogwrap .art:hover .art__media { transform: none; }
+
+.pc-ending__art .art__cap { margin-top: 14px; }
+
+html[data-effects='off'] {
+  .pc-art--wipe .art__media { clip-path: none !important; }
+  .pc-art--sway,
+  .pc-fog i { animation: none !important; }
+  .pc-fog { opacity: 1 !important; }
 }
 
 // ─── Video-reacción ────────────────────────────────────────────────────────
