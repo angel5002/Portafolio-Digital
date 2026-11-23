@@ -10,6 +10,8 @@
 // - Plegar solo oculta el bloque; la música sigue.
 // - La pestaña de la izquierda esconde todo el dock hacia el borde derecho
 //   (queda asomando solo ella); la música también sigue.
+// - Se pausa cuando suena el podcast (evento portfolio:audio-play) y avisa
+//   con portfolio:music-play cuando empieza a sonar.
 // - [data-play-track="ID"] en cualquier página (chip «Mi canción» de Equipo)
 //   abre el reproductor y hace sonar esa pista.
 
@@ -121,7 +123,12 @@ export function initMusicDock(): void {
                 if (wantsToPlay && id === activeId) controller.play();
               });
               controller.addListener('playback_update', (e) => {
-                if (!e.data.isPaused) playingId = id;
+                if (!e.data.isPaused) {
+                  // Solo al empezar a sonar (llegan avisos mientras suena):
+                  // que se calle el podcast (src/scripts/podcast.ts)
+                  if (playingId !== id) document.dispatchEvent(new CustomEvent('portfolio:music-play'));
+                  playingId = id;
+                }
                 else if (playingId === id) playingId = null;
                 syncPlaying();
               });
@@ -198,6 +205,12 @@ export function initMusicDock(): void {
       select(tab.dataset.musicTrack ?? '');
       playActive();
     });
+  });
+
+  // Si empieza a sonar el podcast, la banda sonora se pausa
+  document.addEventListener('portfolio:audio-play', () => {
+    wantsToPlay = false;
+    controllers.forEach((c) => c.pause());
   });
 
   // Chips de canción en otras páginas (delegación: sobrevive a la navegación)

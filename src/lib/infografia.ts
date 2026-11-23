@@ -4,8 +4,9 @@
 //
 // La página es un recorrido: la lámina queda fija en el centro y, al bajar,
 // se acerca a una zona (`focus`) mientras las notas de los costados cambian.
-// `left` cuenta lo que hay en la lámina o la teoría que la sostiene; `right`
-// es nuestra reflexión como equipo.
+// `left` es la idea detrás de esa zona o la teoría que la sostiene (no una
+// descripción de lo que se ve: eso ya está en ALT); `right` es nuestra
+// reflexión como equipo.
 
 export type Layer = 'general' | 'cuidado' | 'ambiente' | 'ambas';
 
@@ -64,10 +65,10 @@ export const steps: Step[] = [
     layer: 'general',
     focus: FULL,
     left: {
-      label: 'Lo que ves',
-      title: 'Una lámina, dos capas',
+      label: 'La idea',
+      title: 'Quien está cerca y quien todavía no llega',
       paragraphs: [
-        'Arriba, la ética del cuidado (AC10, semana 13): una persona concreta y lo que le debemos hoy. Abajo, la ecoética (AC11, semana 14): lo que nuestras decisiones dejan en el ambiente y en quienes vienen después. Una rama cruza la lámina y une las dos.'
+        'La ética del cuidado (AC10) nos pide responder a alguien que tenemos delante. La ecoética (AC11) nos pide responder por alguien que todavía no existe. Parecen exigencias opuestas, una muy cercana y otra muy lejana, pero corrigen el mismo error: creer que una decisión técnica solo afecta a quien la toma y a quien paga por ella.'
       ]
     },
     right: {
@@ -83,10 +84,10 @@ export const steps: Step[] = [
     layer: 'cuidado',
     focus: { x: 0, y: 0, w: 0.31, h: 0.41 },
     left: {
-      label: 'En la lámina',
+      label: 'La idea',
       title: 'Número desconocido',
       paragraphs: [
-        'Una mujer con lentes oscuros contesta una llamada en su casa, con su taza y su libreta al lado. En la pantalla del celular solo dice «Número desconocido». Ella no puede leerlo, y aunque pudiera, ese aviso no le diría quién la llama.'
+        'Una llamada es el punto más simple en que la tecnología toca a una persona, y también el más desigual: quien llama tiene su nombre y su número; ella no sabe nada de quien llama. «Número desconocido» resume esa asimetría. El problema no es que ella no pueda leer la pantalla, sino que la pantalla sea lo único que le dimos para defenderse.'
       ]
     },
     right: {
@@ -139,10 +140,10 @@ export const steps: Step[] = [
     layer: 'ambas',
     focus: { x: 0.04, y: 0.38, w: 0.74, h: 0.2 },
     left: {
-      label: 'En la lámina',
-      title: 'Una rama que cruza',
+      label: 'La frase que las une',
+      title: 'Hoy y mañana',
       paragraphs: [
-        'Entre las dos capas pusimos una rama que atraviesa la lámina con la frase «Las decisiones tecnológicas afectan a las personas hoy y al ambiente mañana». Nace junto a la escena de la casa y llega hasta el río.'
+        'En ingeniería las consecuencias llegan tarde y lejos. Quien aprueba un sistema rara vez conoce a quien deja fuera, y casi nunca ve dónde termina el equipo que lo hizo funcionar. «Las decisiones tecnológicas afectan a las personas hoy y al ambiente mañana» nombra esa distancia: entre quien decide y quien carga con la decisión hay tiempo y kilómetros, y por eso es tan fácil no hacerse cargo.'
       ]
     },
     right: {
@@ -194,10 +195,10 @@ export const steps: Step[] = [
     layer: 'ambiente',
     focus: { x: 0.46, y: 0.44, w: 0.54, h: 0.56 },
     left: {
-      label: 'En la lámina',
+      label: 'La idea',
       title: 'Cada decisión deja huella',
       paragraphs: [
-        'Arriba, una oficina iluminada donde un equipo trabaja frente a sus pantallas. Abajo, un río lleno de monitores y computadoras desechadas. En la orilla, la misma mujer de la primera capa camina con su bastón blanco por un sendero iluminado.'
+        'Una huella es lo que queda cuando ya nadie está mirando. Solemos juzgar un proyecto el día en que se entrega: si funciona, si cumplió el plazo, si el cliente firmó. La huella aparece después, en quien no pudo usarlo y en el equipo que se desechó antes de tiempo. Por eso pusimos la oficina y el río en una sola escena: para no poder mirar una sin ver la otra.'
       ]
     },
     right: {
@@ -216,7 +217,7 @@ export const steps: Step[] = [
       label: 'La frase final',
       title: 'Diseñar con integridad es cuidar a las personas y sostener la vida futura.',
       paragraphs: [
-        'Con esa frase cerramos la lámina, encima de las cuatro lecturas que la sostienen: Lévinas, Gilligan, Jonas y Leff.'
+        'Íntegro quiere decir entero, sin partes que falten. Por eso no entendemos la integridad como una virtud del ingeniero a solas, sino como algo que se nota en lo que construye: un sistema íntegro es uno al que no le falta nadie. Lévinas, Gilligan, Jonas y Leff nos dieron cuatro maneras de preguntar quién falta.'
       ]
     },
     right: {

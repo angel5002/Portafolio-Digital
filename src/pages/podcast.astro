@@ -1,0 +1,305 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import References from '../components/References.astro';
+import { COURSE } from '../lib/portfolio';
+import { withBase } from '../lib/paths';
+import {
+  EPISODE,
+  chapters,
+  dilemma,
+  facts,
+  scene,
+  voices,
+  takeaways,
+  doubt,
+  hindsight,
+  questions,
+  peaks,
+  clock
+} from '../lib/podcast';
+
+// Página del podcast: un reproductor propio (forma de onda real, capítulos y
+// mini reproductor flotante en src/scripts/podcast.ts) y, debajo, el episodio
+// contado por partes. Cada parte tiene un botón para escucharla desde ahí.
+const base = import.meta.env.BASE_URL;
+const audioSrc = withBase(base, EPISODE.audio);
+const [ricardo, valeria] = voices;
+const at = (i: number) => chapters[i];
+// Celdas de la portada: una rejilla de «filas» con algunas encendidas
+const cells = Array.from({ length: 48 }, (_, i) => [3, 9, 14, 22, 27, 31, 38, 44].includes(i));
+const words = (n: number) => (n >= 10000 ? String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '\u2009') : String(n));
+---
+
+<BaseLayout
+  title={`Podcast de Dilema Moral · ${COURSE.portfolioName}`}
+  description="Datos a luca: nuestro podcast sobre Valeria, una analista de datos a la que su jefe le pide cargar una base de 200 000 contactos robados. Kant frente a Mill."
+  crumbs={[{ label: 'Podcast' }]}
+>
+  <header class="page-header">
+    <p class="page-header__eyebrow">Módulo II · Semanas 6–7 · AC5–AC6</p>
+    <h1 class="page-header__title">Podcast de <span class="serif-em">Dilema Moral</span></h1>
+    <p class="page-header__lead">
+      Grabamos <em>{EPISODE.show}</em>, un episodio de cinco minutos y medio sobre algo que le puede
+      pasar a cualquiera que trabaje con datos. Dale play y, si quieres, sigue la escena aquí abajo
+      mientras suena.
+    </p>
+  </header>
+
+  <!-- ── Reproductor ── -->
+  <section class="pc-player reveal" data-pc aria-label={`Reproductor del episodio ${EPISODE.show}`}>
+    <div class="pc-cover" aria-hidden="true">
+      <div class="pc-cover__grid">
+        {cells.map((on) => <i class:list={{ 'is-on': on }}></i>)}
+      </div>
+      <p class="pc-cover__ep">Episodio {EPISODE.number}</p>
+      <p class="pc-cover__show">Datos <span>a luca</span></p>
+      <span class="pc-cover__eq"><i></i><i></i><i></i><i></i></span>
+    </div>
+
+    <div class="pc-main">
+      <p class="pc-main__kicker">{EPISODE.show} · Episodio {EPISODE.number}</p>
+      <h2 class="pc-main__title">{EPISODE.title}</h2>
+      <p class="pc-main__tagline">{EPISODE.tagline}</p>
+
+      <div class="pc-wave" data-pc-wave role="slider" tabindex="0"
+        aria-label="Posición del episodio" aria-valuemin="0" aria-valuemax={EPISODE.duration}
+        aria-valuenow="0" aria-valuetext={`0:00 de ${clock(EPISODE.duration)}`}>
+        <div class="pc-wave__bars">
+          {peaks.map((p) => <i style={`--h: ${Math.round(p * 100)}%`}></i>)}
+        </div>
+        <div class="pc-wave__bars pc-wave__bars--done" data-pc-done aria-hidden="true">
+          {peaks.map((p) => <i style={`--h: ${Math.round(p * 100)}%`}></i>)}
+        </div>
+        {chapters.slice(1).map((c) => (
+          <span class="pc-wave__mark" style={`left: ${(c.t / EPISODE.duration) * 100}%`} title={c.title}></span>
+        ))}
+        <span class="pc-wave__hover" data-pc-hover aria-hidden="true"></span>
+      </div>
+
+      <div class="pc-controls">
+        <button type="button" class="pc-skip" data-pc-skip="-10" aria-label="Retroceder 10 segundos">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>
+          <span>10</span>
+        </button>
+        <button type="button" class="pc-play" data-pc-play aria-label="Reproducir el episodio">
+          <svg class="pc-play__on" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.4-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z" fill="currentColor"/></svg>
+          <svg class="pc-play__off" viewBox="0 0 24 24" aria-hidden="true"><rect x="6.5" y="5" width="4" height="14" rx="1.2" fill="currentColor"/><rect x="13.5" y="5" width="4" height="14" rx="1.2" fill="currentColor"/></svg>
+        </button>
+        <button type="button" class="pc-skip" data-pc-skip="10" aria-label="Adelantar 10 segundos">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-3-6.7L21 8"/><path d="M21 3v5h-5"/></svg>
+          <span>10</span>
+        </button>
+        <p class="pc-time"><span data-pc-current>0:00</span> <span aria-hidden="true">/</span> <span>{clock(EPISODE.duration)}</span></p>
+        <button type="button" class="pc-rate" data-pc-rate aria-label="Velocidad de reproducción">1×</button>
+        <a class="pc-download" href={audioSrc} download="datos-a-luca.mp3" aria-label="Descargar el episodio en MP3" title="Descargar MP3">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>
+        </a>
+      </div>
+
+      <audio class="pc-audio" data-pc-audio src={audioSrc} preload="metadata"></audio>
+      <!-- Sin JavaScript queda el reproductor del navegador -->
+      <noscript><audio class="pc-audio-fallback" src={audioSrc} preload="none" controls></audio></noscript>
+
+      <ol class="pc-chapters" aria-label="Capítulos">
+        {chapters.map((c, i) => (
+          <li>
+            <button type="button" class="pc-chapter" data-pc-seek={c.t} data-pc-chapter={i}>
+              <span class="pc-chapter__time">{clock(c.t)}</span>
+              <span class="pc-chapter__body">
+                <span class="pc-chapter__title">{c.title}</span>
+                <span class="pc-chapter__note">{c.note}</span>
+              </span>
+              <span class="pc-chapter__eq" aria-hidden="true"><i></i><i></i><i></i></span>
+            </button>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- Mini reproductor: aparece al bajar mientras suena -->
+  <div class="pc-mini" data-pc-mini aria-hidden="true">
+    <button type="button" class="pc-mini__play" data-pc-play tabindex="-1" aria-label="Reproducir o pausar">
+      <svg class="pc-play__on" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.4-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z" fill="currentColor"/></svg>
+      <svg class="pc-play__off" viewBox="0 0 24 24" aria-hidden="true"><rect x="6.5" y="5" width="4" height="14" rx="1.2" fill="currentColor"/><rect x="13.5" y="5" width="4" height="14" rx="1.2" fill="currentColor"/></svg>
+    </button>
+    <div class="pc-mini__text">
+      <p class="pc-mini__show">{EPISODE.show}</p>
+      <p class="pc-mini__chapter" data-pc-mini-chapter>{chapters[0].title}</p>
+    </div>
+    <p class="pc-mini__time" data-pc-mini-time>0:00</p>
+    <span class="pc-mini__bar"><span data-pc-mini-bar></span></span>
+  </div>
+
+  <div class="callout callout--serif reveal" style="margin-top: 32px;">
+    <p class="callout__label">La pregunta del episodio</p>
+    <p>{dilemma}</p>
+  </div>
+
+  <!-- ── El caso en cifras ── -->
+  <section class="pc-part reveal" id="caso" data-pc-part="0">
+    <div class="pc-part__head">
+      <p class="vr-kicker">Capítulo 1 · {at(0).title}</p>
+      <button type="button" class="pc-listen" data-pc-seek={at(0).t}>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.4-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z" fill="currentColor"/></svg>
+        Escuchar desde {clock(at(0).t)}
+      </button>
+    </div>
+    <h2 class="vr-title">Lima, fin de trimestre</h2>
+    <p class="pc-lede">
+      Una aseguradora que no llegó a su meta. Valeria, analista de datos, recibe de su jefe un Excel
+      que reconoce al instante: es el mismo formato que circula en los bots de Telegram. Ella sabe que
+      la Ley 29733 lo prohíbe. Lo que la paraliza no es la ley.
+    </p>
+    <ul class="pc-facts">
+      {facts.map((f) => (
+        <li class="pc-fact">
+          <p class="pc-fact__n">
+            {f.prefix}<span data-count={f.n} data-count-group>{words(f.n)}</span>{f.suffix}
+          </p>
+          <p class="pc-fact__label">{f.label}</p>
+          <p class="pc-fact__note">{f.note}</p>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <!-- ── La escena, en formato de guion ── -->
+  <section class="pc-part reveal" id="escena" data-pc-part="1">
+    <div class="pc-part__head">
+      <p class="vr-kicker">Capítulo 2 · {at(1).title}</p>
+      <button type="button" class="pc-listen" data-pc-seek={at(1).t}>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.4-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z" fill="currentColor"/></svg>
+        Escuchar desde {clock(at(1).t)}
+      </button>
+    </div>
+    <h2 class="vr-title">Un solo clic</h2>
+
+    <div class="pc-script">
+      <p class="pc-script__slug">Interior · Oficina de la aseguradora · Fin de trimestre</p>
+      {scene.map((l) => (
+        <div class:list={['pc-line', `pc-line--${l.who.toLowerCase()}`, { 'pc-line--aside': l.aside }]}>
+          <p class="pc-line__who">{l.who}{l.aside && <span> (para sí)</span>}</p>
+          <p class="pc-line__text">{l.text}</p>
+        </div>
+      ))}
+      <p class="pc-script__end">Valeria sigue con el cursor sobre «cargar».</p>
+    </div>
+  </section>
+
+  <!-- ── Dos maneras de hacer la cuenta ── -->
+  <section class="pc-part pc-duel reveal" id="cuenta">
+    <p class="vr-kicker vr-kicker--center">Mill frente a Kant</p>
+    <h2 class="vr-title vr-title--center">Dos maneras de hacer la cuenta</h2>
+    <div class="pc-duel__grid">
+      {[ricardo, valeria].map((v, i) => (
+        <article class:list={['pc-voice', `pc-voice--${v.who.toLowerCase()}`]}>
+          <p class="pc-voice__who">{v.who}</p>
+          <p class="pc-voice__thinker">{v.thinker}</p>
+          <p class="pc-voice__principle">{v.principle}</p>
+          <blockquote class="pc-voice__line"><p>«{v.line}»</p></blockquote>
+          <dl class="pc-voice__ledger">
+            <div><dt>Protege</dt><dd>{v.protects}</dd></div>
+            <div><dt>Arriesga</dt><dd>{v.risk}</dd></div>
+          </dl>
+        </article>
+      ))}
+      <div class="pc-duel__scale" aria-hidden="true">
+        <svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M32 12v42M22 54h20M10 18h44M10 18l-6 14h12zM54 18l-6 14h12z"/><circle cx="32" cy="12" r="2.5"/></svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Tres cosas que nos dejó la escena ── -->
+  <section class="pc-part reveal" id="tres-cosas" data-pc-part="2">
+    <div class="pc-part__head">
+      <p class="vr-kicker">Capítulo 3 · {at(2).title}</p>
+      <button type="button" class="pc-listen" data-pc-seek={at(2).t}>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.4-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z" fill="currentColor"/></svg>
+        Escuchar desde {clock(at(2).t)}
+      </button>
+    </div>
+    <h2 class="vr-title">Lo que la escena nos dejó pensando</h2>
+    <ol class="pc-takeaways">
+      {takeaways.map((t) => (
+        <li class="pc-takeaway" data-tilt>
+          <span class="pc-takeaway__n">{t.n}</span>
+          <p class="pc-takeaway__lens">{t.lens}</p>
+          <h3 class="pc-takeaway__title">{t.title}</h3>
+          <p class="pc-takeaway__text">{t.text}</p>
+        </li>
+      ))}
+    </ol>
+    <figure class="pc-doubt">
+      <blockquote><p>{doubt.quote}</p></blockquote>
+      <figcaption>{doubt.text}</figcaption>
+    </figure>
+  </section>
+
+  <!-- ── Cómo lo escuchamos hoy ── -->
+  <section class="pc-part pc-hindsight reveal" id="hoy">
+    <div class="pc-hindsight__aside">
+      <p class="vr-kicker">Mirando atrás</p>
+      <h2 class="vr-title">Cómo lo escuchamos hoy</h2>
+      <nav class="pc-hindsight__links" aria-label="Lo que vino después">
+        <a href={withBase(base, 'video-reaccion')}>
+          <span>Semanas 9–12</span>Video-reacción crítico <b aria-hidden="true">→</b>
+        </a>
+        <a href={withBase(base, 'infografia')}>
+          <span>Semanas 13–15</span>Infografía <b aria-hidden="true">→</b>
+        </a>
+      </nav>
+    </div>
+    <div class="pc-hindsight__text">
+      {hindsight.map((p, i) => <p class:list={{ 'pc-lede': i === 0 }}>{p}</p>)}
+    </div>
+  </section>
+
+  <!-- ── Te toca a ti ── -->
+  <section class="pc-part pc-close reveal" id="te-toca" data-pc-part="3">
+    <div class="pc-part__head pc-part__head--center">
+      <p class="vr-kicker">Capítulo 4 · {at(3).title}</p>
+      <button type="button" class="pc-listen" data-pc-seek={at(3).t}>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.4-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z" fill="currentColor"/></svg>
+        Escuchar desde {clock(at(3).t)}
+      </button>
+    </div>
+
+    <div class="pc-crm" aria-hidden="true">
+      <div class="pc-crm__bar"><i></i><i></i><i></i><span>CRM · Importar contactos</span></div>
+      <div class="pc-crm__body">
+        <p class="pc-crm__file">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M14 3H6a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8z"/><path d="M14 3v5h5M8 13h8M8 17h8M12 11v8"/></svg>
+          base_contactos.xlsx <span>200 000 filas</span>
+        </p>
+        <div class="pc-crm__rows">
+          <p><span>Nombre</span><span>DNI</span><span>Celular</span></p>
+          <p><span><b style="width: 62%"></b></span><span>•••• ••18</span><span>9•• ••• •41</span></p>
+          <p><span><b style="width: 48%"></b></span><span>•••• ••07</span><span>9•• ••• •93</span></p>
+          <p><span><b style="width: 70%"></b></span><span>•••• ••55</span><span>9•• ••• •26</span></p>
+        </div>
+        <p class="pc-crm__warn">Origen de los datos: <em>sin verificar</em></p>
+        <div class="pc-crm__actions">
+          <span class="pc-crm__btn">Cancelar</span>
+          <span class="pc-crm__btn pc-crm__btn--primary">Cargar
+            <svg class="pc-crm__cursor" viewBox="0 0 24 24"><path d="M5 3l14 8-6 1.6L10 19z" fill="#fff" stroke="#111" stroke-width="1.3" stroke-linejoin="round"/></svg>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <h2 class="vr-title vr-title--center">Te dejamos estas preguntas</h2>
+    <ol class="pc-questions">
+      {questions.map((q, i) => (
+        <li class:list={{ 'is-last': i === questions.length - 1 }}>
+          {i === questions.length - 1 && <span>La más incómoda</span>}
+          {q}
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <div class="reveal" style="margin-top: 56px;">
+    <References code="AC5–AC6" />
+  </div>
+</BaseLayout>

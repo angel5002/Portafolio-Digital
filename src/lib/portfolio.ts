@@ -54,8 +54,8 @@ export const sections: Section[] = [
     label: 'Podcast',
     title: 'Podcast de Dilema Moral',
     eyebrow: 'Módulo II · Semanas 6–7',
-    desc: 'Un caso real del Perú que analizamos desde dos marcos contrapuestos: el deber kantiano y el utilitarismo de Mill.',
-    status: 'todo',
+    desc: 'Datos a luca: Valeria, analista de datos, recibe de su jefe un Excel de 200 000 contactos robados. Ricardo hace la cuenta como Mill; ella responde como Kant.',
+    status: 'done',
     icon: 'mic'
   },
   {
@@ -96,7 +96,7 @@ export const roadmap: Milestone[] = [
   { code: 'AC3', title: 'Jerarquía de valores y tensión axiológica', when: 'Semana 3', status: 'done', href: 'bitacora/ac3-jerarquia-de-valores', note: 'Manifiesto' },
   { code: 'AC4', title: 'Mapa de negligencias y acciones positivas', when: 'Semana 4', status: 'done', href: 'bitacora/ac4-mapa-de-negligencias', note: 'Manifiesto' },
   { code: 'EC1', title: 'Presentación del Manifiesto de Identidad Ética completo', when: 'Semana 5', status: 'todo', href: 'manifiesto', note: '18 % de la nota' },
-  { code: 'AC5–AC6', title: 'Guion del podcast (dilema ético profesional)', when: 'Semanas 6–7', status: 'todo', href: 'podcast' },
+  { code: 'AC5–AC6', title: 'Guion del podcast (dilema ético profesional)', when: 'Semanas 6–7', status: 'done', href: 'podcast' },
   { code: 'AC7–AC9', title: 'Video-reacción al podcast', when: 'Semanas 9–11', status: 'done', href: 'video-reaccion' },
   { code: 'EC2', title: 'Sustentación del portafolio', when: 'Semana 12', status: 'todo' },
   { code: 'AC10–AC11', title: 'Infografía de integridad y sostenibilidad', when: 'Semanas 13–14', status: 'done', href: 'infografia' },

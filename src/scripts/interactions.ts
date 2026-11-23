@@ -33,13 +33,20 @@ export function initReadingProgress(): void {
   update();
 }
 
+/** data-count-group: separa los miles con un espacio fino (200 000), desde 10 000 */
+function formatCount(el: HTMLElement, n: number): string {
+  if (!el.hasAttribute('data-count-group') || n < 10000) return String(n);
+  return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '\u2009');
+}
+
 export function initCounters(): void {
   const els = document.querySelectorAll<HTMLElement>('[data-count]');
   if (els.length === 0) return;
   const run = (el: HTMLElement) => {
     const target = Number(el.dataset.count ?? '0');
+    const fmt = (n: number) => formatCount(el, n);
     if (reduce() || !Number.isFinite(target)) {
-      el.textContent = String(target);
+      el.textContent = fmt(target);
       return;
     }
     const duration = 900;
@@ -47,7 +54,7 @@ export function initCounters(): void {
     const tick = (now: number) => {
       const p = Math.min(1, (now - start) / duration);
       const eased = 1 - Math.pow(1 - p, 3);
-      el.textContent = String(Math.round(target * eased));
+      el.textContent = fmt(Math.round(target * eased));
       if (p < 1) window.requestAnimationFrame(tick);
     };
     window.requestAnimationFrame(tick);
@@ -75,7 +82,7 @@ export function initCounters(): void {
     els.forEach((el) => {
       if (!el.dataset.counted) {
         el.dataset.counted = '1';
-        el.textContent = el.dataset.count ?? '';
+        el.textContent = formatCount(el, Number(el.dataset.count ?? '0'));
         io.unobserve(el);
       }
     });

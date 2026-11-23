@@ -1,6 +1,6 @@
 // Bibliografía de cada aprendizaje colaborativo (APA 7, orden alfabético).
 // Fuente: sección «Conexión teórica» de las fichas AC1–AC4 (HUM-010), el
-// podcast y el video-reacción (AC7–AC9) y la lámina de la infografía. Se
+// podcast (AC5–AC6), el video-reacción (AC7–AC9) y la lámina de la infografía. Se
 // muestra al final de cada entrada de la bitácora y bajo su bloque en el
 // Manifiesto (componente References.astro). No se inventan editoriales ni
 // iniciales que las fichas no consignan.
@@ -84,6 +84,17 @@ export const references: Record<string, Reference[]> = {
     },
     ficha('2026a', 'AC4', 'Mapa de negligencias y acciones positivas en nuestro ámbito profesional'),
     sesion('2026b', 4, 'Verdad lógica vs. verdad ética, falacias y posverdad, y método socrático para la resolución de problemas')
+  ],
+  // Podcast: los marcos y la norma que se discuten en el episodio
+  'AC5–AC6': [
+    { lead: 'Congreso de la República del Perú. (2011).', title: 'Ley N.° 29733, Ley de Protección de Datos Personales', rest: '.' },
+    { lead: 'Foucault, M. (1975).', title: 'Vigilar y castigar', rest: '.' },
+    {
+      lead: 'Kant, I. (2012).',
+      title: 'Fundamentación de la metafísica de las costumbres',
+      rest: '. Obra original publicada en 1785.'
+    },
+    { lead: 'Mill, J. S. (1863).', title: 'Utilitarianism', rest: '.' }
   ],
   // Video-reacción: autores y normas que citamos en el podcast y en el video,
   // y el material de las semanas 9–11 del sílabo
