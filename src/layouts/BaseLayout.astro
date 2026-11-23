@@ -104,6 +104,7 @@ const favicon = `${base.replace(/\/$/, '')}/favicon.svg`;
       import { initMusicDock } from '../scripts/music-dock';
       import { initReadingProgress, initCounters, initMagnetic, initLantern } from '../scripts/interactions';
       import { initEffectsToggle } from '../scripts/motion';
+      import { initInfografia } from '../scripts/infografia';
 
       // Swap personalizado: en vez de reemplazar <body> completo (lo que
       // re-inserta el iframe de Spotify y lo recarga), solo se cambia .app.
@@ -141,6 +142,7 @@ const favicon = `${base.replace(/\/$/, '')}/favicon.svg`;
         initMagnetic();
         initLantern();
         initEffectsToggle();
+        initInfografia();
       };
       document.addEventListener('astro:page-load', init);
       // Al activar efectos en vivo se enlazan las interacciones que estaban apagadas

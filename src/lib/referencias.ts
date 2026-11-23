@@ -1,5 +1,6 @@
 // Bibliografía de cada aprendizaje colaborativo (APA 7, orden alfabético).
-// Fuente: sección «Conexión teórica» de las fichas AC1–AC4 (HUM-010). Se
+// Fuente: sección «Conexión teórica» de las fichas AC1–AC4 (HUM-010), el
+// podcast y el video-reacción (AC7–AC9) y la lámina de la infografía. Se
 // muestra al final de cada entrada de la bitácora y bajo su bloque en el
 // Manifiesto (componente References.astro). No se inventan editoriales ni
 // iniciales que las fichas no consignan.
@@ -121,6 +122,13 @@ export const references: Record<string, Reference[]> = {
       rest: '.',
       url: 'https://archive.org/details/weber-politica-vocacion/page/2/mode/1up'
     }
+  ],
+  // Infografía: las cuatro lecturas que cita la lámina, tal como las consigna
+  'AC10–AC11': [
+    { lead: 'Gilligan, C. (2013).', title: 'La ética del cuidado', rest: '.' },
+    { lead: 'Jonas, H. (1995).', title: 'El principio de responsabilidad', rest: '.' },
+    { lead: 'Leff, E. (2002).', title: 'Manifiesto por la vida', rest: '.' },
+    { lead: 'Lévinas, E. (2015).', title: 'Ética e infinito', rest: '.' }
   ]
 };
 

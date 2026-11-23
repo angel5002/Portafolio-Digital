@@ -74,8 +74,8 @@ export const sections: Section[] = [
     label: 'Infografía',
     title: 'Infografía de Integridad y Sostenibilidad',
     eyebrow: 'Módulo IV · Semanas 13–15',
-    desc: 'Nuestra pieza visual con dos capas: el cuidado de la población vulnerable y nuestra responsabilidad con las generaciones futuras.',
-    status: 'todo',
+    desc: 'De la pantalla al territorio: una lámina con dos capas, el cuidado de una persona concreta y nuestra responsabilidad con las generaciones futuras.',
+    status: 'done',
     icon: 'map'
   }
 ];
@@ -99,7 +99,7 @@ export const roadmap: Milestone[] = [
   { code: 'AC5–AC6', title: 'Guion del podcast (dilema ético profesional)', when: 'Semanas 6–7', status: 'todo', href: 'podcast' },
   { code: 'AC7–AC9', title: 'Video-reacción al podcast', when: 'Semanas 9–11', status: 'done', href: 'video-reaccion' },
   { code: 'EC2', title: 'Sustentación del portafolio', when: 'Semana 12', status: 'todo' },
-  { code: 'AC10–AC11', title: 'Infografía de integridad y sostenibilidad', when: 'Semanas 13–14', status: 'todo', href: 'infografia' },
+  { code: 'AC10–AC11', title: 'Infografía de integridad y sostenibilidad', when: 'Semanas 13–14', status: 'done', href: 'infografia' },
   { code: 'EC3', title: 'Sustentación final del portafolio', when: 'Semana 15', status: 'todo' }
 ];
 

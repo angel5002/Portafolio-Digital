@@ -1,0 +1,127 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import References from '../components/References.astro';
+import { COURSE } from '../lib/portfolio';
+import { withBase } from '../lib/paths';
+import { TITLE, PDF, ALT, LAYER_LABEL, steps, frame, type Note } from '../lib/infografia';
+import lamina from '../assets/images/infografia/infografia-ec3.jpg';
+
+// Recorrido por la lámina: en pantallas anchas la infografía queda fija en
+// el centro y, al bajar, se acerca a una zona mientras las notas de los
+// costados cambian (src/scripts/infografia.ts). En pantallas angostas la
+// lámina queda fija arriba y las notas pasan debajo como tarjetas.
+const base = import.meta.env.BASE_URL;
+const pdfHref = withBase(base, PDF);
+const framed = steps.map((s) => ({ ...s, ...frame(s.focus) }));
+const first = framed[0];
+---
+
+<BaseLayout
+  title={`Infografía de Integridad y Sostenibilidad · ${COURSE.portfolioName}`}
+  description="De la pantalla al territorio: nuestra infografía sobre ética del cuidado y ecoética, recorrida parte por parte con nuestras reflexiones."
+  crumbs={[{ label: 'Infografía' }]}
+>
+  <header class="page-header">
+    <p class="page-header__eyebrow">Módulo IV · Semanas 13–15 · AC10–AC11</p>
+    <h1 class="page-header__title">Infografía de <span class="serif-em">Integridad y Sostenibilidad</span></h1>
+    <p class="page-header__lead">
+      {TITLE}: una sola lámina con dos capas, el cuidado de una persona concreta y la
+      responsabilidad con quienes vienen después. Baja y recórrela con nosotros, parte por parte.
+    </p>
+    <div class="ig-actions">
+      <button type="button" class="btn btn--ghost" data-ig-open>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg>
+        Ver la lámina completa
+      </button>
+      <a class="btn btn--ghost" href={pdfHref} download>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>
+        Descargar el PDF
+      </a>
+    </div>
+  </header>
+
+  <div class="callout callout--serif reveal">
+    <p class="callout__label">La pregunta que guía todo</p>
+    <p>¿Dónde terminan las decisiones que tomamos frente a una pantalla?</p>
+  </div>
+
+  <section class="ig" data-ig style={`--ig-steps: ${steps.length};`} aria-label={`Recorrido por la infografía «${TITLE}»`}>
+    <div class="ig__stage">
+      <div class="ig__view">
+        <div class="ig__viewport">
+          <div
+            class="ig__canvas"
+            data-ig-canvas
+            style={`--s: ${first.s}; --tx: ${first.tx}%; --ty: ${first.ty}%;`}
+          >
+            <Image
+              src={lamina}
+              alt={ALT}
+              widths={[1600, 2400, 3000]}
+              sizes="(min-width: 1200px) 1400px, 180vw"
+              quality={82}
+              loading="eager"
+              decoding="async"
+            />
+          </div>
+        </div>
+        <div class="ig__bar">
+          <span class="ig__badge" data-ig-badge data-layer={first.layer}>{LAYER_LABEL[first.layer]}</span>
+          <ol class="ig__dots" aria-label="Partes del recorrido">
+            {framed.map((s, i) => (
+              <li>
+                <button
+                  type="button"
+                  class:list={['ig__dot', { 'is-active': i === 0 }]}
+                  data-ig-dot={i}
+                  data-layer={s.layer}
+                  aria-label={`${i + 1}. ${s.kicker}`}
+                  title={s.kicker}
+                ></button>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </div>
+
+      {framed.map((s, i) => (
+        <article
+          class:list={['ig-step', { 'is-active': i === 0 }]}
+          id={`ig-${s.id}`}
+          data-ig-step={i}
+          data-layer={s.layer}
+          data-s={s.s}
+          data-tx={s.tx}
+          data-ty={s.ty}
+          data-label={LAYER_LABEL[s.layer]}
+        >
+          {[s.left, s.right].map((n: Note, side) => (
+            <div class:list={['ig-note', side === 0 ? 'ig-note--left' : 'ig-note--right']}>
+              {side === 0 && <p class="ig-note__kicker">{String(i + 1).padStart(2, '0')} · {s.kicker}</p>}
+              <p class="ig-note__label">{n.label}</p>
+              {n.title && <h2 class="ig-note__title">{n.title}</h2>}
+              {n.quote && <blockquote class="ig-note__quote"><p>{n.quote}</p></blockquote>}
+              {n.paragraphs?.map((p) => <p>{p}</p>)}
+            </div>
+          ))}
+          {/* La pregunta va aparte: en pantallas anchas se ubica bajo la lámina */}
+          {s.right.question && <p class="vr-question ig-question"><span>Para pensar</span>{s.right.question}</p>}
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <div class="reveal" style="margin-top: 48px;">
+    <References code="AC10–AC11" />
+  </div>
+
+  <dialog class="ig-lightbox" data-ig-dialog aria-label={`Infografía «${TITLE}» completa`}>
+    <button type="button" class="ig-lightbox__close" data-ig-close aria-label="Cerrar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+    <div class="ig-lightbox__scroll">
+      <Image src={lamina} alt={ALT} widths={[2400, 3000]} sizes="96vw" quality={86} loading="lazy" decoding="async" />
+    </div>
+  </dialog>
+</BaseLayout>
