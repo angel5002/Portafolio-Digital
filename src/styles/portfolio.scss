@@ -4305,7 +4305,11 @@ html[data-effects='off'] {
   #{$stage} {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 2.15fr) minmax(0, 1fr);
-    grid-template-rows: 1fr auto auto 1fr;
+    // La lámina va en la fila del medio, exactamente al centro; la pregunta
+    // cuelga debajo, dentro de la última fila. (Con una fila propia para la
+    // pregunta, las de las partes inactivas, aunque invisibles, empujaban la
+    // lámina hacia arriba.)
+    grid-template-rows: 1fr auto 1fr;
     column-gap: 34px;
   }
 
